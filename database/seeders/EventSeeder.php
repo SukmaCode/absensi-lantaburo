@@ -14,22 +14,22 @@ class EventSeeder extends Seeder
     {
         $events = [
             [
-                'title' => 'Peringatan Hari Kemerdekaan RI',
-                'description' => 'Upacara bendera dan lomba-lomba tradisional antar kelas dalam rangka memperingati hari kemerdekaan.',
-                'event_date' => now()->addDays(5)->toDateString(),
-                'location' => 'Lapangan Sekolah',
+                'title' => 'Open House Homeschooling Lantaburo',
+                'description' => 'Kunjungi kami dan kenali cara belajar di Lantaburo. Tur fasilitas, sesi diskusi dengan pendamping belajar, dan konsultasi langsung untuk orang tua.',
+                'event_date' => now()->addDays(7)->toDateString(),
+                'location' => 'Kampus Lantaburo',
             ],
             [
-                'title' => 'Seminar Karier dan Bimbingan Perguruan Tinggi',
-                'description' => 'Seminar karier untuk siswa kelas XII bersama narasumber dari universitas terkemuka.',
-                'event_date' => now()->addDays(15)->toDateString(),
-                'location' => 'Aula Sekolah',
+                'title' => 'Rapat Orang Tua & Wali Semester Ganjil',
+                'description' => 'Diskusi perkembangan belajar siswa, rencana pembelajaran, dan kolaborasi antara pendamping belajar serta orang tua.',
+                'event_date' => now()->addDays(14)->toDateString(),
+                'location' => 'Aula Lantaburo',
             ],
             [
-                'title' => 'Kunjungan Industri Jurusan Teknik',
-                'description' => 'Kunjungan industri untuk program peminatan sebagai bagian dari pembelajaran berbasis dunia kerja.',
-                'event_date' => now()->addDays(25)->toDateString(),
-                'location' => 'Kawasan Industri Jakarta',
+                'title' => 'Workshop Belajar di Alam Terbuka',
+                'description' => 'Kegiatan belajar praktis di luar ruangan untuk mengasah kreativitas, kerja sama, dan keterampilan hidup siswa.',
+                'event_date' => now()->addDays(21)->toDateString(),
+                'location' => 'Taman Edukasi Lantaburo',
             ],
         ];
 

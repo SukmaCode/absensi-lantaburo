@@ -18,12 +18,12 @@ class SchoolProfileFactory extends Factory
     public function definition(): array
     {
         return [
-            'name' => 'SMA Negeri 1 Lantaburo',
+            'name' => 'Homeschooling Lantaburo',
             'logo' => null,
-            'description' => 'Sekolah menengah atas negeri yang unggul dalam prestasi akademik dan karakter.',
-            'address' => fake()->streetAddress().', '.fake()->city().', '.fake()->stateAbbr(),
+            'description' => 'Lembaga pendidikan alternatif yang menghadirkan pengalaman belajar personal, mendukung, dan bermakna bagi setiap anak.',
+            'address' => 'Jl. Pendidikan No. 12, Kecamatan Lantaburo',
             'phone' => fake()->numerify('021#######'),
-            'email' => 'info@sman1lantaburo.sch.id',
+            'email' => 'halo@lantaburo.sch.id',
         ];
     }
 }
