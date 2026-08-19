@@ -1,12 +1,12 @@
 import { Link } from '@inertiajs/react';
 import { Menu, X, Phone, Mail, MapPin } from 'lucide-react';
-import { FaPhoneAlt } from 'react-icons/fa';
-import { MdEmail } from 'react-icons/md';
-import { FaLocationDot } from 'react-icons/fa6';
 import { useState } from 'react';
+import { FaPhoneAlt } from 'react-icons/fa';
+import { FaLocationDot } from 'react-icons/fa6';
+import { MdEmail } from 'react-icons/md';
+import { dashboard, login, register } from '@/routes';
 import Logo from "../../../images/logo.png"
 
-import { dashboard, login, register } from '@/routes';
 
 const navItems = [
     { label: 'Beranda', href: '#beranda' },

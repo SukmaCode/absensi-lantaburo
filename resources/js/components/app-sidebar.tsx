@@ -1,7 +1,13 @@
 import { Link } from '@inertiajs/react';
-import { BookOpen, FolderGit2, LayoutGrid } from 'lucide-react';
+import {
+    ClipboardList,
+    GraduationCap,
+    LayoutGrid,
+    Megaphone,
+    Settings,
+    Users,
+} from 'lucide-react';
 import AppLogo from '@/components/app-logo';
-import { NavFooter } from '@/components/nav-footer';
 import { NavMain } from '@/components/nav-main';
 import { NavUser } from '@/components/nav-user';
 import {
@@ -13,7 +19,8 @@ import {
     SidebarMenuButton,
     SidebarMenuItem,
 } from '@/components/ui/sidebar';
-import { dashboard } from '@/routes';
+import { absensi, dashboard, dataGuru, dataSiswa, pengumuman } from '@/routes';
+import { edit } from '@/routes/profile';
 import type { NavItem } from '@/types';
 
 const mainNavItems: NavItem[] = [
@@ -22,24 +29,36 @@ const mainNavItems: NavItem[] = [
         href: dashboard(),
         icon: LayoutGrid,
     },
-];
-
-const footerNavItems: NavItem[] = [
     {
-        title: 'Repository',
-        href: 'https://github.com/laravel/react-starter-kit',
-        icon: FolderGit2,
+        title: 'Absensi',
+        href: absensi(),
+        icon: ClipboardList,
     },
     {
-        title: 'Documentation',
-        href: 'https://laravel.com/docs/starter-kits#react',
-        icon: BookOpen,
+        title: 'Data Siswa',
+        href: dataSiswa(),
+        icon: Users,
+    },
+    {
+        title: 'Data Guru',
+        href: dataGuru(),
+        icon: GraduationCap,
+    },
+    {
+        title: 'Pengumuman',
+        href: pengumuman(),
+        icon: Megaphone,
+    },
+    {
+        title: 'Pengaturan',
+        href: edit(),
+        icon: Settings,
     },
 ];
 
 export function AppSidebar() {
     return (
-        <Sidebar collapsible="icon" variant="inset">
+        <Sidebar collapsible="icon" variant="sidebar">
             <SidebarHeader>
                 <SidebarMenu>
                     <SidebarMenuItem>
@@ -50,6 +69,11 @@ export function AppSidebar() {
                         </SidebarMenuButton>
                     </SidebarMenuItem>
                 </SidebarMenu>
+                <div className="mt-1 flex items-center gap-2 px-2 font-semibold text-[10px] tracking-[0.2em] text-white/50 uppercase group-data-[collapsible=icon]:hidden">
+                    <span className="h-px flex-1 bg-white/10" />
+                    Admin Panel
+                    <span className="h-px flex-1 bg-white/10" />
+                </div>
             </SidebarHeader>
 
             <SidebarContent>
@@ -57,7 +81,6 @@ export function AppSidebar() {
             </SidebarContent>
 
             <SidebarFooter>
-                <NavFooter items={footerNavItems} className="mt-auto" />
                 <NavUser />
             </SidebarFooter>
         </Sidebar>
