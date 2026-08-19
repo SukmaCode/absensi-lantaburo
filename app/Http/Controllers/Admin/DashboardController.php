@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Admin;
+namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Services\DashboardService;
@@ -11,6 +11,6 @@ class DashboardController extends Controller
 {
     public function __invoke(DashboardService $service): Response
     {
-        return Inertia::render('dashboard', $service->dashboardData());
+        return Inertia::render('admin/dashboard', $service->dashboardData());
     }
 }

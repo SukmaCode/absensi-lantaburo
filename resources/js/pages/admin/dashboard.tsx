@@ -4,7 +4,6 @@ import { AttendanceOverview } from '@/components/dashboard/attendance-overview';
 import { AttendanceSummary } from '@/components/dashboard/attendance-summary';
 import { QuickActions } from '@/components/dashboard/quick-actions';
 import { RecentAttendance } from '@/components/dashboard/recent-attendance';
-import { StudentPreview } from '@/components/dashboard/student-preview';
 import { WeeklyTrend } from '@/components/dashboard/weekly-trend';
 import { dashboard } from '@/routes';
 import type { DashboardPageProps } from '@/types/dashboard';
@@ -15,7 +14,6 @@ export default function Dashboard({
     recentAttendance,
     announcements,
     weeklyTrend,
-    students,
 }: DashboardPageProps) {
     const { auth } = usePage().props;
     const firstName = auth.user?.name?.split(' ')[0] ?? 'Admin';
@@ -70,8 +68,6 @@ export default function Dashboard({
                 </div>
 
                 <WeeklyTrend days={weeklyTrend} />
-
-                <StudentPreview students={students} />
             </div>
         </>
     );

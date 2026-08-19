@@ -23,7 +23,7 @@ class LandingController extends Controller
             ->take(3)
             ->get(['id', 'title', 'description', 'event_date', 'location']);
 
-        return Inertia::render('welcome', [
+        return Inertia::render('landingpage', [
             'school' => $school,
             'events' => $events,
         ]);

@@ -15,7 +15,7 @@ import type { LandingPageProps } from '@/types/landing';
 
 type Props = LandingPageProps;
 
-export default function Welcome({ school, events }: Props) {
+export default function LandingPage({ school, events }: Props) {
     const { auth } = usePage().props;
 
     return (

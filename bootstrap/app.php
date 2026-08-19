@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Middleware\EnsureUserIsAdmin;
+use App\Http\Middleware\EnsureUserIsStudent;
+use App\Http\Middleware\EnsureUserIsTeacher;
 use App\Http\Middleware\HandleAppearance;
 use App\Http\Middleware\HandleInertiaRequests;
 use Illuminate\Foundation\Application;
@@ -26,6 +28,8 @@ return Application::configure(basePath: dirname(__DIR__))
 
         $middleware->alias([
             'admin' => EnsureUserIsAdmin::class,
+            'student' => EnsureUserIsStudent::class,
+            'teacher' => EnsureUserIsTeacher::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {

@@ -1,6 +1,6 @@
 import { Link } from '@inertiajs/react';
 import type { PropsWithChildren } from 'react';
-import { home } from '@/routes';
+import { landingpage } from '@/routes';
 import heroImage from '../../../images/bg-hero.jpg';
 import Logo from '../../../images/logo.png';
 
@@ -15,7 +15,7 @@ export default function AuthSplitLayout({
                 <div className="absolute -bottom-24 -left-10 size-72 rounded-[2.5rem] border-[22px] border-white/5" />
 
                 <Link
-                    href={home()}
+                    href={landingpage()}
                     className="relative z-10 flex items-center gap-3"
                 >
                     <span className="flex size-12 items-center justify-center rounded-xl bg-white p-1.5">
@@ -52,7 +52,7 @@ export default function AuthSplitLayout({
 
             <div className="relative flex min-h-svh flex-1 flex-col items-center justify-center px-5 py-10 sm:px-8 lg:px-12">
                 <Link
-                    href={home()}
+                    href={landingpage()}
                     className="mb-8 flex items-center gap-2.5 lg:hidden"
                 >
                     <span className="flex size-11 items-center justify-center rounded-xl bg-white p-1.5 shadow-sm ring-1 ring-brand-soft">

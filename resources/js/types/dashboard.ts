@@ -35,14 +35,26 @@ export interface WeeklyTrendDay {
     day: string;
     value: number;
     today?: boolean;
+    string_date: string;
 }
 
-export interface StudentPreviewRow {
+export interface PaginationLink {
+    label: string;
+    url: string | null;
+    active: boolean;
+}
+
+export interface StudentPagination {
+    current_page: number;
+    last_page: number;
+    total: number;
+    per_page: number;
+    links: PaginationLink[];
+}
+
+export interface ClassOption {
+    id: number;
     name: string;
-    nis: string;
-    class: string | null;
-    status: 'Aktif' | 'Nonaktif';
-    avatar: string | null;
 }
 
 export interface DashboardPageProps {
@@ -51,5 +63,4 @@ export interface DashboardPageProps {
     recentAttendance: RecentAttendanceRecord[];
     announcements: AnnouncementItem[];
     weeklyTrend: WeeklyTrendDay[];
-    students: StudentPreviewRow[];
 }

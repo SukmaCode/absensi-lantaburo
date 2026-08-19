@@ -1,17 +1,42 @@
+import { Link } from '@inertiajs/react';
 import { Filter, Plus, Search, UserRoundCheck } from 'lucide-react';
+import { useState } from 'react';
+import FormAddStudent from '@/components/data-siswa/FormAddStudent';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
+import {
+    Dialog,
+    DialogContent,
+    DialogDescription,
+    DialogHeader,
+    DialogTitle,
+} from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
 import { cn } from '@/lib/utils';
-import type { StudentPreviewRow } from '@/types/dashboard';
+import { dataSiswa } from '@/routes';
+import type { ClassOption, StudentPagination } from '@/types/dashboard';
 
-export function StudentPreview({
+interface StudentPreviewRow {
+    name: string;
+    nis: string;
+    class: string | null;
+    status: 'Aktif' | 'Nonaktif';
+    avatar: string | null;
+}
+
+export default function DataSiswa({
     students,
+    pagination,
+    classes,
 }: {
     students: StudentPreviewRow[];
+    pagination: StudentPagination;
+    classes: ClassOption[];
 }) {
+    const [open, setOpen] = useState(false);
+
     return (
-        <div className="rounded-2xl border border-neutral-100 bg-white p-6">
+        <div className="h-full border border-neutral-100 bg-white p-6">
             <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
                 <div>
                     <h2 className="font-semibold text-base text-brand-text">
@@ -22,13 +47,11 @@ export function StudentPreview({
                     </p>
                 </div>
                 <Button
-                    asChild
+                    onClick={() => setOpen(true)}
                     className="h-10 bg-brand px-5 text-white hover:bg-brand-dark"
                 >
-                    <a href="#">
-                        <Plus className="size-4" />
-                        Tambah Siswa
-                    </a>
+                    <Plus className="size-4" />
+                    Tambah Siswa
                 </Button>
             </div>
 
@@ -38,7 +61,7 @@ export function StudentPreview({
                     <Input
                         type="search"
                         placeholder="Cari nama, NIS, atau kelas..."
-                        className="border border-neutral-200 bg-white pl-9"
+                        className="border border-neutral-200 bg-white pl-9 text-black focus-visible:border-2 focus-visible:border-brand"
                     />
                 </div>
                 <Button
@@ -54,6 +77,7 @@ export function StudentPreview({
                 <table className="w-full min-w-130 text-left text-sm">
                     <thead>
                         <tr className="border-b border-neutral-100 text-xs text-brand-muted">
+                            <th className="pb-3 font-medium">No</th>
                             <th className="pb-3 font-medium">Nama</th>
                             <th className="pb-3 font-medium">NIS</th>
                             <th className="pb-3 font-medium">Kelas</th>
@@ -62,17 +86,26 @@ export function StudentPreview({
                     </thead>
                     <tbody>
                         {students.map(
-                            ({
-                                name,
-                                nis,
-                                class: classLabel,
-                                status,
-                                avatar,
-                            }) => (
+                            (
+                                {
+                                    name,
+                                    nis,
+                                    class: classLabel,
+                                    status,
+                                    avatar,
+                                },
+                                index,
+                            ) => (
                                 <tr
                                     key={nis}
                                     className="border-b border-neutral-50 last:border-0"
                                 >
+                                    <td className="py-3 text-brand-muted tabular-nums">
+                                        {pagination.per_page *
+                                            (pagination.current_page - 1) +
+                                            index +
+                                            1}
+                                    </td>
                                     <td className="py-3">
                                         <div className="flex items-center gap-3">
                                             <Avatar className="size-8 overflow-hidden rounded-full">
@@ -120,6 +153,71 @@ export function StudentPreview({
                     </tbody>
                 </table>
             </div>
+
+            <div className="mt-4 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+                <p className="text-sm text-brand-muted">
+                    Menampilkan {pagination.total} siswa
+                </p>
+                <div className="flex flex-wrap items-center gap-1">
+                    {pagination.links.map((link, index) => {
+                        const label = link.label
+                            .replaceAll('&laquo;', '«')
+                            .replaceAll('&raquo;', '»');
+
+                        return link.url ? (
+                            <Button
+                                key={index}
+                                asChild
+                                variant="outline"
+                                size="sm"
+                                className={cn(
+                                    'border-neutral-200 bg-white text-brand-text hover:bg-brand-soft',
+                                    link.active &&
+                                        'border-brand bg-brand text-white hover:bg-brand-dark',
+                                )}
+                            >
+                                <Link href={link.url} preserveScroll>
+                                    {label}
+                                </Link>
+                            </Button>
+                        ) : (
+                            <Button
+                                key={index}
+                                variant="outline"
+                                size="sm"
+                                disabled
+                                className="border-neutral-200 bg-white text-brand-muted"
+                            >
+                                {label}
+                            </Button>
+                        );
+                    })}
+                </div>
+            </div>
+
+            <Dialog open={open} onOpenChange={setOpen}>
+                <DialogContent className="max-h-[90vh] overflow-y-auto sm:max-w-2xl bg-white">
+                    <DialogHeader>
+                        <DialogTitle className='text-black'>Tambah Siswa</DialogTitle>
+                        <DialogDescription>
+                            Isi data siswa baru di bawah ini.
+                        </DialogDescription>
+                    </DialogHeader>
+                    <FormAddStudent
+                        classes={classes}
+                        onSuccess={() => setOpen(false)}
+                    />
+                </DialogContent>
+            </Dialog>
         </div>
     );
 }
+
+DataSiswa.layout = {
+    breadcrumbs: [
+        {
+            title: 'Data Siswa',
+            href: dataSiswa(),
+        },
+    ],
+};

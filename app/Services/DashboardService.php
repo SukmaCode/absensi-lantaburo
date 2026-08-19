@@ -5,7 +5,6 @@ namespace App\Services;
 use App\Models\Announcement;
 use App\Models\AttendanceStudent;
 use App\Models\AttendanceTeacher;
-use App\Models\Student;
 use App\Repositories\DashboardRepository;
 use Carbon\CarbonInterface;
 use Illuminate\Support\Carbon;
@@ -32,7 +31,6 @@ class DashboardService
             'recentAttendance' => $this->recentAttendance(),
             'announcements' => $this->announcements(),
             'weeklyTrend' => $this->weeklyTrend(),
-            'students' => $this->students(),
         ];
     }
 
@@ -130,7 +128,7 @@ class DashboardService
         $days = collect();
         $date = Carbon::today();
 
-        while ($days->count() < 7) {
+        while ($days->count() < 5) {
             if (! $date->isWeekend()) {
                 $days->push($date->copy());
             }
@@ -139,13 +137,14 @@ class DashboardService
 
         $days = $days->reverse()->values();
         $counts = $this->repository->weeklyPresentCounts($days->first(), $days->last());
-        $labels = ['Sen', 'Sel', 'Rab', 'Kam', 'Jum', 'Sab', 'Min'];
+        $labels = ['Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat'];
 
         return $days
             ->map(fn (Carbon $day) => [
                 'day' => $labels[$day->dayOfWeekIso - 1],
                 'value' => $counts[$day->toDateString()] ?? 0,
                 'today' => $day->isToday(),
+                'string_date' => $day->format('d-m-Y'),
             ])
             ->all();
     }
@@ -153,19 +152,6 @@ class DashboardService
     /**
      * @return array<int, array<string, string|null>>
      */
-    private function students(): array
-    {
-        return $this->repository->recentStudents()
-            ->map(fn (Student $student) => [
-                'name' => $student->user->name,
-                'nis' => $student->nis,
-                'class' => $student->schoolClass?->name,
-                'status' => $student->user->status === 'active' ? 'Aktif' : 'Nonaktif',
-                'avatar' => $student->user->photo,
-            ])
-            ->all();
-    }
-
     private function statusLabel(string $status): string
     {
         return match ($status) {

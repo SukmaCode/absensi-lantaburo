@@ -1,18 +1,20 @@
 <?php
 
-use App\Http\Admin\DashboardController;
+use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\DataSiswaController;
 use App\Http\Controllers\LandingController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', LandingController::class)->name('home');
+Route::get('/', LandingController::class)->name('landingpage');
 
 Route::middleware(['auth', 'verified', 'admin'])->group(function () {
-    Route::get('dashboard', DashboardController::class)->name('dashboard');
+    Route::get('/admin/dashboard', DashboardController::class)->name('dashboard');
 
-    Route::inertia('absensi', 'absensi')->name('absensi');
-    Route::inertia('data-siswa', 'data-siswa')->name('data-siswa');
-    Route::inertia('data-guru', 'data-guru')->name('data-guru');
-    Route::inertia('pengumuman', 'pengumuman')->name('pengumuman');
+    Route::inertia('/admin/absensi', 'admin/absensi')->name('absensi');
+    Route::get('/admin/data-siswa', DataSiswaController::class)->name('data-siswa');
+    Route::post('/admin/data-siswa', [DataSiswaController::class, 'store'])->name('data-siswa.store');
+    Route::inertia('/admin/data-guru', 'admin/data-guru')->name('data-guru');
+    Route::inertia('/admin/pengumuman', 'admin/pengumuman')->name('pengumuman');
 });
 
 require __DIR__.'/settings.php';

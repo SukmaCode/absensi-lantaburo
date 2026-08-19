@@ -77,7 +77,7 @@ class DashboardRepository
     public function recentStudents(): Collection
     {
         return Student::query()
-            ->with(['user:id,name,status', 'schoolClass:id,name'])
+            ->with(['user:id,name,status, photo', 'schoolClass:id,name'])
             ->latest()
             ->take(5)
             ->get();
@@ -98,4 +98,12 @@ class DashboardRepository
             ->map(fn ($total) => (int) $total)
             ->all();
     }
+
+    // public function dateString(): string
+    // {
+    //     return AttendanceStudent::query()
+    //         ->whereDate('date')
+    //         ->toBase()
+    //         ->get();
+    // }
 }
