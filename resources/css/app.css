@@ -45,13 +45,13 @@
     --font-semibold: 'Plus Jakarta Sans Semibold', sans-serif;
     --font-bold: 'Plus Jakarta Sans Bold', sans-serif;
 
-    --color-brand: #0998E8;
-    --color-brand-dark: #087BB8;
-    --color-brand-soft: #E0F4FF;
-    --color-brand-bg: #F8FCFF;
+    --color-brand: #41c623;
+    --color-brand-dark: #246914;
+    --color-brand-soft: #e0f4ff;
+    --color-brand-bg: #f8fcff;
     --color-brand-text: #172033;
-    --color-brand-muted: #64748B;
-    --color-brand-warm: #FBBF24;
+    --color-brand-muted: #64748b;
+    --color-brand-warm: #fbbf24;
 
     --radius-lg: var(--radius);
     --radius-md: calc(var(--radius) - 2px);
@@ -182,9 +182,18 @@
     }
 }
 
-/* .backgroundImageHero {
-    background-image: url("../images/thumbnail2.jpeg");
+.bgImageHero {
+    position: relative;
+}
+
+.bgImageHero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: url('../images/bg-hero.jpg');
     background-size: cover;
-    background-position: center;
+    background-position: bottom;
     background-repeat: no-repeat;
-} */
+    filter: brightness(0.5);
+    z-index: -1;
+}

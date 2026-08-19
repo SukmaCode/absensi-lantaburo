@@ -8,8 +8,9 @@ const stats = [
 
 export default function About() {
     return (
-        <section id="tentang" className="bg-brand">
-            <div className="mx-auto w-full max-w-6xl px-5 py-20 sm:px-8 lg:py-28">
+        // <section id="tentang" className="bg-linear-to-r from-brand-dark to-brand">
+        <section id="tentang" className="bg-brand-dark">
+            <div className="mx-auto w-full max-w-6xl px-5 py-10 sm:px-8">
                 <div className="grid items-center gap-14 lg:grid-cols-[1.1fr_1fr] lg:gap-20">
                     <div>
                         <p className="mb-4 text-xs font-semibold tracking-[0.2em] text-brand-soft uppercase">

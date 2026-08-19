@@ -17,10 +17,10 @@ DESIGN DIRECTION
 
 COLOR SYSTEM
 Primary brand color:
-#0998E8
+#41C623
 
 Supporting colors:
-#087BB8 — darker blue
+#246914 — darker green
 #E0F4FF — very light blue
 #FFFFFF — white
 #F8FCFF — soft background
@@ -28,18 +28,18 @@ Supporting colors:
 #64748B — secondary text
 #FBBF24 — small warm accent
 
-Use #0998E8 as the main visual identity.
+Use #41C623 as the main visual identity.
 
 SECTION COLOR RHYTHM
 Use alternating section backgrounds to create a strong visual rhythm:
 
-1. Hero — #F8FCFF
-2. About Lantaburo — #0998E8
+1. Hero — #F8FCFF (dengan latar foto)
+2. About Lantaburo — #246914
 3. Programs — #FFFFFF
 4. Learning Approach / Benefits — #F8FCFF
-5. Activities — #0998E8
+5. Activities — gradien #246914 → #41C623
 6. Testimonials / Parent Stories — #FFFFFF
-7. Call To Action — #0998E8
+7. Call To Action — gradien #246914 → #41C623
 8. Footer — #172033
 
 Do not make every section look identical. Each section should have its own composition while maintaining the same visual system.
@@ -64,7 +64,7 @@ The hero should immediately communicate:
 personalized education + supportive environment + student development.
 
 ABOUT SECTION
-Use a blue (#0998E8) background.
+Use a dark green (#246914) background.
 
 Create an editorial layout rather than a grid of cards.
 
@@ -107,7 +107,7 @@ Use a horizontal or asymmetric composition with 3–4 key principles such as:
 Use minimal icons and strong typography.
 
 ACTIVITIES SECTION
-Use the primary blue (#0998E8) as the section background.
+Use the green gradient (#246914 → #41C623) as the section background.
 
 Show real-world student activities through a large editorial image gallery.
 
@@ -136,7 +136,7 @@ Include:
 Keep the section minimal and trustworthy.
 
 CTA SECTION
-Use #0998E8.
+Use the green gradient (#246914 → #41C623).
 
 Create a strong final message for parents who are considering Lantaburo.
 
@@ -236,4 +236,4 @@ Do NOT use:
 
 The final design should look like a real, thoughtfully designed Indonesian homeschooling institution website: warm, credible, modern, accessible, and human-centered.
 
-Focus on visual hierarchy, content clarity, photography, whitespace, and the strong #0998E8 brand identity rather than decorative effects.
+Focus on visual hierarchy, content clarity, photography, whitespace, and the strong #41C623 brand identity rather than decorative effects.

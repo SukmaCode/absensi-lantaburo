@@ -1,9 +1,10 @@
 import { Link } from '@inertiajs/react';
 import { Menu, X, Phone, Mail, MapPin } from 'lucide-react';
-import { FaPhoneAlt } from "react-icons/fa";
-import { MdEmail } from "react-icons/md";
-import { FaLocationDot } from "react-icons/fa6";
+import { FaPhoneAlt } from 'react-icons/fa';
+import { MdEmail } from 'react-icons/md';
+import { FaLocationDot } from 'react-icons/fa6';
 import { useState } from 'react';
+import Logo from "../../../images/logo.png"
 
 import { dashboard, login, register } from '@/routes';
 
@@ -18,10 +19,21 @@ const navItems = [
 ];
 
 const infoItems = [
-    { label: '0812-3456-7890', icon: <FaPhoneAlt size={10} color='white' /> },
-    { label: 'yayasanlantaburo@gmail.com', icon: <MdEmail size={10} color='white' /> },
-    { label: 'Jl. Cempaka Putih No. 123, Jakarta Pusat', icon: <FaLocationDot size={10} color='white' /> }
+    { label: '0812-3456-7890', icon: <FaPhoneAlt size={10} color="white" /> },
+    {
+        label: 'yayasanlantaburo@gmail.com',
+        icon: <MdEmail size={10} color="white" />,
+    },
+    {
+        label: 'Jl. Cempaka Putih No. 123, Jakarta Pusat',
+        icon: <FaLocationDot size={10} color="white" />,
+    },
 ];
+
+const profileItems = {
+    label: 'Daarul Quran Lantaburo',
+    logo: Logo
+};
 
 interface SiteNavProps {
     loggedIn: boolean;
@@ -32,13 +44,18 @@ export default function SiteNav({ loggedIn }: SiteNavProps) {
 
     return (
         <header className="sticky top-0 z-50 border-b border-brand-soft bg-brand-bg/90 backdrop-blur">
-            <div className='w-full py-2 bg-brand flex justify-center'>
-
-                <ul className='flex justify-evenly w-full'>
+            {/* <div className='w-full py-2 bg-linear-to-r from-brand-dark to-brand flex justify-center'> */}
+            <div className="flex w-full justify-center bg-brand-dark py-2">
+                <ul className="flex w-full justify-center gap-10">
                     {infoItems.map((item) => (
-                        <li key={item.label} className='flex items-center justify-center gap-2'>
-                            <span className='text-white font-light'>{item.icon}</span>
-                            <p className="font-regular text-[6px] text-white transition-colors hover:text-brand-text">
+                        <li
+                            key={item.label}
+                            className="flex items-center justify-center gap-2"
+                        >
+                            <span className="font-light text-white">
+                                {item.icon}
+                            </span>
+                            <p className="font-regular text-[clamp(0.4rem,2vw,0.8rem)] text-white transition-colors">
                                 {item.label}
                             </p>
                         </li>
@@ -47,21 +64,8 @@ export default function SiteNav({ loggedIn }: SiteNavProps) {
             </div>
             <div className="mx-auto flex h-16 w-full max-w-6xl items-center justify-between gap-4 px-5 sm:px-8">
                 <a href="#beranda" className="flex items-center gap-2.5">
-                    <span className="flex size-8 items-center justify-center rounded-md bg-brand text-white">
-                        <svg
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            className="size-5"
-                            aria-hidden="true"
-                        >
-                            <path
-                                d="M12 3L2.5 8.5V21H9.5V14H14.5V21H21.5V8.5L12 3Z"
-                                fill="currentColor"
-                            />
-                            <path d="M12 7L8 9V10H16V9L12 7Z" fill="#E0F4FF" />
-                        </svg>
-                    </span>
-                    <span className="font-bold text-brand-text">Lantaburo</span>
+                    <img src={profileItems.logo} alt="Logo" className="size-10" />
+                    <span className="font-bold text-brand-dark">{profileItems.label}</span>
                 </a>
 
                 <nav className="hidden items-center gap-7 lg:flex">
@@ -94,7 +98,7 @@ export default function SiteNav({ loggedIn }: SiteNavProps) {
                             </Link>
                             <Link
                                 href={register()}
-                                className="rounded-sm bg-brand px-5 py-2.5 text-center font-semibold text-sm text-white hover:bg-brand-dark"
+                                className="rounded-sm bg-brand-dark px-6 py-2 text-center font-semibold text-sm text-white hover:bg-brand-dark/80"
                             >
                                 Daftar
                             </Link>
@@ -142,13 +146,13 @@ export default function SiteNav({ loggedIn }: SiteNavProps) {
                             <>
                                 <Link
                                     href={login()}
-                                    className="rounded-lg border border-brand/30 px-5 py-2.5 text-center font-semibold text-sm text-brand"
+                                    className="rounded-sm border border-brand/30 px-5 py-2.5 text-center font-semibold text-sm text-brand"
                                 >
                                     Masuk
                                 </Link>
                                 <Link
                                     href={register()}
-                                    className="rounded-lg bg-brand px-5 py-2.5 text-center font-semibold text-sm text-white"
+                                    className="rounded-sm bg-brand-dark px-5 py-2.5 text-center font-semibold text-sm text-white"
                                 >
                                     Daftar Akun
                                 </Link>
