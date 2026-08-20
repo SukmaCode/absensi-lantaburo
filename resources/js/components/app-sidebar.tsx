@@ -19,7 +19,7 @@ import {
     SidebarMenuButton,
     SidebarMenuItem,
 } from '@/components/ui/sidebar';
-import { absensi, dashboard, dataGuru, dataSiswa, pengumuman } from '@/routes';
+import { absensi, dashboard, dataGuru, dataSiswa, pengumuman } from '@/routes/admin';
 import { edit } from '@/routes/profile';
 import type { NavItem } from '@/types';
 

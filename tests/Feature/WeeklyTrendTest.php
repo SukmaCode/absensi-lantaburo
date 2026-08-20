@@ -9,7 +9,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 
 uses(RefreshDatabase::class);
 
-test('weekly trend compares each day with the same weekday last week', function () {
+test('weekly trend covers the last five weekdays with their attendance counts', function () {
     $this->travelTo('2026-08-19 09:00:00');
 
     $class = SchoolClass::create([
@@ -51,7 +51,6 @@ test('weekly trend compares each day with the same weekday last week', function 
 
     expect($todayEntry['day'])->toBe('Rabu');
     expect($todayEntry['value'])->toBe(2);
-    expect($todayEntry['last_value'])->toBe(1);
-    expect($todayEntry['current_week']['total'])->toBe(2);
-    expect($todayEntry['last_week']['total'])->toBe(1);
+    expect($trend[0]['day'])->toBe('Kamis');
+    expect($trend[0]['value'])->toBe(0);
 });

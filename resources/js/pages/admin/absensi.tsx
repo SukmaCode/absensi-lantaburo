@@ -1,6 +1,6 @@
 import { Head } from '@inertiajs/react';
 import { ClipboardList } from 'lucide-react';
-import { absensi } from '@/routes';
+import { absensi } from '@/routes/admin';
 
 export default function Absensi() {
     return (

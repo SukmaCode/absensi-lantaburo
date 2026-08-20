@@ -11,7 +11,7 @@ import {
     SelectTrigger,
     SelectValue,
 } from '@/components/ui/select';
-import { dataSiswa } from '@/routes';
+import { dataSiswa } from '@/routes/admin';
 import type { ClassOption } from '@/types/dashboard';
 
 type FormAddStudentProps = {

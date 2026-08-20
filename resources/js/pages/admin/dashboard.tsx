@@ -5,7 +5,7 @@ import { AttendanceSummary } from '@/components/dashboard/attendance-summary';
 import { QuickActions } from '@/components/dashboard/quick-actions';
 import { RecentAttendance } from '@/components/dashboard/recent-attendance';
 import { WeeklyTrend } from '@/components/dashboard/weekly-trend';
-import { dashboard } from '@/routes';
+import { dashboard } from '@/routes/admin';
 import type { DashboardPageProps } from '@/types/dashboard';
 
 export default function Dashboard({
@@ -28,14 +28,20 @@ export default function Dashboard({
         <>
             <Head title="Dashboard" />
             <div className="flex flex-1 flex-col gap-6 bg-brand-bg p-4 sm:p-6 lg:p-8">
-                <div>
-                    <h1 className="font-bold text-2xl text-brand-text sm:text-3xl">
-                        Selamat Datang, {firstName}
-                    </h1>
-                    <p className="mt-1.5 text-sm text-brand-muted">
-                        Berikut ringkasan aktivitas dan kehadiran hari ini.
-                    </p>
-                    <p className="mt-2 text-xs text-brand-muted">{today}</p>
+                <div className='flex justify-between'>
+                    <div>
+                        <h1 className="font-bold text-2xl text-brand-text sm:text-3xl">
+                            Selamat Datang, {firstName}
+                        </h1>
+                        <p className="mt-1.5 text-sm text-brand-muted">
+                            Berikut ringkasan aktivitas dan kehadiran hari ini.
+                        </p>
+                        <p className="mt-2 text-xs text-brand-muted">{today}</p>
+                    </div>
+
+                    {/* <div className="rounded-2xl border border-neutral-100 bg-white p-6">
+                        <QuickActions />
+                    </div> */}
                 </div>
 
                 <AttendanceSummary
@@ -60,9 +66,6 @@ export default function Dashboard({
                     <div className="flex flex-col gap-6">
                         <div className="rounded-2xl border border-neutral-100 bg-white p-6">
                             <Announcements items={announcements} />
-                        </div>
-                        <div className="rounded-2xl border border-neutral-100 bg-white p-6">
-                            <QuickActions />
                         </div>
                     </div>
                 </div>

@@ -4,7 +4,8 @@ import { useState } from 'react';
 import { FaPhoneAlt } from 'react-icons/fa';
 import { FaLocationDot } from 'react-icons/fa6';
 import { MdEmail } from 'react-icons/md';
-import { dashboard, login, register } from '@/routes';
+import { login, register } from '@/routes';
+import { dashboard } from '@/routes/admin';
 import Logo from "../../../images/logo.png"
 
 
@@ -25,7 +26,7 @@ const infoItems = [
         icon: <MdEmail size={10} color="white" />,
     },
     {
-        label: 'Jl. Cempaka Putih No. 123, Jakarta Pusat',
+        label: 'Jl. Ketapang Raya, Gg. Ampel 1, Tangerang',
         icon: <FaLocationDot size={10} color="white" />,
     },
 ];
@@ -46,11 +47,11 @@ export default function SiteNav({ loggedIn }: SiteNavProps) {
         <header className="sticky top-0 z-50 border-b border-brand-soft bg-brand-bg/90 backdrop-blur">
             {/* <div className='w-full py-2 bg-linear-to-r from-brand-dark to-brand flex justify-center'> */}
             <div className="flex w-full justify-center bg-brand-dark py-2">
-                <ul className="flex w-full justify-center gap-10">
+                <ul className="flex w-full justify-center gap-4">
                     {infoItems.map((item) => (
                         <li
                             key={item.label}
-                            className="flex items-center justify-center gap-2"
+                            className="flex items-center justify-center gap-2 sm:gap-6"
                         >
                             <span className="font-light text-white">
                                 {item.icon}

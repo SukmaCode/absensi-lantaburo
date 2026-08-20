@@ -1,6 +1,6 @@
 import { Head } from '@inertiajs/react';
 import { Megaphone } from 'lucide-react';
-import { pengumuman } from '@/routes';
+import { pengumuman } from '@/routes/admin';
 
 export default function Pengumuman() {
     return (

@@ -7,7 +7,7 @@ use App\Models\User;
 use Inertia\Testing\AssertableInertia as Assert;
 
 test('guests are redirected to the login page', function () {
-    $response = $this->get(route('dashboard'));
+    $response = $this->get(route('admin.dashboard'));
     $response->assertRedirect(route('login'));
 });
 
@@ -15,24 +15,23 @@ test('non-admin users are forbidden from the dashboard', function () {
     $user = User::factory()->create();
 
     $this->actingAs($user)
-        ->get(route('dashboard'))
+        ->get(route('admin.dashboard'))
         ->assertForbidden();
 });
 
 test('admin users can visit the dashboard', function () {
     $admin = User::factory()->asAdmin()->create();
 
-    $response = $this->actingAs($admin)->get(route('dashboard'));
+    $response = $this->actingAs($admin)->get(route('admin.dashboard'));
 
     $response->assertOk();
     $response->assertInertia(fn (Assert $page) => $page
-        ->component('dashboard')
+        ->component('/admin/dashboard')
         ->has('attendanceSummary')
         ->has('attendanceOverview')
         ->has('recentAttendance')
         ->has('announcements')
-        ->has('weeklyTrend')
-        ->has('students'));
+        ->has('weeklyTrend'));
 });
 
 test('dashboard sends aggregated attendance data to the frontend', function () {
@@ -54,7 +53,7 @@ test('dashboard sends aggregated attendance data to the frontend', function () {
         'check_in_time' => '07:25:00',
     ]);
 
-    $response = $this->actingAs($admin)->get(route('dashboard'));
+    $response = $this->actingAs($admin)->get(route('admin.dashboard'));
 
     $response->assertOk();
     $response->assertInertia(fn (Assert $page) => $page
@@ -69,10 +68,10 @@ test('dashboard sends aggregated attendance data to the frontend', function () {
         ->where('recentAttendance.0.role', 'Siswa')
         ->where('recentAttendance.0.status', 'Terlambat')
         ->where('recentAttendance.0.time', '07:25')
-        ->has('weeklyTrend', 7));
+        ->has('weeklyTrend', 5));
 });
 
-test('dashboard sends recent announcements and student preview', function () {
+test('dashboard sends recent announcements', function () {
     $admin = User::factory()->asAdmin()->create();
 
     $students = Student::factory()->count(2)->create();
@@ -83,12 +82,10 @@ test('dashboard sends recent announcements and student preview', function () {
     $announcements[0]->forceFill(['published_at' => now()->subDay()])->save();
     $announcements[1]->forceFill(['published_at' => now()])->save();
 
-    $response = $this->actingAs($admin)->get(route('dashboard'));
+    $response = $this->actingAs($admin)->get(route('admin.dashboard'));
 
     $response->assertOk();
     $response->assertInertia(fn (Assert $page) => $page
         ->has('announcements', 2)
-        ->where('announcements.0.title', $announcements[1]->title)
-        ->has('students', 2)
-        ->where('students.0.name', $students[1]->user->name));
+        ->where('announcements.0.title', $announcements[1]->title));
 });

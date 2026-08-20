@@ -1,7 +1,7 @@
 import { Link } from '@inertiajs/react';
 import { ArrowRight, Megaphone, UserPlus } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { absensi, dataSiswa, pengumuman } from '@/routes';
+import { absensi, dataSiswa, pengumuman } from '@/routes/admin';
 
 export function QuickActions() {
     return (

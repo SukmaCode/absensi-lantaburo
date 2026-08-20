@@ -1,4 +1,5 @@
 import type { SchoolProfile } from '@/types/landing';
+import Logo from "../../../images/logo.png"
 
 const footerNav = [
     { label: 'Beranda', href: '#beranda' },
@@ -20,7 +21,7 @@ export default function SiteFooter({ school }: SiteFooterProps) {
                 <div className="grid gap-12 lg:grid-cols-[1.4fr_1fr_1fr]">
                     <div>
                         <div className="flex items-center gap-2.5">
-                            <span className="flex size-8 items-center justify-center rounded-md bg-brand text-white">
+                            {/* <span className="flex size-8 items-center justify-center rounded-md bg-brand text-white">
                                 <svg
                                     viewBox="0 0 24 24"
                                     fill="none"
@@ -33,8 +34,9 @@ export default function SiteFooter({ school }: SiteFooterProps) {
                                     />
                                     <path d="M12 7L8 9V10H16V9L12 7Z" fill="#E0F4FF" />
                                 </svg>
-                            </span>
-                            <span className="font-bold text-white">Lantaburo</span>
+                            </span> */}
+                            <img src={Logo} alt="Logo" width={40} height={40} />
+                            <span className="font-bold text-white">Daarul Quran Lantaburo</span>
                         </div>
                         <p className="mt-5 max-w-sm text-sm leading-relaxed text-white/60">
                             {school?.description ??

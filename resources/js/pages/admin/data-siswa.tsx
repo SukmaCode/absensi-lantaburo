@@ -13,7 +13,7 @@ import {
 } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
 import { cn } from '@/lib/utils';
-import { dataSiswa } from '@/routes';
+import { dataSiswa } from '@/routes/admin';
 import type { ClassOption, StudentPagination } from '@/types/dashboard';
 
 interface StudentPreviewRow {

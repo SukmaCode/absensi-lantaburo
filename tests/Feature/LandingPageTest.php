@@ -7,11 +7,11 @@ use Inertia\Testing\AssertableInertia as Assert;
 test('guests can visit the landing page', function () {
     SchoolProfile::factory()->create();
 
-    $response = $this->get(route('home'));
+    $response = $this->get(route('landingpage'));
 
     $response->assertOk();
     $response->assertInertia(fn (Assert $page) => $page
-        ->component('welcome')
+        ->component('landingpage')
         ->has('school')
         ->has('events'));
 });
@@ -29,7 +29,7 @@ test('landing page only shows upcoming events ordered by date', function () {
         'event_date' => now()->addDays(1)->toDateString(),
     ]);
 
-    $response = $this->get(route('home'));
+    $response = $this->get(route('landingpage'));
 
     $response->assertOk();
     $response->assertInertia(fn (Assert $page) => $page

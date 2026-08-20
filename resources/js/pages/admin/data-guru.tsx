@@ -1,6 +1,6 @@
 import { Head } from '@inertiajs/react';
 import { GraduationCap } from 'lucide-react';
-import { dataGuru } from '@/routes';
+import { dataGuru } from '@/routes/admin';
 
 export default function DataGuru() {
     return (
