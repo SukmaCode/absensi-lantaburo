@@ -6,6 +6,7 @@ use App\Models\Student;
 use App\Models\User;
 use App\Repositories\DataSiswaRepository;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 
 class DataSiswaService
 {
@@ -55,7 +56,7 @@ class DataSiswaService
             $user = User::query()->create([
                 'name' => $data['name'],
                 'email' => $data['email'],
-                'password' => $data['password'],
+                'password' => Hash::make($data['password']),
                 'role' => 'siswa',
                 'phone' => $data['phone'] ?? null,
                 'status' => $data['status'] ?? 'active',

@@ -23,10 +23,10 @@ Website Absensi Sekolah adalah sistem berbasis web yang digunakan untuk mengelol
 
 | Peran | Deskripsi |
 |---|---|
-| Pengunjung/Calon Siswa | Mengakses landing page untuk melihat info sekolah & agenda |
+|DONE| Pengunjung/Calon Siswa | Mengakses landing page untuk melihat info sekolah & agenda |
 | Siswa | Melakukan absen masuk, melihat riwayat kehadiran sendiri |
 | Guru | Melakukan absen masuk, melihat rekap harian, mengelola data siswa |
-| Admin/Staf Sekolah | Mengelola data siswa, akun, pengumuman, dan memantau seluruh absensi |
+|DONE| Admin/Staf Sekolah | Mengelola data siswa, akun, pengumuman, dan memantau seluruh absensi |
 
 ## 5. Ruang Lingkup & Fase Pengembangan
 
@@ -46,17 +46,17 @@ Pengembangan dibagi menjadi 4 fase berdasarkan prioritas fitur:
 ### FASE 1
 
 #### 6.1 Landing Page Sekolah
-Halaman publik yang menjadi wajah sekolah di internet.
+Halaman publik yang menjadi wajah sekolah di internet. |DONE|
 
 **Sub Fitur:**
-- Tampilkan identitas sekolah (nama, logo, profil singkat)
-- Daftar agenda/event sekolah
-- Tombol masuk/daftar (akses ke sistem login/registrasi)
+- Tampilkan identitas sekolah (nama, logo, profil singkat) |DONE|
+- Daftar agenda/event sekolah |DONE|
+- Tombol masuk/daftar (akses ke sistem login/registrasi) |DONE|
 
 **Functional Requirements:**
-- FR-1.1: Sistem menampilkan informasi identitas sekolah secara statis/dikelola admin.
-- FR-1.2: Sistem menampilkan daftar agenda/event terbaru.
-- FR-1.3: Sistem menyediakan tombol navigasi ke halaman login dan pendaftaran.
+- FR-1.1: Sistem menampilkan informasi identitas sekolah secara statis/dikelola admin. |DONE|
+- FR-1.2: Sistem menampilkan daftar agenda/event terbaru. |DONE|
+- FR-1.3: Sistem menyediakan tombol navigasi ke halaman login dan pendaftaran. |DONE|
 
 #### 6.2 Dashboard
 Halaman utama setelah pengguna login, tampilan menyesuaikan peran.
@@ -127,15 +127,15 @@ Halaman utama setelah pengguna login, tampilan menyesuaikan peran.
 
 #### 6.7 Autentikasi
 **Sub Fitur:**
-- Daftar akun
-- Login
-- Logout
+- Daftar akun |DONE|
+- Login |DONE|
+- Logout |DONE|
 - *(1 sub fitur tambahan tidak terbaca jelas pada gambar — asumsi: Reset/lupa kata sandi, perlu dikonfirmasi)*
 
 **Functional Requirements:**
-- FR-7.1: Pengguna baru dapat mendaftarkan akun.
-- FR-7.2: Pengguna dapat login menggunakan kredensial yang valid.
-- FR-7.3: Pengguna dapat logout dari sistem.
+- FR-7.1: Pengguna baru dapat mendaftarkan akun. |DONE|
+- FR-7.2: Pengguna dapat login menggunakan kredensial yang valid. |UNFINISHED|
+- FR-7.3: Pengguna dapat logout dari sistem. |DONE|
 - FR-7.4: Pengguna dapat mereset kata sandi jika lupa *(perlu konfirmasi)*.
 
 ---
@@ -144,24 +144,24 @@ Halaman utama setelah pengguna login, tampilan menyesuaikan peran.
 
 #### 6.8 Pengaturan Akun
 **Sub Fitur:**
-- Profil saya
-- Ganti kata sandi
-- Notifikasi
+- Profil saya |DONE|
+- Ganti kata sandi |DONE|
+- Notifikasi |UNFINISHED|
 
 **Functional Requirements:**
-- FR-8.1: Pengguna dapat melihat dan mengubah data profil pribadi.
-- FR-8.2: Pengguna dapat mengganti kata sandi akun.
-- FR-8.3: Pengguna dapat mengatur preferensi notifikasi.
+- FR-8.1: Pengguna dapat melihat dan mengubah data profil pribadi. |DONE|
+- FR-8.2: Pengguna dapat mengganti kata sandi akun. |UNFINISHED|
+- FR-8.3: Pengguna dapat mengatur preferensi notifikasi. |UNFINISHED|
 
 ---
 
 ## 7. Non-Functional Requirements (Asumsi)
 
-- **Keamanan:** Password disimpan dalam bentuk hash, sesi login menggunakan token/session yang aman.
+- **Keamanan:** Password disimpan dalam bentuk hash, sesi login menggunakan token/session yang aman. |DONE|
 - **Performa:** Halaman dashboard dan absensi harus responsif (< 2 detik loading pada koneksi normal).
 - **Ketersediaan:** Sistem idealnya dapat diakses selama jam operasional sekolah tanpa downtime.
-- **Kompatibilitas:** Dapat diakses melalui desktop dan mobile browser (responsive design).
-- **Audit Trail:** Setiap aksi absen tercatat dengan timestamp yang tidak dapat diubah oleh pengguna biasa.
+- **Kompatibilitas:** Dapat diakses melalui desktop dan mobile browser (responsive design). |DONE|
+- **Audit Trail:** Setiap aksi absen tercatat dengan timestamp yang tidak dapat diubah oleh pengguna biasa. |DONE|
 
 ## 8. Asumsi & Batasan
 
@@ -174,10 +174,10 @@ Halaman utama setelah pengguna login, tampilan menyesuaikan peran.
 
 | Fase | Fokus | Output |
 |---|---|---|
-| Fase 1 | Fondasi tampilan publik & dashboard | Landing page + dashboard role-based |
+| Fase 1 | Fondasi tampilan publik & dashboard | Landing page + dashboard role-based | |DONE|
 | Fase 2 | Inti fungsi absensi | Absen siswa, absen guru, riwayat absen |
-| Fase 3 | Manajemen data & akses | CRUD data siswa, sistem autentikasi |
-| Fase 4 | Personalisasi akun | Profil, keamanan akun, notifikasi |
+| Fase 3 | Manajemen data & akses | CRUD data siswa, sistem autentikasi | |DONE|
+| Fase 4 | Personalisasi akun | Profil, keamanan akun, notifikasi | |UNFINISHED|
 
 ## 10. Metrik Keberhasilan (Saran)
 

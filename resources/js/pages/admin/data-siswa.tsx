@@ -196,7 +196,7 @@ export default function DataSiswa({
             </div>
 
             <Dialog open={open} onOpenChange={setOpen}>
-                <DialogContent className="max-h-[90vh] overflow-y-auto sm:max-w-2xl bg-white">
+                <DialogContent className="max-h-[90vh] overflow-y-auto sm:max-w-2xl bg-white custom-scrollbar">
                     <DialogHeader>
                         <DialogTitle className='text-black'>Tambah Siswa</DialogTitle>
                         <DialogDescription>

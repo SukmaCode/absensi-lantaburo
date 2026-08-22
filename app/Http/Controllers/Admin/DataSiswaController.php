@@ -19,7 +19,7 @@ class DataSiswaController extends Controller
         ));
     }
 
-    public function store(StoreStudentRequest $request, DataSiswaService $service): RedirectResponse
+    public function create(StoreStudentRequest $request, DataSiswaService $service): RedirectResponse
     {
         $service->createStudent($request->validated());
 

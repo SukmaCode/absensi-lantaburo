@@ -33,12 +33,12 @@ class AttendanceTeacherSeeder extends Seeder
                         'terlambat' => '07:20:00',
                         default => null,
                     },
-                    'check_out_time' => in_array($status, ['hadir', 'terlambat']) ? '16:00:00' : null,
                     'notes' => match ($status) {
                         'izin' => 'Dinas luar',
                         'sakit' => 'Kurang sehat',
                         default => null,
                     },
+                    'photo_selfie' => 'storage/attendance/teacher/'.$date.'/'.$teacher->id.'.jpg',
                 ]);
             }
         });

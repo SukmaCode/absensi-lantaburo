@@ -19,7 +19,14 @@ import {
     SidebarMenuButton,
     SidebarMenuItem,
 } from '@/components/ui/sidebar';
-import { absensi, dashboard, dataGuru, dataSiswa, pengumuman } from '@/routes/admin';
+import {
+    absensi,
+    dashboard,
+    dataGuru,
+    dataSiswa,
+    pengumuman,
+    schoolProfile,
+} from '@/routes/admin';
 import { edit } from '@/routes/profile';
 import type { NavItem } from '@/types';
 
@@ -50,6 +57,11 @@ const mainNavItems: NavItem[] = [
         icon: Megaphone,
     },
     {
+        title: 'Pengaturan Sekolah',
+        href: schoolProfile(),
+        icon: Settings,
+    },
+    {
         title: 'Pengaturan',
         href: edit(),
         icon: Settings,
@@ -69,7 +81,7 @@ export function AppSidebar() {
                         </SidebarMenuButton>
                     </SidebarMenuItem>
                 </SidebarMenu>
-                <div className="mt-1 flex items-center gap-2 px-2 font-semibold text-[10px] tracking-[0.2em] text-white/50 uppercase group-data-[collapsible=icon]:hidden">
+                <div className="flex items-center gap-2 px-2 font-semibold text-[10px] tracking-[0.2em] text-white/50 uppercase group-data-[collapsible=icon]:hidden">
                     <span className="h-px flex-1 bg-white/10" />
                     Admin Panel
                     <span className="h-px flex-1 bg-white/10" />

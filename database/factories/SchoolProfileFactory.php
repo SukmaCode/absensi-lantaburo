@@ -20,10 +20,11 @@ class SchoolProfileFactory extends Factory
         return [
             'name' => 'Homeschooling Lantaburo',
             'logo' => null,
-            'description' => 'Lembaga pendidikan alternatif yang menghadirkan pengalaman belajar personal, mendukung, dan bermakna bagi setiap anak.',
-            'address' => 'Jl. Pendidikan No. 12, Kecamatan Lantaburo',
-            'phone' => fake()->numerify('021#######'),
-            'email' => 'halo@lantaburo.sch.id',
+            'description_heading' => 'Pendidikan yang personal, mendukung, dan bermakna bagi anak.',
+            'description_body' => 'Lantaburo membantu setiap anak tumbuh sesuai potensinya lewat pendekatan belajar yang hangat, inklusif, dan menantang. Kami berjalan bersama orang tua dalam setiap langkah tumbuh kembang putra-putri Anda.',
+            'address' => 'Jl. Ketapang Raya, Gg. Ampel 1, Tangerang',
+            'phone' => '08123456789',
+            'email' => 'lantaburo@.sch.id',
         ];
     }
 }

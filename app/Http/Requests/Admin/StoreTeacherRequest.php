@@ -5,7 +5,7 @@ namespace App\Http\Requests\Admin;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreStudentRequest extends FormRequest
+class StoreTeacherRequest extends FormRequest
 {
     /**
      * Get the validation rules that apply to the request.
@@ -19,13 +19,8 @@ class StoreStudentRequest extends FormRequest
             'email' => ['required', 'email', 'max:150', 'unique:users,email'],
             'password' => ['required', 'string', 'min:8'],
             'phone' => ['nullable', 'string', 'max:20'],
-            'nis' => ['required', 'string', 'max:30', 'unique:students,nis'],
-            'class_id' => ['nullable', 'exists:classes,id'],
-            'gender' => ['required', 'in:L,P'],
-            'birth_date' => ['nullable', 'date'],
-            'address' => ['nullable', 'string'],
-            'parent_name' => ['nullable', 'string', 'max:150'],
-            'parent_phone' => ['nullable', 'string', 'max:20'],
+            'nip' => ['required', 'string', 'max:30', 'unique:teachers,nip'],
+            'subject' => ['required', 'string', 'max:100'],
             'status' => ['nullable', 'in:active,inactive'],
         ];
     }
@@ -40,15 +35,9 @@ class StoreStudentRequest extends FormRequest
             'password.required' => 'Password harus diisi.',
             'password.min' => 'Password minimal 8 karakter.',
             'phone.max' => 'Nomor telepon maksimal 20 karakter.',
-            'nis.required' => 'NIS harus diisi.',
-            'nis.unique' => 'NIS sudah terdaftar.',
-            'class_id.exists' => 'Kelas tidak valid.',
-            'gender.required' => 'Jenis kelamin harus diisi.',
-            'gender.in' => 'Jenis kelamin tidak valid.',
-            'birth_date.date' => 'Tanggal lahir tidak valid.',
-            'address.string' => 'Alamat harus berupa teks.',
-            'parent_name.string' => 'Nama orang tua harus berupa teks.',
-            'parent_phone.string' => 'Nomor telepon orang tua harus berupa teks.',
+            'nip.required' => 'NIP harus diisi.',
+            'nip.unique' => 'NIP sudah terdaftar.',
+            'subject.required' => 'Mata pelajaran harus diisi.',
             'status.in' => 'Status tidak valid.',
         ];
     }

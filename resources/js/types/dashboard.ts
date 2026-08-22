@@ -52,6 +52,22 @@ export interface StudentPagination {
     links: PaginationLink[];
 }
 
+export interface TeacherPagination {
+    current_page: number;
+    last_page: number;
+    total: number;
+    per_page: number;
+    links: PaginationLink[];
+}
+
+export interface Pagination {
+    current_page: number;
+    last_page: number;
+    total: number;
+    per_page: number;
+    links: PaginationLink[];
+}
+
 export interface ClassOption {
     id: number;
     name: string;

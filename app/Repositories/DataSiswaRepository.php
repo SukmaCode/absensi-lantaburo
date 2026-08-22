@@ -12,7 +12,7 @@ class DataSiswaRepository
     public function allStudents(): LengthAwarePaginator
     {
         return Student::query()
-            ->with(['user:id,name,status,photo', 'schoolClass:id,name'])
+            ->with(['user:id,name,status,photo,phone', 'schoolClass:id,name'])
             ->latest()
             ->paginate(5);
     }

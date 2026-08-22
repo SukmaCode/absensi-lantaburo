@@ -16,9 +16,9 @@ return new class extends Migration
             $table->foreignId('teacher_id')->constrained('teachers')->cascadeOnDelete();
             $table->date('date');
             $table->time('check_in_time')->nullable();
-            $table->time('check_out_time')->nullable();
             $table->enum('status', ['hadir', 'terlambat', 'izin', 'sakit', 'alpha'])->default('hadir');
             $table->string('notes')->nullable();
+            $table->string('photo_selfie')->require();
             $table->timestamps();
 
             $table->unique(['teacher_id', 'date']);

@@ -4,6 +4,7 @@ namespace App\Http\Middleware;
 
 use Illuminate\Http\Request;
 use Inertia\Middleware;
+use App\Models\SchoolProfile;
 
 class HandleInertiaRequests extends Middleware
 {
@@ -35,13 +36,21 @@ class HandleInertiaRequests extends Middleware
      */
     public function share(Request $request): array
     {
+        $schoolProfile = SchoolProfile::first();
+
         return [
             ...parent::share($request),
-            'name' => config('app.name'),
+            'name' => $schoolProfile?->name ?? config('app.name'),
             'auth' => [
                 'user' => $request->user(),
             ],
             'sidebarOpen' => ! $request->hasCookie('sidebar_state') || $request->cookie('sidebar_state') === 'true',
+            'description_heading' => $schoolProfile?->description_heading,
+            'description_body' => $schoolProfile?->description_body,
+            'address' => $schoolProfile?->address,
+            'phone' => $schoolProfile?->phone,
+            'email' => $schoolProfile?->email,
+            'logo' => $schoolProfile?->logo,
         ];
     }
 }

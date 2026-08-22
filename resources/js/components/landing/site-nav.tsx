@@ -1,4 +1,4 @@
-import { Link } from '@inertiajs/react';
+import { Link, usePage } from '@inertiajs/react';
 import { Menu, X, Phone, Mail, MapPin } from 'lucide-react';
 import { useState } from 'react';
 import { FaPhoneAlt } from 'react-icons/fa';
@@ -7,6 +7,7 @@ import { MdEmail } from 'react-icons/md';
 import { login, register } from '@/routes';
 import { dashboard } from '@/routes/admin';
 import Logo from "../../../images/logo.png"
+import { School2Icon } from 'lucide-react';
 
 
 const navItems = [
@@ -19,29 +20,38 @@ const navItems = [
     { label: 'Kontak', href: '#kontak' },
 ];
 
-const infoItems = [
-    { label: '0812-3456-7890', icon: <FaPhoneAlt size={10} color="white" /> },
-    {
-        label: 'yayasanlantaburo@gmail.com',
-        icon: <MdEmail size={10} color="white" />,
-    },
-    {
-        label: 'Jl. Ketapang Raya, Gg. Ampel 1, Tangerang',
-        icon: <FaLocationDot size={10} color="white" />,
-    },
-];
-
-const profileItems = {
-    label: 'Daarul Quran Lantaburo',
-    logo: Logo
-};
-
 interface SiteNavProps {
     loggedIn: boolean;
 }
 
 export default function SiteNav({ loggedIn }: SiteNavProps) {
     const [open, setOpen] = useState(false);
+
+    const { name, logo, email, address, phone } = usePage<{
+        name: string;
+        logo: string | null;
+        email: string | null;
+        phone: string | null;
+        address: string | null;
+    }>().props;
+
+    const [logoPreview] = useState<string | null>(
+        logo ? `/storage/${logo}` : null,
+    );
+
+    const infoItems = [
+        { label: phone, key: 'phone', icon: <FaPhoneAlt size={10} color="white" /> },
+        {
+            label: email,
+            key: 'email',
+            icon: <MdEmail size={10} color="white" />,
+        },
+        {
+            label: address,
+            key: 'address',
+            icon: <FaLocationDot size={10} color="white" />,
+        },
+    ];
 
     return (
         <header className="sticky top-0 z-50 border-b border-brand-soft bg-brand-bg/90 backdrop-blur">
@@ -50,8 +60,8 @@ export default function SiteNav({ loggedIn }: SiteNavProps) {
                 <ul className="flex w-full justify-center gap-4">
                     {infoItems.map((item) => (
                         <li
-                            key={item.label}
                             className="flex items-center justify-center gap-2 sm:gap-6"
+                            key={item.key}
                         >
                             <span className="font-light text-white">
                                 {item.icon}
@@ -65,8 +75,12 @@ export default function SiteNav({ loggedIn }: SiteNavProps) {
             </div>
             <div className="mx-auto flex h-16 w-full max-w-6xl items-center justify-between gap-4 px-5 sm:px-8">
                 <a href="#beranda" className="flex items-center gap-2.5">
-                    <img src={profileItems.logo} alt="Logo" className="size-10" />
-                    <span className="font-bold text-brand-dark">{profileItems.label}</span>
+                    {logoPreview ? (
+                        <img src={logoPreview} alt="Logo" className="size-10" />
+                    ) : (
+                        <School2Icon className="size-10 text-brand-dark" />
+                    )}
+                    <span className="font-bold text-brand-dark">{name}</span>
                 </a>
 
                 <nav className="hidden items-center gap-7 lg:flex">

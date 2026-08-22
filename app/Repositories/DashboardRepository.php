@@ -77,7 +77,7 @@ class DashboardRepository
     public function recentStudents(): Collection
     {
         return Student::query()
-            ->with(['user:id,name,status, photo', 'schoolClass:id,name'])
+            ->with(['user:id,name,status,photo', 'schoolClass:id,name'])
             ->latest()
             ->take(5)
             ->get();

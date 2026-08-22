@@ -14,8 +14,8 @@ class AttendanceStudentSeeder extends Seeder
     public function run(): void
     {
         $dates = collect(range(13, 0))
-            ->map(fn (int $daysAgo) => now()->subDays($daysAgo)->toDateString())
-            ->filter(fn (string $date) => ! now()->parse($date)->isWeekend())
+            ->map(fn(int $daysAgo) => now()->subDays($daysAgo)->toDateString())
+            ->filter(fn(string $date) => ! now()->parse($date)->isWeekend())
             ->values();
 
         $statuses = ['hadir', 'hadir', 'hadir', 'hadir', 'terlambat', 'izin', 'sakit', 'alpha'];
@@ -33,7 +33,6 @@ class AttendanceStudentSeeder extends Seeder
                         'terlambat' => '07:25:00',
                         default => null,
                     },
-                    'check_out_time' => in_array($status, ['hadir', 'terlambat']) ? '16:00:00' : null,
                     'notes' => match ($status) {
                         'izin' => 'Keperluan keluarga',
                         'sakit' => 'Tidak enak badan',

@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-#[Fillable(['student_id', 'date', 'check_in_time', 'check_out_time', 'status', 'notes'])]
+#[Fillable(['student_id', 'date', 'check_in_time', 'status', 'notes'])]
 class AttendanceStudent extends Model
 {
     /** @use HasFactory<AttendanceStudentFactory> */

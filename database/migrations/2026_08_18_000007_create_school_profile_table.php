@@ -13,9 +13,10 @@ return new class extends Migration
     {
         Schema::create('school_profile', function (Blueprint $table) {
             $table->id();
-            $table->string('name', 200);
+            $table->string('name', 200)->nullable();
             $table->string('logo')->nullable();
-            $table->text('description')->nullable();
+            $table->text('description_heading')->nullable();
+            $table->text('description_body')->nullable();
             $table->text('address')->nullable();
             $table->string('phone', 20)->nullable();
             $table->string('email', 150)->nullable();

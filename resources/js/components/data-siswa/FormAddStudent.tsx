@@ -38,7 +38,7 @@ export default function FormAddStudent({
         status: 'active',
     });
 
-    function submit(e: React.FormEvent) {
+    function submit(e: React.SubmitEvent) {
         e.preventDefault();
 
         post(dataSiswa.url(), {

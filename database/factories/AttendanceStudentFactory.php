@@ -22,7 +22,6 @@ class AttendanceStudentFactory extends Factory
             'student_id' => Student::factory(),
             'date' => now()->toDateString(),
             'check_in_time' => '07:00:00',
-            'check_out_time' => '16:00:00',
             'status' => fake()->randomElement(['hadir', 'terlambat', 'izin', 'sakit', 'alpha']),
             'notes' => null,
         ];
