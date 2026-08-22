@@ -10,7 +10,7 @@ class EnsureUserIsStudent
 {
     public function handle(Request $request, Closure $next): Response
     {
-        if ($request->user()?->role !== 'student') {
+        if (! in_array($request->user()?->role, ['siswa', 'student'], true)) {
             abort(403);
         }
 

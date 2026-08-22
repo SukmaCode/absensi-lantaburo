@@ -24,6 +24,9 @@ class AttendanceTeacherFactory extends Factory
             'check_in_time' => '07:00:00',
             'status' => fake()->randomElement(['hadir', 'terlambat', 'izin', 'sakit', 'alpha']),
             'notes' => null,
+            'photo_selfie' => 'selfies/default.jpg',
+            'latitude' => -6.2088,
+            'longitude' => 106.8456,
         ];
     }
 }

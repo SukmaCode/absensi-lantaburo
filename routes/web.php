@@ -6,6 +6,9 @@ use App\Http\Controllers\Admin\DataGuruController;
 use App\Http\Controllers\Admin\DataSiswaController;
 use App\Http\Controllers\Admin\PengumumanController;
 use App\Http\Controllers\Admin\SchoolProfileController;
+use App\Http\Controllers\Guru\AbsenGuruController;
+use App\Http\Controllers\Guru\AbsenMuridController;
+use App\Http\Controllers\Guru\RekapMuridController;
 use App\Http\Controllers\LandingController;
 use Illuminate\Support\Facades\Route;
 
@@ -29,6 +32,18 @@ Route::middleware(['auth', 'verified', 'admin'])->prefix('admin')->group(functio
 
     Route::get('school-profile', SchoolProfileController::class)->name('admin.school-profile');
     Route::put('school-profile/{id}', [SchoolProfileController::class, 'update'])->name('admin.school-profile.update');
+});
+
+Route::middleware(['auth', 'verified', 'teacher'])->prefix('guru')->group(function () {
+    Route::get('dashboard', App\Http\Controllers\Guru\DashboardController::class)->name('guru.dashboard');
+
+    Route::get('absen', AbsenGuruController::class)->name('guru.absen');
+    Route::post('absen', [AbsenGuruController::class, 'store'])->name('guru.absen.store');
+
+    Route::get('absen-murid', AbsenMuridController::class)->name('guru.absen-murid');
+    Route::post('absen-murid', [AbsenMuridController::class, 'store'])->name('guru.absen-murid.store');
+
+    Route::get('rekap-murid', RekapMuridController::class)->name('guru.rekap-murid');
 });
 
 require __DIR__.'/settings.php';

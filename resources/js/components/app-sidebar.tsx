@@ -1,5 +1,7 @@
-import { Link } from '@inertiajs/react';
+import { Link, usePage } from '@inertiajs/react';
 import {
+    CalendarDays,
+    Camera,
     ClipboardList,
     GraduationCap,
     LayoutGrid,
@@ -21,19 +23,25 @@ import {
 } from '@/components/ui/sidebar';
 import {
     absensi,
-    dashboard,
+    dashboard as adminDashboard,
     dataGuru,
     dataSiswa,
     pengumuman,
     schoolProfile,
 } from '@/routes/admin';
+import {
+    absen as guruAbsen,
+    absenMurid as guruAbsenMurid,
+    dashboard as guruDashboard,
+    rekapMurid as guruRekapMurid,
+} from '@/routes/guru';
 import { edit } from '@/routes/profile';
-import type { NavItem } from '@/types';
+import type { Auth, NavItem } from '@/types';
 
-const mainNavItems: NavItem[] = [
+const adminNavItems: NavItem[] = [
     {
         title: 'Dashboard',
-        href: dashboard(),
+        href: adminDashboard(),
         icon: LayoutGrid,
     },
     {
@@ -68,14 +76,48 @@ const mainNavItems: NavItem[] = [
     },
 ];
 
+const guruNavItems: NavItem[] = [
+    {
+        title: 'Dashboard',
+        href: guruDashboard(),
+        icon: LayoutGrid,
+    },
+    {
+        title: 'Absen Saya',
+        href: guruAbsen(),
+        icon: Camera,
+    },
+    {
+        title: 'Absen Murid',
+        href: guruAbsenMurid(),
+        icon: Users,
+    },
+    {
+        title: 'Rekap Kehadiran',
+        href: guruRekapMurid(),
+        icon: CalendarDays,
+    },
+    {
+        title: 'Pengaturan',
+        href: edit(),
+        icon: Settings,
+    },
+];
+
 export function AppSidebar() {
+    const { auth } = usePage<{ auth: Auth }>().props;
+    const isGuru = auth.user?.role === 'guru' || auth.user?.role === 'teacher';
+    const mainNavItems = isGuru ? guruNavItems : adminNavItems;
+    const homeUrl = isGuru ? guruDashboard() : adminDashboard();
+    const panelLabel = isGuru ? 'Panel Guru' : 'Admin Panel';
+
     return (
         <Sidebar collapsible="icon" variant="sidebar">
             <SidebarHeader>
                 <SidebarMenu>
                     <SidebarMenuItem>
                         <SidebarMenuButton size="lg" asChild>
-                            <Link href={dashboard()} prefetch>
+                            <Link href={homeUrl} prefetch>
                                 <AppLogo />
                             </Link>
                         </SidebarMenuButton>
@@ -83,7 +125,7 @@ export function AppSidebar() {
                 </SidebarMenu>
                 <div className="flex items-center gap-2 px-2 font-semibold text-[10px] tracking-[0.2em] text-white/50 uppercase group-data-[collapsible=icon]:hidden">
                     <span className="h-px flex-1 bg-white/10" />
-                    Admin Panel
+                    {panelLabel}
                     <span className="h-px flex-1 bg-white/10" />
                 </div>
             </SidebarHeader>

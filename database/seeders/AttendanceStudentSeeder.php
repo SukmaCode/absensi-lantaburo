@@ -14,8 +14,8 @@ class AttendanceStudentSeeder extends Seeder
     public function run(): void
     {
         $dates = collect(range(13, 0))
-            ->map(fn(int $daysAgo) => now()->subDays($daysAgo)->toDateString())
-            ->filter(fn(string $date) => ! now()->parse($date)->isWeekend())
+            ->map(fn (int $daysAgo) => now()->subDays($daysAgo)->toDateString())
+            ->filter(fn (string $date) => ! now()->parse($date)->isWeekend())
             ->values();
 
         $statuses = ['hadir', 'hadir', 'hadir', 'hadir', 'terlambat', 'izin', 'sakit', 'alpha'];

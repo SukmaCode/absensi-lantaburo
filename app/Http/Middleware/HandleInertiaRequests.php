@@ -2,9 +2,9 @@
 
 namespace App\Http\Middleware;
 
+use App\Models\SchoolProfile;
 use Illuminate\Http\Request;
 use Inertia\Middleware;
-use App\Models\SchoolProfile;
 
 class HandleInertiaRequests extends Middleware
 {

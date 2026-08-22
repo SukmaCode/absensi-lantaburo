@@ -10,7 +10,7 @@ class EnsureUserIsTeacher
 {
     public function handle(Request $request, Closure $next): Response
     {
-        if ($request->user()?->role !== 'teacher') {
+        if (! in_array($request->user()?->role, ['guru', 'teacher'], true)) {
             abort(403);
         }
 

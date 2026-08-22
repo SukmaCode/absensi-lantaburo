@@ -5,7 +5,9 @@ import { FaPhoneAlt } from 'react-icons/fa';
 import { FaLocationDot } from 'react-icons/fa6';
 import { MdEmail } from 'react-icons/md';
 import { login, register } from '@/routes';
-import { dashboard } from '@/routes/admin';
+import { dashboard as dashboardAdmin } from '@/routes/admin';
+import { dashboard as dashboardGuru } from '@/routes/guru';
+import type { Auth } from '@/types';
 import Logo from "../../../images/logo.png"
 import { School2Icon } from 'lucide-react';
 
@@ -27,13 +29,17 @@ interface SiteNavProps {
 export default function SiteNav({ loggedIn }: SiteNavProps) {
     const [open, setOpen] = useState(false);
 
-    const { name, logo, email, address, phone } = usePage<{
+    const { auth, name, logo, email, address, phone } = usePage<{
+        auth: Auth;
         name: string;
         logo: string | null;
         email: string | null;
         phone: string | null;
         address: string | null;
     }>().props;
+
+    const isGuru = auth.user?.role === 'guru' || auth.user?.role === 'teacher';
+    const dashboardUrl = isGuru ? dashboardGuru() : dashboardAdmin();
 
     const [logoPreview] = useState<string | null>(
         logo ? `/storage/${logo}` : null,
@@ -98,7 +104,7 @@ export default function SiteNav({ loggedIn }: SiteNavProps) {
                 <div className="hidden items-center gap-3 lg:flex">
                     {loggedIn ? (
                         <Link
-                            href={dashboard()}
+                            href={dashboardUrl}
                             className="font-medium text-sm text-brand-muted transition-colors hover:text-brand-text"
                         >
                             Dashboard
@@ -152,7 +158,7 @@ export default function SiteNav({ loggedIn }: SiteNavProps) {
                     <div className="mt-4 flex flex-col gap-2.5">
                         {loggedIn ? (
                             <Link
-                                href={dashboard()}
+                                href={dashboardUrl}
                                 className="rounded-lg bg-brand px-5 py-2.5 text-center font-semibold text-sm text-white"
                             >
                                 Buka Dashboard

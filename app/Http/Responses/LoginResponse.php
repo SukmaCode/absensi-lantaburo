@@ -21,6 +21,7 @@ class LoginResponse implements LoginResponseContract
 
         $redirect = match ($request->user()?->role) {
             'admin' => route('admin.dashboard'),
+            'guru' => route('guru.dashboard'),
             default => route('landingpage'),
         };
 
