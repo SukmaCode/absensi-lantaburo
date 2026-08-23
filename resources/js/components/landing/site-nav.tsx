@@ -7,6 +7,7 @@ import { MdEmail } from 'react-icons/md';
 import { login, register } from '@/routes';
 import { dashboard as dashboardAdmin } from '@/routes/admin';
 import { dashboard as dashboardGuru } from '@/routes/guru';
+import { dashboard as dashboardSiswa } from '@/routes/siswa';
 import type { Auth } from '@/types';
 import Logo from "../../../images/logo.png"
 import { School2Icon } from 'lucide-react';
@@ -38,8 +39,10 @@ export default function SiteNav({ loggedIn }: SiteNavProps) {
         address: string | null;
     }>().props;
 
-    const isGuru = auth.user?.role === 'guru' || auth.user?.role === 'teacher';
-    const dashboardUrl = isGuru ? dashboardGuru() : dashboardAdmin();
+    const role = auth.user?.role;
+    const isGuru = role === 'guru' || role === 'teacher';
+    const isSiswa = role === 'siswa' || role === 'student';
+    const dashboardUrl = isSiswa ? dashboardSiswa() : isGuru ? dashboardGuru() : dashboardAdmin();
 
     const [logoPreview] = useState<string | null>(
         logo ? `/storage/${logo}` : null,

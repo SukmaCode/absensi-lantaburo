@@ -74,9 +74,9 @@ class AbsensiService
         // ->all();
     }
 
-    private function formatDate(string $date): string
+    private function formatDate(mixed $date): string
     {
-        return Carbon::createFromFormat('Y-m-d', $date)->format('d-m-Y');
+        return Carbon::parse($date)->format('d-m-Y');
     }
 
     private function formatTime(?string $time): string

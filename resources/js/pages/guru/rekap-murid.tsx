@@ -95,7 +95,7 @@ export default function RekapMuridPage({
 
                     {/* Month Picker & Navigation */}
                     <div className="flex flex-wrap items-center gap-2">
-                        <div className="flex items-center rounded-xl border border-neutral-200 bg-white p-1 shadow-xs">
+                        <div className="flex items-center justify-center rounded-sm border border-neutral-200 bg-white p-1 shadow-xs">
                             <Button
                                 variant="ghost"
                                 size="sm"
@@ -105,13 +105,13 @@ export default function RekapMuridPage({
                                 <ChevronLeft className="size-4" />
                             </Button>
 
-                            <div className="flex items-center gap-1.5 px-2">
+                            <div className="flex items-center justify-center gap-1.5">
                                 <Calendar className="size-4 text-brand" />
                                 <input
                                     type="month"
                                     value={selectedMonth}
                                     onChange={(e) => handleMonthChange(e.target.value)}
-                                    className="border-0 bg-transparent text-xs font-semibold text-brand-text outline-none"
+                                    className="border-0 bg-transparent text-xs text-center font-semibold text-brand-text outline-none"
                                 />
                             </div>
 
@@ -129,7 +129,7 @@ export default function RekapMuridPage({
                             variant="outline"
                             size="sm"
                             onClick={handlePrint}
-                            className="rounded-xl border-neutral-200 bg-white text-xs font-medium text-brand-text hover:bg-brand-soft"
+                            className="rounded-sm border-neutral-200 bg-white text-xs font-medium text-brand-text hover:bg-brand-soft"
                         >
                             <Printer className="mr-1.5 size-3.5 text-brand" />
                             Cetak Rekap
@@ -201,20 +201,20 @@ export default function RekapMuridPage({
                                         value={searchQuery}
                                         onChange={(e) => setSearchQuery(e.target.value)}
                                         placeholder="Cari nama atau NIS..."
-                                        className="h-9 rounded-xl pl-9 text-xs"
+                                        className="h-9 rounded-sm pl-9 text-xs"
                                     />
                                 </div>
                             </div>
 
                             {/* Pivot Table Matrix */}
-                            <div className="overflow-x-auto rounded-xl border border-neutral-100 print:border-neutral-300">
-                                <table className="w-full text-center text-xs border-collapse">
+                            <div className="overflow-x-auto rounded-sm border border-neutral-100 print:border-neutral-300">
+                                <table className="w-full text-center text-xs border-collapse custom-scrollbar">
                                     <thead>
                                         <tr className="bg-neutral-50/80 text-brand-muted border-b border-neutral-100">
                                             <th className="sticky left-0 z-10 bg-neutral-50 p-2 font-semibold text-left w-8">No</th>
                                             <th className="sticky left-8 z-10 bg-neutral-50 p-2 font-semibold text-left w-24">NIS</th>
-                                            <th className="sticky left-32 z-10 bg-neutral-50 p-2 font-semibold text-left min-w-44">Nama Siswa</th>
-                                            <th className="p-2 font-semibold w-8">L/P</th>
+                                            <th className="sticky left-26 z-10 bg-neutral-50 p-2 font-semibold text-left min-w-44">Nama Siswa</th>
+                                            <th className="sticky left-70 z-10 bg-neutral-50 p-2 font-semibold w-8">L/P</th>
 
                                             {/* Date Columns */}
                                             {daysInMonth.map((day) => (
@@ -256,10 +256,10 @@ export default function RekapMuridPage({
                                                     <td className="sticky left-8 z-10 bg-white p-2 text-left font-mono text-[11px] text-brand-muted">
                                                         {student.nis}
                                                     </td>
-                                                    <td className="sticky left-32 z-10 bg-white p-2 text-left font-medium text-brand-text truncate">
+                                                    <td className="sticky left-26 z-10 bg-white p-2 text-left font-medium text-brand-text truncate">
                                                         {student.name}
                                                     </td>
-                                                    <td className="p-2 text-brand-muted">
+                                                    <td className="sticky left-70 z-10 bg-white p-2 text-brand-muted">
                                                         <span
                                                             className={cn(
                                                                 'inline-flex size-5 items-center justify-center rounded text-[10px] font-semibold',

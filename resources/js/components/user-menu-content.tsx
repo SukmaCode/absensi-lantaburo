@@ -10,6 +10,7 @@ import { UserInfo } from '@/components/user-info';
 import { useMobileNavigation } from '@/hooks/use-mobile-navigation';
 import { logout } from '@/routes';
 import { edit } from '@/routes/profile';
+import { pengaturan as siswaPengaturan } from '@/routes/siswa';
 import type { User } from '@/types';
 
 type Props = {
@@ -18,6 +19,8 @@ type Props = {
 
 export function UserMenuContent({ user }: Props) {
     const cleanup = useMobileNavigation();
+    const isSiswa = user.role === 'siswa' || user.role === 'student';
+    const settingsHref = isSiswa ? siswaPengaturan() : edit();
 
     const handleLogout = () => {
         cleanup();
@@ -36,12 +39,12 @@ export function UserMenuContent({ user }: Props) {
                 <DropdownMenuItem asChild>
                     <Link
                         className="block w-full cursor-pointer"
-                        href={edit()}
+                        href={settingsHref}
                         prefetch
                         onClick={cleanup}
                     >
                         <Settings className="mr-2" />
-                        Settings
+                        {isSiswa ? 'Pengaturan Akun' : 'Settings'}
                     </Link>
                 </DropdownMenuItem>
             </DropdownMenuGroup>

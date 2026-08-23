@@ -143,7 +143,7 @@ export default function AbsenMuridPage({
 
                     {/* Date Picker Filter */}
                     <div className="flex items-center gap-2">
-                        <div className="flex items-center gap-2 rounded-xl border border-neutral-200 bg-white px-3 py-1.5 shadow-xs">
+                        <div className="flex items-center gap-2 rounded-sm border border-neutral-200 bg-white px-3 py-1.5 shadow-xs">
                             <Calendar className="size-4 text-brand shrink-0" />
                             <input
                                 type="date"
@@ -194,7 +194,7 @@ export default function AbsenMuridPage({
                                     variant="outline"
                                     size="sm"
                                     onClick={setAllHadir}
-                                    className="rounded-xl border-neutral-200 text-xs font-medium text-brand hover:bg-brand-soft"
+                                    className="rounded-sm bg-white border border-brand text-xs font-medium cursor-pointer text-brand hover:bg-brand/10 hover:text-brand"
                                 >
                                     <CheckCheck className="mr-1.5 size-3.5" />
                                     Set Semua Hadir
@@ -203,7 +203,7 @@ export default function AbsenMuridPage({
                                     type="submit"
                                     disabled={processing}
                                     size="sm"
-                                    className="gap-1.5 rounded-xl bg-brand text-xs font-semibold text-white shadow-xs hover:bg-brand-dark"
+                                    className="gap-1.5 rounded-sm bg-brand text-xs font-semibold cursor-pointer text-white shadow-xs hover:bg-brand-dark"
                                 >
                                     {processing ? (
                                         <>
@@ -235,7 +235,7 @@ export default function AbsenMuridPage({
                                         value={searchQuery}
                                         onChange={(e) => setSearchQuery(e.target.value)}
                                         placeholder="Cari nama atau NIS..."
-                                        className="h-9 rounded-xl pl-9 text-xs"
+                                        className="h-9 pl-9 text-xs"
                                     />
                                 </div>
                             </div>
@@ -308,30 +308,30 @@ export default function AbsenMuridPage({
                                                             >
                                                                 <SelectTrigger
                                                                     className={cn(
-                                                                        'h-8 w-36 rounded-lg text-xs font-semibold',
-                                                                        currentStatus === 'hadir' && 'bg-[#e7f6e0] text-brand border-[#c5eec2]',
-                                                                        currentStatus === 'terlambat' && 'bg-[#fdf0d5] text-[#b9770e] border-[#fae1af]',
-                                                                        currentStatus === 'izin' && 'bg-[#e0eefe] text-[#1d6fb8] border-[#bedcfc]',
-                                                                        currentStatus === 'sakit' && 'bg-[#f1e7fe] text-[#7a3cc0] border-[#e0cbfa]',
-                                                                        currentStatus === 'alpha' && 'bg-rose-50 text-rose-600 border-rose-200',
+                                                                        'h-8 w-36 rounded-sm text-xs font-semibold',
+                                                                        currentStatus === 'hadir' && 'text-white bg-brand border-brand',
+                                                                        currentStatus === 'terlambat' && 'text-white bg-[#b9770e] border-[#fae1af]',
+                                                                        currentStatus === 'izin' && 'text-white bg-[#1d6fb8] border-[#bedcfc]',
+                                                                        currentStatus === 'sakit' && 'text-white bg-[#7a3cc0] border-[#e0cbfa]',
+                                                                        currentStatus === 'alpha' && 'text-white bg-rose-600 border-rose-200',
                                                                     )}
                                                                 >
                                                                     <SelectValue />
                                                                 </SelectTrigger>
-                                                                <SelectContent>
-                                                                    <SelectItem value="hadir" className="text-xs font-medium text-brand">
+                                                                <SelectContent className='bg-white'>
+                                                                    <SelectItem value="hadir" className="text-xs font-medium text-brand hover:bg-brand hover:text-white">
                                                                         Hadir
                                                                     </SelectItem>
-                                                                    <SelectItem value="terlambat" className="text-xs font-medium text-[#b9770e]">
+                                                                    <SelectItem value="terlambat" className="text-xs font-medium text-[#b9770e] hover:bg-[#b9770e] hover:text-white">
                                                                         Terlambat
                                                                     </SelectItem>
-                                                                    <SelectItem value="izin" className="text-xs font-medium text-[#1d6fb8]">
+                                                                    <SelectItem value="izin" className="text-xs font-medium text-[#1d6fb8] hover:bg-[#1d6fb8] hover:text-white">
                                                                         Izin
                                                                     </SelectItem>
-                                                                    <SelectItem value="sakit" className="text-xs font-medium text-[#7a3cc0]">
+                                                                    <SelectItem value="sakit" className="text-xs font-medium text-[#7a3cc0] hover:bg-[#7a3cc0] hover:text-white">
                                                                         Sakit
                                                                     </SelectItem>
-                                                                    <SelectItem value="alpha" className="text-xs font-medium text-rose-600">
+                                                                    <SelectItem value="alpha" className="text-xs font-medium text-rose-600 hover:bg-rose-600 hover:text-white">
                                                                         Alpha
                                                                     </SelectItem>
                                                                 </SelectContent>
@@ -342,7 +342,7 @@ export default function AbsenMuridPage({
                                                                 value={currentNotes}
                                                                 onChange={(e) => updateStudentNotes(student.id, e.target.value)}
                                                                 placeholder="Catatan surat sakit / alasan..."
-                                                                className="h-8 rounded-lg text-xs"
+                                                                className="h-8 text-xs"
                                                                 maxLength={255}
                                                             />
                                                         </td>
@@ -362,7 +362,7 @@ export default function AbsenMuridPage({
                                 <Button
                                     type="submit"
                                     disabled={processing}
-                                    className="gap-2 rounded-xl bg-brand font-semibold text-white shadow-xs hover:bg-brand-dark px-6"
+                                    className="gap-2 rounded-sm bg-brand font-semibold text-white shadow-xs hover:bg-brand-dark px-6"
                                 >
                                     {processing ? (
                                         <>

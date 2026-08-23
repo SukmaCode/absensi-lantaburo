@@ -40,6 +40,15 @@ class User extends Authenticatable implements PasskeyUser
     use HasFactory, Notifiable, PasskeyAuthenticatable;
 
     /**
+     * The accessors to append to the model's array form.
+     *
+     * @var list<string>
+     */
+    protected $appends = [
+        'avatar',
+    ];
+
+    /**
      * Get the attributes that should be cast.
      *
      * @return array<string, string>
@@ -50,6 +59,19 @@ class User extends Authenticatable implements PasskeyUser
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    public function getAvatarAttribute(): ?string
+    {
+        if (! $this->photo) {
+            return null;
+        }
+
+        if (str_starts_with($this->photo, 'http') || str_starts_with($this->photo, 'data:')) {
+            return $this->photo;
+        }
+
+        return asset('storage/'.$this->photo);
     }
 
     public function teacher(): HasOne
@@ -70,5 +92,20 @@ class User extends Authenticatable implements PasskeyUser
     public function announcements(): HasMany
     {
         return $this->hasMany(Announcement::class, 'created_by');
+    }
+
+    public function payments(): HasMany
+    {
+        return $this->hasMany(Payment::class);
+    }
+
+    public function latestPayment(): HasOne
+    {
+        return $this->hasOne(Payment::class)->latestOfMany();
+    }
+
+    public function registrationPayment(): HasOne
+    {
+        return $this->hasOne(Payment::class)->where('type', 'registration')->latestOfMany();
     }
 }

@@ -10,9 +10,15 @@ use App\Http\Controllers\Guru\AbsenGuruController;
 use App\Http\Controllers\Guru\AbsenMuridController;
 use App\Http\Controllers\Guru\RekapMuridController;
 use App\Http\Controllers\LandingController;
+use App\Http\Controllers\MidtransWebhookController;
+use App\Http\Controllers\Siswa\AbsenSiswaController;
+use App\Http\Controllers\Siswa\PaymentController as SiswaPaymentController;
+use App\Http\Controllers\Siswa\PengaturanAkunController as SiswaPengaturanAkunController;
+use App\Http\Controllers\Siswa\RiwayatSiswaController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', LandingController::class)->name('landingpage');
+Route::post('api/midtrans/callback', MidtransWebhookController::class)->name('midtrans.callback');
 
 Route::middleware(['auth', 'verified', 'admin'])->prefix('admin')->group(function () {
     Route::get('dashboard', DashboardController::class)->name('admin.dashboard');
@@ -20,7 +26,7 @@ Route::middleware(['auth', 'verified', 'admin'])->prefix('admin')->group(functio
     Route::get('absensi', AbsensiController::class)->name('admin.absensi');
 
     Route::get('data-siswa', DataSiswaController::class)->name('admin.data-siswa');
-    Route::post('data-siswa', [DataSiswaController::class, 'create'])->name('admin.data-siswa.create');
+    Route::post('data-siswa', [DataSiswaController::class, 'create'])->name('admin.data-siswa.store');
 
     Route::get('data-guru', DataGuruController::class)->name('admin.data-guru');
     Route::post('data-guru', [DataGuruController::class, 'create'])->name('admin.data-guru.create');
@@ -44,6 +50,21 @@ Route::middleware(['auth', 'verified', 'teacher'])->prefix('guru')->group(functi
     Route::post('absen-murid', [AbsenMuridController::class, 'store'])->name('guru.absen-murid.store');
 
     Route::get('rekap-murid', RekapMuridController::class)->name('guru.rekap-murid');
+});
+
+Route::middleware(['auth', 'verified', 'student'])->prefix('siswa')->group(function () {
+    Route::get('dashboard', App\Http\Controllers\Siswa\DashboardController::class)->name('siswa.dashboard');
+
+    Route::get('absen', AbsenSiswaController::class)->name('siswa.absen');
+    Route::post('absen', [AbsenSiswaController::class, 'store'])->name('siswa.absen.store');
+
+    Route::get('riwayat', RiwayatSiswaController::class)->name('siswa.riwayat');
+    Route::post('payment/snap-token', [SiswaPaymentController::class, 'getSnapToken'])->name('siswa.payment.snap-token');
+    Route::post('payment/check-status', [SiswaPaymentController::class, 'checkStatus'])->name('siswa.payment.check-status');
+
+    Route::get('pengaturan', [SiswaPengaturanAkunController::class, 'edit'])->name('siswa.pengaturan');
+    Route::post('pengaturan', [SiswaPengaturanAkunController::class, 'update'])->name('siswa.pengaturan.update');
+    Route::put('pengaturan/password', [SiswaPengaturanAkunController::class, 'updatePassword'])->name('siswa.pengaturan.password');
 });
 
 require __DIR__.'/settings.php';

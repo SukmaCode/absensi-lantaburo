@@ -19,7 +19,7 @@ test('users can authenticate using the login screen', function () {
     ]);
 
     $this->assertAuthenticated();
-    $response->assertRedirect(route('landingpage', absolute: false));
+    $response->assertRedirect(route('siswa.dashboard', absolute: false));
 });
 
 test('admin users are redirected to the admin dashboard after login', function () {

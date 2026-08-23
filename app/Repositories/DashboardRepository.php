@@ -89,12 +89,13 @@ class DashboardRepository
     public function weeklyPresentCounts(Carbon $start, Carbon $end): array
     {
         return AttendanceStudent::query()
-            ->whereBetween('date', [$start->toDateString(), $end->toDateString()])
+            ->whereDate('date', '>=', $start->toDateString())
+            ->whereDate('date', '<=', $end->toDateString())
             ->whereIn('status', ['hadir', 'terlambat'])
             ->toBase()
-            ->selectRaw('date, count(*) as total')
-            ->groupBy('date')
-            ->pluck('total', 'date')
+            ->selectRaw('DATE(date) as attendance_date, count(*) as total')
+            ->groupBy('attendance_date')
+            ->pluck('total', 'attendance_date')
             ->map(fn ($total) => (int) $total)
             ->all();
     }

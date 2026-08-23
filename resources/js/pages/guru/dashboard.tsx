@@ -105,9 +105,9 @@ export default function GuruDashboard({
                                 {todaySelfAttendance.hasAttended && todaySelfAttendance.latitude && (
                                     <div className="mt-2 flex items-center gap-1.5 text-xs text-brand-muted">
                                         <MapPin className="size-3.5 text-brand" />
-                                        <span>
+                                        <a href={`https://www.google.com/maps?q=${todaySelfAttendance.latitude},${todaySelfAttendance.longitude}`} target="_blank" className="text-brand hover:text-brand-dark underline">
                                             GPS: {todaySelfAttendance.latitude.toFixed(6)}, {todaySelfAttendance.longitude?.toFixed(6)}
-                                        </span>
+                                        </a>
                                     </div>
                                 )}
                             </div>
@@ -155,13 +155,13 @@ export default function GuruDashboard({
                                 </p>
                             </div>
                             <div className="flex flex-wrap items-center gap-2">
-                                <Button asChild variant="outline" size="sm" className="rounded-xl border-neutral-200 bg-white">
+                                <Button asChild variant="outline" size="sm" className="rounded-sm border-neutral-200 bg-white hover:bg-black/10">
                                     <Link href={rekapMurid()}>
                                         <Calendar className="mr-1.5 size-4 text-brand" />
-                                        Rekap Bulanan
+                                        <p className="text-xs text-brand">Rekap Bulanan</p>
                                     </Link>
                                 </Button>
-                                <Button asChild size="sm" className="rounded-xl bg-brand text-white hover:bg-brand-dark">
+                                <Button asChild size="sm" className="rounded-sm bg-brand text-white hover:bg-brand-dark">
                                     <Link href={absenMurid()}>
                                         <UserCheck className="mr-1.5 size-4" />
                                         Input Absen Murid

@@ -44,11 +44,11 @@ test('absensi page shows student attendance recap', function () {
     $this->actingAs($admin)->get(route('admin.absensi'))
         ->assertOk()
         ->assertInertia(fn (Assert $page) => $page
-            ->has('studentAttendances', 1)
-            ->where('studentAttendances.0.name', $student->user->name)
-            ->where('studentAttendances.0.date', '21-08-2026')
-            ->where('studentAttendances.0.time', '07:10')
-            ->where('studentAttendances.0.status', 'Hadir'));
+            ->has('studentAttendances.data', 1)
+            ->where('studentAttendances.data.0.name', $student->user->name)
+            ->where('studentAttendances.data.0.date', '21-08-2026')
+            ->where('studentAttendances.data.0.time', '07:10')
+            ->where('studentAttendances.data.0.status', 'Hadir'));
 });
 
 test('absensi page shows teacher attendance recap', function () {
@@ -65,8 +65,8 @@ test('absensi page shows teacher attendance recap', function () {
     $this->actingAs($admin)->get(route('admin.absensi'))
         ->assertOk()
         ->assertInertia(fn (Assert $page) => $page
-            ->has('teacherAttendances', 1)
-            ->where('teacherAttendances.0.name', $teacher->user->name)
-            ->where('teacherAttendances.0.time', '07:25')
-            ->where('teacherAttendances.0.status', 'Terlambat'));
+            ->has('teacherAttendances.data', 1)
+            ->where('teacherAttendances.data.0.name', $teacher->user->name)
+            ->where('teacherAttendances.data.0.time', '07:25')
+            ->where('teacherAttendances.data.0.status', 'Terlambat'));
 });

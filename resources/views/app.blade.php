@@ -44,5 +44,11 @@
     </head>
     <body class="font-sans antialiased">
         <x-inertia::app />
+        @php
+            $snapUrl = config('midtrans.is_production')
+                ? 'https://app.midtrans.com/snap/snap.js'
+                : 'https://app.sandbox.midtrans.com/snap/snap.js';
+        @endphp
+        <script src="{{ $snapUrl }}" data-client-key="{{ config('midtrans.client_key') }}"></script>
     </body>
 </html>

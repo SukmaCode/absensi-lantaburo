@@ -26,7 +26,7 @@ test('admin users can visit the dashboard', function () {
 
     $response->assertOk();
     $response->assertInertia(fn (Assert $page) => $page
-        ->component('/admin/dashboard')
+        ->component('admin/dashboard')
         ->has('attendanceSummary')
         ->has('attendanceOverview')
         ->has('recentAttendance')

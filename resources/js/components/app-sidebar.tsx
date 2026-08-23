@@ -35,6 +35,12 @@ import {
     dashboard as guruDashboard,
     rekapMurid as guruRekapMurid,
 } from '@/routes/guru';
+import {
+    absen as siswaAbsen,
+    dashboard as siswaDashboard,
+    pengaturan as siswaPengaturan,
+    riwayat as siswaRiwayat,
+} from '@/routes/siswa';
 import { edit } from '@/routes/profile';
 import type { Auth, NavItem } from '@/types';
 
@@ -104,12 +110,38 @@ const guruNavItems: NavItem[] = [
     },
 ];
 
+const siswaNavItems: NavItem[] = [
+    {
+        title: 'Dashboard',
+        href: siswaDashboard(),
+        icon: LayoutGrid,
+    },
+    {
+        title: 'Absen Saya',
+        href: siswaAbsen(),
+        icon: Camera,
+    },
+    {
+        title: 'Riwayat Kehadiran',
+        href: siswaRiwayat(),
+        icon: CalendarDays,
+    },
+    {
+        title: 'Pengaturan Akun',
+        href: siswaPengaturan(),
+        icon: Settings,
+    },
+];
+
 export function AppSidebar() {
     const { auth } = usePage<{ auth: Auth }>().props;
-    const isGuru = auth.user?.role === 'guru' || auth.user?.role === 'teacher';
-    const mainNavItems = isGuru ? guruNavItems : adminNavItems;
-    const homeUrl = isGuru ? guruDashboard() : adminDashboard();
-    const panelLabel = isGuru ? 'Panel Guru' : 'Admin Panel';
+    const role = auth.user?.role;
+    const isSiswa = role === 'siswa' || role === 'student';
+    const isGuru = role === 'guru' || role === 'teacher';
+
+    const mainNavItems = isSiswa ? siswaNavItems : isGuru ? guruNavItems : adminNavItems;
+    const homeUrl = isSiswa ? siswaDashboard() : isGuru ? guruDashboard() : adminDashboard();
+    const panelLabel = isSiswa ? 'Panel Siswa' : isGuru ? 'Panel Guru' : 'Admin Panel';
 
     return (
         <Sidebar collapsible="icon" variant="sidebar">
