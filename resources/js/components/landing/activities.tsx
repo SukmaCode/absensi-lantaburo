@@ -1,6 +1,6 @@
-import activitiesOne from '../../../images/thumbnail.jpeg';
-import activitiesLarge from '../../../images/thumbnail.jpg';
-import activitiesTwo from '../../../images/thumbnail2.jpeg';
+import activitiesOne from '../../../images/thumbnail.webp';
+import activitiesLarge from '../../../images/thumbnail3.webp';
+import activitiesTwo from '../../../images/thumbnail2.webp';
 
 const gallery = [
     {

@@ -2,6 +2,7 @@ export type User = {
     id: number;
     name: string;
     email: string;
+    photo?: string | null;
     avatar?: string;
     role?: string;
     email_verified_at: string | null;
@@ -12,6 +13,7 @@ export type User = {
 
 export type Auth = {
     user: User;
+    photo?: string | null;
 };
 
 export type Passkey = {

@@ -23,6 +23,7 @@ class RegisterResponse implements RegisterResponseContract
             'admin' => route('admin.dashboard'),
             'guru' => route('guru.dashboard'),
             'siswa' => route('siswa.dashboard'),
+            'calon_siswa' => route('calon-siswa.dashboard'),
             default => route('landingpage'),
         };
 

@@ -21,5 +21,5 @@ test('new users can register', function () {
     ]);
 
     $this->assertAuthenticated();
-    $response->assertRedirect(route('siswa.dashboard', absolute: false));
+    $response->assertRedirect(route('calon-siswa.dashboard', absolute: false));
 });

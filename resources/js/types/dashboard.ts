@@ -73,6 +73,30 @@ export interface ClassOption {
     name: string;
 }
 
+export interface TeacherOption {
+    id: number;
+    name: string;
+    nip: string | null;
+    homeroom_class_id?: number | null;
+}
+
+export interface ClassPreviewRow {
+    id: number;
+    name: string;
+    grade_level: string;
+    homeroom_teacher: string | null;
+    homeroom_teacher_id: number | null;
+    students_count: number;
+}
+
+export interface ClassPagination {
+    current_page: number;
+    last_page: number;
+    total: number;
+    per_page: number;
+    links: PaginationLink[];
+}
+
 export interface DashboardPageProps {
     attendanceSummary: AttendanceSummaryProps;
     attendanceOverview: AttendanceOverviewProps;

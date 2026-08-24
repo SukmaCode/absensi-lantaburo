@@ -2,7 +2,7 @@ import { Link } from '@inertiajs/react';
 import { Filter, Plus, Search, UserRoundCheck } from 'lucide-react';
 import { useState } from 'react';
 import FormAddStudent from '@/components/data-siswa/FormAddStudent';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { FormUpdateStudent } from '@/components/data-siswa/FormUpdateStudent';
 import { Button } from '@/components/ui/button';
 import {
     Dialog,
@@ -17,11 +17,14 @@ import { dataSiswa } from '@/routes/admin';
 import type { ClassOption, StudentPagination } from '@/types/dashboard';
 
 interface StudentPreviewRow {
+    id: number;
     name: string;
     nis: string;
     class: string | null;
     status: 'Aktif' | 'Nonaktif';
-    avatar: string | null;
+    photo: string | null;
+    payment_status: string | null;
+    payment_type: string | null;
 }
 
 export default function DataSiswa({
@@ -34,6 +37,7 @@ export default function DataSiswa({
     classes: ClassOption[];
 }) {
     const [open, setOpen] = useState(false);
+    const [editingId, setEditingId] = useState<number | null>(null);
 
     return (
         <div className="h-full border border-neutral-100 bg-white p-6">
@@ -82,72 +86,117 @@ export default function DataSiswa({
                             <th className="pb-3 font-medium">NIS</th>
                             <th className="pb-3 font-medium">Kelas</th>
                             <th className="pb-3 font-medium">Status</th>
+                            <th className="pb-3 font-medium">Status Pembayaran</th>
+                            <th className="pb-3 font-medium">Tipe Pembayaran</th>
+                            <th className="pb-3 font-medium">Aksi</th>
                         </tr>
                     </thead>
                     <tbody>
                         {students.map(
                             (
                                 {
+                                    id,
                                     name,
                                     nis,
                                     class: classLabel,
                                     status,
-                                    avatar,
+                                    payment_status: paymentStatus,
+                                    payment_type: paymentType,
                                 },
                                 index,
                             ) => (
-                                <tr
-                                    key={nis}
-                                    className="border-b border-neutral-50 last:border-0"
-                                >
-                                    <td className="py-3 text-brand-muted tabular-nums">
-                                        {pagination.per_page *
-                                            (pagination.current_page - 1) +
-                                            index +
-                                            1}
-                                    </td>
-                                    <td className="py-3">
-                                        <div className="flex items-center gap-3">
-                                            <Avatar className="size-8 overflow-hidden rounded-full">
-                                                <AvatarImage
-                                                    src={avatar ?? undefined}
-                                                    alt={name}
-                                                />
-                                                <AvatarFallback className="bg-brand-soft text-brand-dark">
-                                                    {name
-                                                        .split(' ')
-                                                        .map((part) => part[0])
-                                                        .slice(0, 2)
-                                                        .join('')}
-                                                </AvatarFallback>
-                                            </Avatar>
-                                            <span className="font-medium text-brand-text">
-                                                {name}
+                                <>
+                                    <tr
+                                        key={id}
+                                        className={cn(
+                                            'border-b border-neutral-50 last:border-0',
+                                            editingId === id && 'bg-brand-soft/10',
+                                        )}
+                                    >
+                                        <td className="py-3 text-brand-muted tabular-nums">
+                                            {pagination.per_page *
+                                                (pagination.current_page - 1) +
+                                                index +
+                                                1}
+                                        </td>
+                                        <td className="py-3">
+                                            <div className="flex items-center gap-3">
+                                                <span className="font-medium text-brand-text">
+                                                    {name}
+                                                </span>
+                                            </div>
+                                        </td>
+                                        <td className="py-3 text-brand-muted tabular-nums">
+                                            {nis}
+                                        </td>
+                                        <td className="py-3">
+                                            <span className="rounded-md bg-brand-soft px-2 py-0.5 font-medium text-xs text-brand-dark">
+                                                {classLabel}
                                             </span>
-                                        </div>
-                                    </td>
-                                    <td className="py-3 text-brand-muted tabular-nums">
-                                        {nis}
-                                    </td>
-                                    <td className="py-3">
-                                        <span className="rounded-md bg-brand-soft px-2 py-0.5 font-medium text-xs text-brand-dark">
-                                            {classLabel}
-                                        </span>
-                                    </td>
-                                    <td className="py-3">
-                                        <span
-                                            className={cn(
-                                                'inline-flex items-center gap-1 rounded-md px-2 py-0.5 font-medium text-xs',
-                                                status === 'Aktif'
-                                                    ? 'bg-[#e7f6e0] text-brand'
-                                                    : 'bg-neutral-100 text-brand-muted',
+                                        </td>
+                                        <td className="py-3">
+                                            <span
+                                                className={cn(
+                                                    'inline-flex items-center gap-1 rounded-md px-2 py-0.5 font-medium text-xs',
+                                                    status === 'Aktif'
+                                                        ? 'bg-[#e7f6e0] text-brand'
+                                                        : 'bg-neutral-100 text-brand-muted',
+                                                )}
+                                            >
+                                                <UserRoundCheck className="size-3" />
+                                                {status}
+                                            </span>
+                                        </td>
+                                        <td className="py-3">
+                                            {paymentStatus ? (
+                                                <span
+                                                    className={cn(
+                                                        'inline-flex items-center rounded-md px-2 py-0.5 font-medium text-xs uppercase',
+                                                        paymentStatus === 'settlement' || paymentStatus === 'success' || paymentStatus === 'capture'
+                                                            ? 'bg-[#e7f6e0] text-brand'
+                                                            : paymentStatus === 'pending'
+                                                                ? 'bg-yellow-50 text-yellow-600'
+                                                                : 'bg-red-50 text-red-500',
+                                                    )}
+                                                >
+                                                    {paymentStatus}
+                                                </span>
+                                            ) : (
+                                                <span className="text-xs text-brand-muted">—</span>
                                             )}
-                                        >
-                                            <UserRoundCheck className="size-3" />
-                                            {status}
-                                        </span>
-                                    </td>
-                                </tr>
+                                        </td>
+                                        <td className="py-3">
+                                            <span className="text-xs text-brand-muted uppercase">
+                                                {paymentType ?? '—'}
+                                            </span>
+                                        </td>
+                                        <td className="py-3">
+                                            <Button
+                                                size="sm"
+                                                variant="outline"
+                                                onClick={() =>
+                                                    setEditingId(editingId === id ? null : id)
+                                                }
+                                                className={cn(
+                                                    'h-7 border-neutral-200 px-3 bg-brand rounded-sm text-xs text-white hover:bg-brand-soft hover:text-brand-dark hover:border-brand',
+                                                    editingId === id &&
+                                                    'border-brand bg-white text-brand',
+                                                )}
+                                            >
+                                                {editingId === id ? 'Tutup' : 'Edit'}
+                                            </Button>
+                                        </td>
+                                    </tr>
+
+                                    {editingId === id && (
+                                        <FormUpdateStudent
+                                            key={`edit-${id}`}
+                                            student={{ id, nis, class: classLabel, status }}
+                                            classes={classes}
+                                            onCancel={() => setEditingId(null)}
+                                        />
+                                    )}
+                                </>
                             ),
                         )}
                     </tbody>
@@ -173,7 +222,7 @@ export default function DataSiswa({
                                 className={cn(
                                     'border-neutral-200 bg-white text-brand-text hover:bg-brand-soft',
                                     link.active &&
-                                        'border-brand bg-brand text-white hover:bg-brand-dark',
+                                    'border-brand bg-brand text-white hover:bg-brand-dark',
                                 )}
                             >
                                 <Link href={link.url} preserveScroll>

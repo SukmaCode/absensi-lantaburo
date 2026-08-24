@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\StoreTeacherRequest;
+use App\Http\Requests\Admin\UpdateTeacherRequest;
 use App\Services\DataGuruService;
 use Illuminate\Http\RedirectResponse;
 use Inertia\Inertia;
@@ -21,5 +22,19 @@ class DataGuruController extends Controller
         $service->createTeacher($request->validated());
 
         return redirect()->route('admin.data-guru')->with('success', 'Guru berhasil ditambahkan');
+    }
+
+    public function update(UpdateTeacherRequest $request, int $id, DataGuruService $service): RedirectResponse
+    {
+        $service->updateTeacher($id, $request->validated());
+
+        return redirect()->route('admin.data-guru')->with('success', 'Data guru berhasil diperbarui.');
+    }
+
+    public function destroy(int $id, DataGuruService $service): RedirectResponse
+    {
+        $service->deleteTeacher($id);
+
+        return redirect()->route('admin.data-guru')->with('success', 'Data guru berhasil dihapus.');
     }
 }

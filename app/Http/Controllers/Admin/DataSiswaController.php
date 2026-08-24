@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\StoreStudentRequest;
+use App\Http\Requests\Admin\UpdateStudentRequest;
 use App\Services\DataSiswaService;
 use Illuminate\Http\RedirectResponse;
 use Inertia\Inertia;
@@ -23,6 +24,13 @@ class DataSiswaController extends Controller
     {
         $service->createStudent($request->validated());
 
-        return back();
+        return redirect()->route('admin.data-siswa')->with('success', 'Data siswa berhasil ditambahkan.');
+    }
+
+    public function update(UpdateStudentRequest $request, int $id, DataSiswaService $service): RedirectResponse
+    {
+        $service->editStudent(array_merge($request->validated(), ['id' => $id]));
+
+        return redirect()->route('admin.data-siswa')->with('success', 'Data siswa berhasil diperbarui.');
     }
 }

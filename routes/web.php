@@ -3,9 +3,11 @@
 use App\Http\Controllers\Admin\AbsensiController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\DataGuruController;
+use App\Http\Controllers\Admin\DataKelasController;
 use App\Http\Controllers\Admin\DataSiswaController;
 use App\Http\Controllers\Admin\PengumumanController;
 use App\Http\Controllers\Admin\SchoolProfileController;
+use App\Http\Controllers\CalonSiswa\PaymentController;
 use App\Http\Controllers\Guru\AbsenGuruController;
 use App\Http\Controllers\Guru\AbsenMuridController;
 use App\Http\Controllers\Guru\RekapMuridController;
@@ -25,11 +27,19 @@ Route::middleware(['auth', 'verified', 'admin'])->prefix('admin')->group(functio
 
     Route::get('absensi', AbsensiController::class)->name('admin.absensi');
 
+    Route::get('data-kelas', DataKelasController::class)->name('admin.data-kelas');
+    Route::post('data-kelas', [DataKelasController::class, 'store'])->name('admin.data-kelas.store');
+    Route::put('data-kelas/{id}', [DataKelasController::class, 'update'])->name('admin.data-kelas.update');
+    Route::delete('data-kelas/{id}/wali-kelas', [DataKelasController::class, 'destroyHomeroomTeacher'])->name('admin.data-kelas.destroy-homeroom-teacher');
+
     Route::get('data-siswa', DataSiswaController::class)->name('admin.data-siswa');
     Route::post('data-siswa', [DataSiswaController::class, 'create'])->name('admin.data-siswa.store');
+    Route::put('data-siswa/{id}', [DataSiswaController::class, 'update'])->name('admin.data-siswa.update');
 
     Route::get('data-guru', DataGuruController::class)->name('admin.data-guru');
     Route::post('data-guru', [DataGuruController::class, 'create'])->name('admin.data-guru.create');
+    Route::put('data-guru/{id}', [DataGuruController::class, 'update'])->name('admin.data-guru.update');
+    Route::delete('data-guru/{id}', [DataGuruController::class, 'destroy'])->name('admin.data-guru.destroy');
 
     Route::get('pengumuman', PengumumanController::class)->name('admin.pengumuman');
     Route::post('pengumuman', [PengumumanController::class, 'store'])->name('admin.pengumuman.store');
@@ -65,6 +75,12 @@ Route::middleware(['auth', 'verified', 'student'])->prefix('siswa')->group(funct
     Route::get('pengaturan', [SiswaPengaturanAkunController::class, 'edit'])->name('siswa.pengaturan');
     Route::post('pengaturan', [SiswaPengaturanAkunController::class, 'update'])->name('siswa.pengaturan.update');
     Route::put('pengaturan/password', [SiswaPengaturanAkunController::class, 'updatePassword'])->name('siswa.pengaturan.password');
+});
+
+Route::middleware(['auth', 'verified'])->prefix('calon-siswa')->group(function () {
+    Route::get('dashboard', App\Http\Controllers\CalonSiswa\DashboardController::class)->name('calon-siswa.dashboard');
+    Route::post('payment/snap-token', [PaymentController::class, 'getSnapToken'])->name('calon-siswa.payment.snap-token');
+    Route::post('payment/check-status', [PaymentController::class, 'checkStatus'])->name('calon-siswa.payment.check-status');
 });
 
 require __DIR__.'/settings.php';

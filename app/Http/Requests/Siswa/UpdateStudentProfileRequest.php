@@ -33,15 +33,15 @@ class UpdateStudentProfileRequest extends FormRequest
             'phone' => ['nullable', 'string', 'max:20'],
             'photo' => ['nullable'],
             'remove_photo' => ['nullable', 'boolean'],
-            'nis' => [
-                'required',
-                'string',
-                'max:30',
-                $studentId
-                    ? Rule::unique('students', 'nis')->ignore($studentId)
-                    : Rule::unique('students', 'nis'),
-            ],
-            'class_id' => ['nullable', 'exists:classes,id'],
+            // 'nis' => [
+            //     'required',
+            //     'string',
+            //     'max:30',
+            //     $studentId
+            //         ? Rule::unique('students', 'nis')->ignore($studentId)
+            //         : Rule::unique('students', 'nis'),
+            // ],
+            // 'class_id' => ['nullable', 'exists:classes,id'],
             'gender' => ['required', 'in:L,P'],
             'birth_date' => ['nullable', 'date'],
             'address' => ['nullable', 'string', 'max:500'],
@@ -64,10 +64,10 @@ class UpdateStudentProfileRequest extends FormRequest
             'email.email' => 'Format email tidak valid.',
             'email.unique' => 'Alamat email sudah digunakan oleh pengguna lain.',
             'phone.max' => 'Nomor telepon maksimal 20 karakter.',
-            'nis.required' => 'NIS (Nomor Induk Siswa) wajib diisi.',
-            'nis.max' => 'NIS maksimal 30 karakter.',
-            'nis.unique' => 'NIS sudah digunakan oleh siswa lain.',
-            'class_id.exists' => 'Kelas yang dipilih tidak valid.',
+            // 'nis.required' => 'NIS (Nomor Induk Siswa) wajib diisi.',
+            // 'nis.max' => 'NIS maksimal 30 karakter.',
+            // 'nis.unique' => 'NIS sudah digunakan oleh siswa lain.',
+            // 'class_id.exists' => 'Kelas yang dipilih tidak valid.',
             'gender.required' => 'Jenis kelamin wajib dipilih.',
             'gender.in' => 'Jenis kelamin harus Laki-laki (L) atau Perempuan (P).',
             'birth_date.date' => 'Format tanggal lahir tidak valid.',

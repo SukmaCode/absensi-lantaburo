@@ -12,8 +12,12 @@ class DataSiswaRepository
     public function allStudents(): LengthAwarePaginator
     {
         return Student::query()
-            ->with(['user:id,name,status,photo,phone', 'schoolClass:id,name'])
-            ->latest()
+            ->with([
+                'user:id,name,status,phone',
+                'user.latestPayment' => fn ($q) => $q->select('payments.id', 'payments.user_id', 'payments.status', 'payments.payment_type'),
+                'schoolClass:id,name',
+            ])
+            ->orderBy('id', 'asc')
             ->paginate(5);
     }
 
@@ -22,5 +26,10 @@ class DataSiswaRepository
         return SchoolClass::query()
             ->orderBy('name')
             ->get(['id', 'name']);
+    }
+
+    public function getStatusPayment(): Collection
+    {
+        return collect();
     }
 }

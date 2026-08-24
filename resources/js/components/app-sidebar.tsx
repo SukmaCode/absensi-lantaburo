@@ -6,6 +6,7 @@ import {
     GraduationCap,
     LayoutGrid,
     Megaphone,
+    School,
     Settings,
     Users,
 } from 'lucide-react';
@@ -25,6 +26,7 @@ import {
     absensi,
     dashboard as adminDashboard,
     dataGuru,
+    dataKelas,
     dataSiswa,
     pengumuman,
     schoolProfile,
@@ -41,8 +43,17 @@ import {
     pengaturan as siswaPengaturan,
     riwayat as siswaRiwayat,
 } from '@/routes/siswa';
+import { dashboard as calonSiswaDashboard } from '@/routes/calon-siswa';
 import { edit } from '@/routes/profile';
 import type { Auth, NavItem } from '@/types';
+
+const calonSiswaNavItems: NavItem[] = [
+    {
+        title: 'Status Pendaftaran',
+        href: calonSiswaDashboard(),
+        icon: LayoutGrid,
+    },
+];
 
 const adminNavItems: NavItem[] = [
     {
@@ -64,6 +75,11 @@ const adminNavItems: NavItem[] = [
         title: 'Data Guru',
         href: dataGuru(),
         icon: GraduationCap,
+    },
+    {
+        title: 'Data Kelas',
+        href: dataKelas(),
+        icon: School,
     },
     {
         title: 'Pengumuman',
@@ -136,12 +152,31 @@ const siswaNavItems: NavItem[] = [
 export function AppSidebar() {
     const { auth } = usePage<{ auth: Auth }>().props;
     const role = auth.user?.role;
+    const isCalonSiswa = role === 'calon_siswa';
     const isSiswa = role === 'siswa' || role === 'student';
     const isGuru = role === 'guru' || role === 'teacher';
 
-    const mainNavItems = isSiswa ? siswaNavItems : isGuru ? guruNavItems : adminNavItems;
-    const homeUrl = isSiswa ? siswaDashboard() : isGuru ? guruDashboard() : adminDashboard();
-    const panelLabel = isSiswa ? 'Panel Siswa' : isGuru ? 'Panel Guru' : 'Admin Panel';
+    const mainNavItems = isCalonSiswa
+        ? calonSiswaNavItems
+        : isSiswa
+          ? siswaNavItems
+          : isGuru
+            ? guruNavItems
+            : adminNavItems;
+    const homeUrl = isCalonSiswa
+        ? calonSiswaDashboard()
+        : isSiswa
+          ? siswaDashboard()
+          : isGuru
+            ? guruDashboard()
+            : adminDashboard();
+    const panelLabel = isCalonSiswa
+        ? 'Calon Siswa'
+        : isSiswa
+          ? 'Panel Siswa'
+          : isGuru
+            ? 'Panel Guru'
+            : 'Admin Panel';
 
     return (
         <Sidebar collapsible="icon" variant="sidebar">

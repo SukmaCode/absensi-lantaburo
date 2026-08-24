@@ -78,7 +78,7 @@ class PengaturanAkunSiswaService
         DB::transaction(function () use ($user, $data) {
             $student = $user->student ?? Student::firstOrCreate(
                 ['user_id' => $user->id],
-                ['nis' => $data['nis'] ?? 'S-'.date('Y').str_pad((string) $user->id, 4, '0', STR_PAD_LEFT), 'gender' => 'L']
+                // ['nis' => $data['nis'] ?? 'S-'.date('Y').str_pad((string) $user->id, 4, '0', STR_PAD_LEFT), 'gender' => 'L']
             );
 
             // Handle photo update or removal
@@ -112,8 +112,8 @@ class PengaturanAkunSiswaService
 
             // Update student table
             $student->update([
-                'nis' => $data['nis'],
-                'class_id' => $data['class_id'] ?? null,
+                // 'nis' => $data['nis'],
+                // 'class_id' => $data['class_id'] ?? null,
                 'gender' => $data['gender'],
                 'birth_date' => $data['birth_date'] ?? null,
                 'address' => $data['address'] ?? null,

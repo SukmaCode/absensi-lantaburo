@@ -12,7 +12,7 @@ class DataGuruRepository
     public function allTeachers(): LengthAwarePaginator
     {
         return Teacher::query()
-            ->with(['user:id,name,status,photo,phone', 'homeroomClass:id,name,homeroom_teacher_id'])
+            ->with(['user:id,name,email,status,photo,phone', 'homeroomClass:id,name,homeroom_teacher_id'])
             ->latest()
             ->paginate(5);
     }

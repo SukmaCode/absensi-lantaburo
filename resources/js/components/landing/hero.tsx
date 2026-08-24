@@ -1,5 +1,3 @@
-import heroImage from '../../../images/thumbnail2.jpeg';
-
 const heading = [
     'Pendidikan yang personal, mendukung, dan bermakna bagi anak.',
     'Lantaburo membantu setiap anak tumbuh sesuai potensinya lewat pendekatan belajar yang hangat, inklusif, dan menantang. Kami berjalan bersama orang tua dalam setiap langkah tumbuh kembang putra-putri Anda.',

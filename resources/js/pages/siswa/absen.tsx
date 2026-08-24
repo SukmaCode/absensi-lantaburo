@@ -3,17 +3,25 @@ import {
     AlertCircle,
     ArrowLeft,
     Camera,
+    CameraOff,
     CheckCircle2,
     Clock,
     Info,
     Loader2,
-    RefreshCw,
     RotateCcw,
     Sparkles,
+    Video,
 } from 'lucide-react';
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { toast } from 'sonner';
 import { Button } from '@/components/ui/button';
+import {
+    Select,
+    SelectContent,
+    SelectItem,
+    SelectTrigger,
+    SelectValue,
+} from '@/components/ui/select';
 import { cn } from '@/lib/utils';
 import { absen, dashboard } from '@/routes/siswa';
 import type { AbsenSiswaPageProps } from '@/types/siswa';
@@ -31,42 +39,121 @@ export default function AbsenSiswaPage({ todayAttendance, currentTime, currentDa
     const streamRef = useRef<MediaStream | null>(null);
 
     const [cameraActive, setCameraActive] = useState<boolean>(false);
+    const [cameraLoading, setCameraLoading] = useState<boolean>(false);
     const [cameraError, setCameraError] = useState<string | null>(null);
     const [capturedPhoto, setCapturedPhoto] = useState<string | null>(null);
+    const [devices, setDevices] = useState<MediaDeviceInfo[]>([]);
+    const [selectedDeviceId, setSelectedDeviceId] = useState<string>('');
 
     const { data, setData, post, processing, errors } = useForm({
         photo_selfie: '',
     });
 
-    const startCamera = async () => {
-        setCameraError(null);
-        try {
-            if (navigator.mediaDevices?.getUserMedia) {
-                const stream = await navigator.mediaDevices.getUserMedia({
-                    video: { facingMode: 'user', width: { ideal: 640 }, height: { ideal: 480 } },
-                    audio: false,
-                });
-                streamRef.current = stream;
-                if (videoRef.current) {
-                    videoRef.current.srcObject = stream;
-                    videoRef.current.play();
-                }
-                setCameraActive(true);
-            } else {
-                setCameraError('Kamera tidak didukung oleh browser Anda.');
-            }
-        } catch {
-            setCameraError('Tidak dapat mengakses kamera. Pastikan izin kamera telah diberikan.');
-            setCameraActive(false);
-        }
-    };
-
-    const stopCamera = () => {
+    const stopCamera = useCallback(() => {
         if (streamRef.current) {
             streamRef.current.getTracks().forEach((t) => t.stop());
             streamRef.current = null;
         }
+        if (videoRef.current) {
+            videoRef.current.srcObject = null;
+        }
         setCameraActive(false);
+    }, []);
+
+    const startCamera = useCallback(async (deviceIdToUse?: string) => {
+        setCameraError(null);
+        setCameraLoading(true);
+        try {
+            if (!navigator.mediaDevices?.getUserMedia) {
+                setCameraError('Kamera tidak didukung oleh browser Anda.');
+                setCameraActive(false);
+                return;
+            }
+
+            // Stop existing tracks first
+            if (streamRef.current) {
+                streamRef.current.getTracks().forEach((t) => t.stop());
+                streamRef.current = null;
+            }
+
+            const targetDeviceId = deviceIdToUse !== undefined ? deviceIdToUse : selectedDeviceId;
+            const constraints: MediaStreamConstraints = {
+                video: targetDeviceId
+                    ? { deviceId: { exact: targetDeviceId }, width: { ideal: 1280 }, height: { ideal: 720 } }
+                    : { facingMode: 'user', width: { ideal: 1280 }, height: { ideal: 720 } },
+                audio: false,
+            };
+
+            const stream = await navigator.mediaDevices.getUserMedia(constraints);
+            streamRef.current = stream;
+
+            if (videoRef.current) {
+                videoRef.current.srcObject = stream;
+                videoRef.current.onloadedmetadata = () => {
+                    videoRef.current?.play().catch((playErr) => {
+                        console.warn('Video playback warning:', playErr);
+                    });
+                };
+                try {
+                    await videoRef.current.play();
+                } catch (playErr) {
+                    console.warn('Auto play video warning:', playErr);
+                }
+            }
+
+            setCameraActive(true);
+
+            // Re-enumerate devices after permission is granted to get device labels
+            const allDevices = await navigator.mediaDevices.enumerateDevices();
+            const videoInputs = allDevices.filter((d) => d.kind === 'videoinput');
+            setDevices(videoInputs);
+
+            const currentTrack = stream.getVideoTracks()[0];
+            if (currentTrack) {
+                const settings = currentTrack.getSettings();
+                if (settings.deviceId) {
+                    setSelectedDeviceId(settings.deviceId);
+                }
+            }
+        } catch (err: any) {
+            console.error('Camera access error:', err);
+            if (err.name === 'NotAllowedError' || err.name === 'PermissionDeniedError') {
+                setCameraError('Izin akses kamera ditolak. Silakan izinkan akses kamera di browser Anda.');
+            } else if (err.name === 'NotFoundError' || err.name === 'DevicesNotFoundError') {
+                setCameraError('Kamera tidak ditemukan pada perangkat Anda.');
+            } else if (err.name === 'NotReadableError' || err.name === 'TrackStartError') {
+                setCameraError('Kamera sedang digunakan aplikasi lain atau tidak dapat diakses. Coba pilih kamera lain.');
+            } else if (err.name === 'OverconstrainedError' && (deviceIdToUse || selectedDeviceId)) {
+                // Fallback to default
+                try {
+                    const fallbackStream = await navigator.mediaDevices.getUserMedia({
+                        video: true,
+                        audio: false,
+                    });
+                    streamRef.current = fallbackStream;
+                    if (videoRef.current) {
+                        videoRef.current.srcObject = fallbackStream;
+                        await videoRef.current.play();
+                    }
+                    setCameraActive(true);
+                    return;
+                } catch {
+                    setCameraError('Gagal mengakses kamera yang dipilih. Silakan pilih kamera lain.');
+                }
+            } else {
+                setCameraError('Tidak dapat membuka kamera. Pastikan izin kamera aktif dan perangkat terhubung.');
+            }
+            setCameraActive(false);
+        } finally {
+            setCameraLoading(false);
+        }
+    }, [selectedDeviceId]);
+
+    const handleDeviceChange = (newDeviceId: string) => {
+        setSelectedDeviceId(newDeviceId);
+        if (!capturedPhoto) {
+            startCamera(newDeviceId);
+        }
     };
 
     const capturePhoto = () => {
@@ -91,7 +178,7 @@ export default function AbsenSiswaPage({ todayAttendance, currentTime, currentDa
     const retakePhoto = () => {
         setCapturedPhoto(null);
         setData('photo_selfie', '');
-        startCamera();
+        startCamera(selectedDeviceId);
     };
 
     useEffect(() => {
@@ -100,6 +187,16 @@ export default function AbsenSiswaPage({ todayAttendance, currentTime, currentDa
         }
         return () => { stopCamera(); };
     }, [todayAttendance.hasUploaded]);
+
+    // Ensure video stream remains attached when cameraActive changes
+    useEffect(() => {
+        if (cameraActive && streamRef.current && videoRef.current) {
+            if (videoRef.current.srcObject !== streamRef.current) {
+                videoRef.current.srcObject = streamRef.current;
+            }
+            videoRef.current.play().catch(() => {});
+        }
+    }, [cameraActive]);
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
@@ -218,54 +315,168 @@ export default function AbsenSiswaPage({ todayAttendance, currentTime, currentDa
                     <form onSubmit={handleSubmit} className="grid grid-cols-1 gap-6 lg:grid-cols-12">
                         {/* Camera Section */}
                         <div className="flex flex-col gap-4 rounded-2xl border border-neutral-100 bg-white p-6 shadow-xs lg:col-span-7">
-                            <div className="flex items-center justify-between border-b border-neutral-100 pb-3">
+                            <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between border-b border-neutral-100 pb-3">
                                 <div className="flex items-center gap-2">
                                     <Camera className="size-5 text-brand" />
-                                    <h2 className="font-semibold text-base text-brand-text">Kamera Selfie</h2>
+                                    <div>
+                                        <h2 className="font-semibold text-base text-brand-text">Kamera Selfie</h2>
+                                        <div className="flex items-center gap-1.5 text-xs text-brand-muted">
+                                            <span
+                                                className={cn(
+                                                    'inline-block size-2 rounded-full',
+                                                    cameraActive ? 'bg-emerald-500 animate-pulse' : 'bg-neutral-300'
+                                                )}
+                                            />
+                                            <span>{cameraActive ? 'Kamera Aktif' : 'Kamera Nonaktif'}</span>
+                                        </div>
+                                    </div>
                                 </div>
-                                <span className="text-xs text-brand-muted">Wajib Foto Wajah</span>
+
+                                {/* Camera Selector */}
+                                {devices.length > 0 && !capturedPhoto && (
+                                    <div className="w-full sm:w-auto">
+                                        <Select
+                                            value={selectedDeviceId}
+                                            onValueChange={handleDeviceChange}
+                                            disabled={cameraLoading}
+                                        >
+                                            <SelectTrigger className="h-8.5 w-full sm:w-[220px] rounded-xl border-neutral-200 text-xs bg-neutral-50/70 hover:bg-neutral-100">
+                                                <Video className="mr-1.5 size-3.5 text-brand shrink-0" />
+                                                <SelectValue placeholder="Pilih Kamera" />
+                                            </SelectTrigger>
+                                            <SelectContent>
+                                                {devices.map((device, idx) => (
+                                                    <SelectItem
+                                                        key={device.deviceId || idx}
+                                                        value={device.deviceId || `device-${idx}`}
+                                                        className="text-xs"
+                                                    >
+                                                        {device.label || `Kamera ${idx + 1}`}
+                                                    </SelectItem>
+                                                ))}
+                                            </SelectContent>
+                                        </Select>
+                                    </div>
+                                )}
                             </div>
 
+                            {/* Video Box */}
                             <div className="relative aspect-4/3 w-full overflow-hidden rounded-2xl bg-neutral-900 shadow-inner flex items-center justify-center">
                                 {capturedPhoto ? (
                                     <img src={capturedPhoto} alt="Foto Selfie" className="h-full w-full object-cover" />
                                 ) : (
                                     <>
-                                        <video ref={videoRef} playsInline muted className="h-full w-full object-cover scale-x-[-1]" />
+                                        <video
+                                            ref={videoRef}
+                                            autoPlay
+                                            playsInline
+                                            muted
+                                            className={cn(
+                                                'h-full w-full object-cover scale-x-[-1] transition-opacity duration-300',
+                                                cameraActive ? 'opacity-100' : 'opacity-0 absolute'
+                                            )}
+                                        />
                                         {!cameraActive && (
-                                            <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 bg-neutral-900/90 p-6 text-center text-white">
-                                                <Camera className="size-12 text-neutral-500 animate-pulse" />
-                                                <p className="text-sm">{cameraError ?? 'Memuat kamera...'}</p>
-                                                <Button type="button" size="sm" onClick={startCamera} className="rounded-xl bg-brand text-white hover:bg-brand-dark">
-                                                    <RefreshCw className="mr-1.5 size-4" />
-                                                    Coba Lagi
-                                                </Button>
+                                            <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 bg-neutral-900/95 p-6 text-center text-white">
+                                                {cameraLoading ? (
+                                                    <>
+                                                        <Loader2 className="size-10 text-brand animate-spin" />
+                                                        <p className="text-sm font-medium text-neutral-200">Menyiapkan kamera...</p>
+                                                    </>
+                                                ) : (
+                                                    <>
+                                                        <div className="flex size-14 items-center justify-center rounded-2xl bg-neutral-800 text-neutral-400 border border-neutral-700">
+                                                            <CameraOff className="size-7" />
+                                                        </div>
+                                                        <div className="max-w-xs">
+                                                            <p className="font-semibold text-sm text-neutral-100">
+                                                                {cameraError ? 'Gagal Membuka Kamera' : 'Kamera Dimatikan'}
+                                                            </p>
+                                                            <p className="mt-1 text-xs text-neutral-400">
+                                                                {cameraError ?? 'Kamera sedang nonaktif. Klik tombol di bawah untuk menyalakan.'}
+                                                            </p>
+                                                        </div>
+                                                        <Button
+                                                            type="button"
+                                                            size="sm"
+                                                            onClick={() => startCamera()}
+                                                            className="mt-1 rounded-xl bg-brand text-white hover:bg-brand-dark px-4 shadow-sm"
+                                                        >
+                                                            <Camera className="mr-1.5 size-4" />
+                                                            Nyalakan Kamera
+                                                        </Button>
+                                                    </>
+                                                )}
                                             </div>
                                         )}
                                     </>
                                 )}
                                 {cameraActive && !capturedPhoto && (
                                     <div className="pointer-events-none absolute inset-0 flex items-center justify-center p-6">
-                                        <div className="size-48 sm:size-56 rounded-full border-2 border-dashed border-white/60 shadow-[0_0_0_9999px_rgba(0,0,0,0.3)]" />
+                                        <div className="size-48 sm:size-56 rounded-full border-2 border-dashed border-white/70 shadow-[0_0_0_9999px_rgba(0,0,0,0.3)] animate-pulse" />
                                     </div>
                                 )}
                             </div>
 
-                            <div className="flex items-center justify-center gap-3 pt-2">
+                            {/* Camera Action Buttons */}
+                            <div className="flex flex-wrap items-center justify-center gap-3 pt-2">
                                 {capturedPhoto ? (
-                                    <Button type="button" variant="outline" onClick={retakePhoto} className="rounded-xl border-neutral-200 gap-2">
+                                    <Button
+                                        type="button"
+                                        variant="outline"
+                                        onClick={retakePhoto}
+                                        className="rounded-xl border-neutral-200 gap-2 hover:bg-neutral-50"
+                                    >
                                         <RotateCcw className="size-4" />
                                         Foto Ulang
                                     </Button>
                                 ) : (
-                                    <Button type="button" onClick={capturePhoto} disabled={!cameraActive} className="gap-2 rounded-xl bg-brand px-6 text-white hover:bg-brand-dark shadow-xs">
-                                        <Camera className="size-4" />
-                                        Ambil Foto Sekarang
-                                    </Button>
+                                    <>
+                                        {cameraActive ? (
+                                            <>
+                                                <Button
+                                                    type="button"
+                                                    onClick={capturePhoto}
+                                                    className="gap-2 rounded-xl bg-brand px-6 text-white hover:bg-brand-dark shadow-sm"
+                                                >
+                                                    <Camera className="size-4" />
+                                                    Ambil Foto Sekarang
+                                                </Button>
+                                                <Button
+                                                    type="button"
+                                                    variant="outline"
+                                                    onClick={stopCamera}
+                                                    className="gap-2 rounded-xl border-neutral-200 text-neutral-700 hover:bg-neutral-100 hover:text-neutral-900"
+                                                >
+                                                    <CameraOff className="size-4 text-neutral-500" />
+                                                    Matikan Kamera
+                                                </Button>
+                                            </>
+                                        ) : (
+                                            <Button
+                                                type="button"
+                                                onClick={() => startCamera()}
+                                                disabled={cameraLoading}
+                                                className="gap-2 rounded-xl bg-brand px-6 text-white hover:bg-brand-dark shadow-sm"
+                                            >
+                                                {cameraLoading ? (
+                                                    <>
+                                                        <Loader2 className="size-4 animate-spin" />
+                                                        Menyiapkan Kamera...
+                                                    </>
+                                                ) : (
+                                                    <>
+                                                        <Camera className="size-4" />
+                                                        Nyalakan Kamera
+                                                    </>
+                                                )}
+                                            </Button>
+                                        )}
+                                    </>
                                 )}
                             </div>
                             {errors.photo_selfie && (
-                                <p className="text-center text-xs text-rose-500">{errors.photo_selfie}</p>
+                                <p className="text-center text-xs text-rose-500 font-medium">{errors.photo_selfie}</p>
                             )}
                         </div>
 

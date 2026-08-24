@@ -43,6 +43,7 @@ class HandleInertiaRequests extends Middleware
             'name' => $schoolProfile?->name ?? config('app.name'),
             'auth' => [
                 'user' => $request->user(),
+                'photo' => $request->user()?->avatar ?? ($request->user()?->photo ? asset('storage/'.$request->user()->photo) : null),
             ],
             'sidebarOpen' => ! $request->hasCookie('sidebar_state') || $request->cookie('sidebar_state') === 'true',
             'description_heading' => $schoolProfile?->description_heading,

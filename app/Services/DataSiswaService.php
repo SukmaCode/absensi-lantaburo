@@ -20,11 +20,14 @@ class DataSiswaService
 
         return [
             'students' => $students->map(fn (Student $student) => [
+                'id' => $student->id,
                 'name' => $student->user->name,
                 'nis' => $student->nis,
                 'class' => $student->schoolClass?->name,
                 'status' => $student->user->status === 'active' ? 'Aktif' : 'Nonaktif',
-                'avatar' => $student->user->photo,
+                'payment_status' => $student->user->latestPayment?->status,
+                'payment_type' => $student->user->latestPayment?->payment_type,
+                // 'photo' => $student->user->photo,
             ])->all(),
             'pagination' => [
                 'current_page' => $students->currentPage(),
@@ -72,6 +75,22 @@ class DataSiswaService
                 'parent_name' => $data['parent_name'] ?? null,
                 'parent_phone' => $data['parent_phone'] ?? null,
             ]);
+        });
+    }
+
+    public function editStudent(array $data): Student
+    {
+        return DB::transaction(function () use ($data) {
+            $student = Student::query()->findOrFail($data['id']);
+            $student->update([
+                'nis' => $data['nis'],
+                'class_id' => $data['class_id'] ?? null,
+            ]);
+            $student->user->update([
+                'status' => $data['status'] ?? $student->user->status,
+            ]);
+
+            return $student;
         });
     }
 }

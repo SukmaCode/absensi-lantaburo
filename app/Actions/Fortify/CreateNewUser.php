@@ -32,17 +32,17 @@ class CreateNewUser implements CreatesNewUsers
             'email' => $input['email'],
             'password' => $input['password'],
             'phone' => $input['phone'] ?? null,
-            'role' => 'siswa',
-            'status' => 'active',
+            'role' => 'calon_siswa',
+            'status' => 'inactive',
         ]);
 
-        Student::firstOrCreate(
-            ['user_id' => $user->id],
-            [
-                'nis' => 'S-'.date('Y').str_pad((string) $user->id, 4, '0', STR_PAD_LEFT),
-                'gender' => 'L',
-            ]
-        );
+        // Student::firstOrCreate(
+        //     ['user_id' => $user->id],
+        //     [
+        //         'nis' => 'S-'.date('Y').str_pad((string) $user->id, 4, '0', STR_PAD_LEFT),
+        //         'gender' => 'L',
+        //     ]
+        // );
 
         $registrationFee = (int) config('midtrans.registration_fee', 150000);
         $orderId = 'REG-U'.$user->id.'-'.time();

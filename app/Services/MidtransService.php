@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Models\Payment;
+use App\Models\Student;
 use App\Models\User;
 use Exception;
 use Illuminate\Support\Facades\Log;
@@ -110,6 +111,8 @@ class MidtransService
         }
 
         $payment = Payment::where('order_id', $orderId)->first();
+        // $student = Student::where('user_id', $payment->user_id)->first();
+        // $user = User::find($payment->user_id);
 
         if (! $payment) {
             Log::warning('Midtrans Webhook: Payment not found', ['order_id' => $orderId]);
@@ -131,11 +134,24 @@ class MidtransService
         $payment->payment_type = $paymentType ?: $payment->payment_type;
         $payment->raw_response = $payload;
 
-        if ($paymentStatus === 'success' && ! $payment->settlement_time) {
-            $payment->settlement_time = now();
-            if ($payment->user) {
-                $payment->user->update(['status' => 'active']);
+        if ($paymentStatus === 'success') {
+            if (! $payment->settlement_time) {
+                $payment->settlement_time = now();
             }
+            if ($payment->user) {
+                $payment->user->update([
+                    'role' => 'siswa',
+                    'status' => 'active',
+                ]);
+            }
+
+            Student::firstOrCreate(
+                ['user_id' => $payment->user_id],
+                [
+                    'nis' => '421'.date('Y').str_pad((string) $payment->user_id, 4, '0', STR_PAD_LEFT),
+                    'gender' => 'L',
+                ]
+            );
         }
 
         $payment->save();
@@ -186,11 +202,24 @@ class MidtransService
             $payment->payment_type = $paymentType ?: $payment->payment_type;
             $payment->raw_response = $responseArray;
 
-            if ($paymentStatus === 'success' && ! $payment->settlement_time) {
-                $payment->settlement_time = now();
-                if ($payment->user) {
-                    $payment->user->update(['status' => 'active']);
+            if ($paymentStatus === 'success') {
+                if (! $payment->settlement_time) {
+                    $payment->settlement_time = now();
                 }
+                if ($payment->user) {
+                    $payment->user->update([
+                        'role' => 'siswa',
+                        'status' => 'active',
+                    ]);
+                }
+
+                Student::firstOrCreate(
+                    ['user_id' => $payment->user_id],
+                    [
+                        'nis' => 'S-'.date('Y').str_pad((string) $payment->user_id, 4, '0', STR_PAD_LEFT),
+                        'gender' => 'L',
+                    ]
+                );
             }
 
             $payment->save();

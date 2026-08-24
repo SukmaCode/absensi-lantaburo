@@ -14,7 +14,7 @@ beforeEach(function () {
     config()->set('midtrans.registration_fee', 150000);
 });
 
-test('user registration creates payment record and redirects to siswa dashboard', function () {
+test('user registration creates payment record and redirects to calon-siswa dashboard', function () {
     $this->mock(MidtransService::class, function ($mock) {
         $mock->shouldReceive('createSnapToken')
             ->once()
@@ -30,11 +30,12 @@ test('user registration creates payment record and redirects to siswa dashboard'
     ]);
 
     $this->assertAuthenticated();
-    $response->assertRedirect(route('siswa.dashboard'));
+    $response->assertRedirect(route('calon-siswa.dashboard'));
 
     $user = User::where('email', 'ahmad@example.com')->first();
     expect($user)->not->toBeNull();
-    expect($user->role)->toBe('siswa');
+    expect($user->role)->toBe('calon_siswa');
+    expect($user->status)->toBe('inactive');
 
     $payment = Payment::where('user_id', $user->id)->first();
     expect($payment)->not->toBeNull();
@@ -96,7 +97,7 @@ test('siswa can fetch or refresh snap token via api', function () {
 });
 
 test('midtrans webhook successfully updates payment to success with valid signature', function () {
-    $user = User::factory()->create(['role' => 'siswa', 'status' => 'active']);
+    $user = User::factory()->create(['role' => 'calon_siswa', 'status' => 'inactive']);
     $orderId = 'REG-U'.$user->id.'-test1';
     $amount = 150000;
     $statusCode = '200';
@@ -136,6 +137,10 @@ test('midtrans webhook successfully updates payment to success with valid signat
     expect($payment->payment_type)->toBe('qris');
     expect($payment->settlement_time)->not->toBeNull();
     expect($payment->isPaid())->toBeTrue();
+
+    $user->refresh();
+    expect($user->role)->toBe('siswa');
+    expect($user->status)->toBe('active');
 });
 
 test('midtrans webhook ignores payload with invalid signature', function () {

@@ -152,20 +152,20 @@ export default function SiswaPengaturan({
 
             <div className="flex flex-1 flex-col gap-6 bg-brand-bg p-4 sm:p-6 lg:p-8">
                 {/* Header Banner */}
-                <div className="relative overflow-hidden rounded-3xl border border-neutral-200/80 bg-gradient-to-br from-white via-white to-brand-soft/30 p-6 shadow-xs sm:p-8">
+                <div className="relative overflow-hidden rounded-xl border border-neutral-200/80 bg-gradient-to-br from-white via-white to-brand-soft/30 p-6 shadow-xs sm:p-8">
                     <div className="relative z-10 flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
                         <div className="flex flex-col gap-4 sm:flex-row sm:items-center">
                             <div className="relative group">
-                                <Avatar className="size-20 rounded-2xl border-2 border-brand/20 shadow-md sm:size-24">
+                                <Avatar className="size-20 rounded-md border-2 border-brand/20 shadow-md sm:size-24">
                                     <AvatarImage src={photoPreview || undefined} alt={user.name} className="object-cover" />
-                                    <AvatarFallback className="rounded-2xl bg-brand-soft font-bold text-2xl text-brand-dark">
+                                    <AvatarFallback className="rounded-md bg-brand-soft font-bold text-2xl text-brand-dark">
                                         {getInitials(user.name)}
                                     </AvatarFallback>
                                 </Avatar>
                                 <button
                                     type="button"
                                     onClick={() => fileInputRef.current?.click()}
-                                    className="absolute -right-1 -bottom-1 flex size-8 items-center justify-center rounded-xl border border-white bg-brand text-white shadow-md transition-transform hover:scale-110"
+                                    className="absolute -right-1 -bottom-1 flex size-8 items-center justify-center rounded-sm border border-white bg-brand text-white shadow-md transition-transform hover:scale-110"
                                     title="Ubah Foto Profil"
                                 >
                                     <Camera className="size-4" />
@@ -234,7 +234,7 @@ export default function SiswaPengaturan({
                         type="button"
                         onClick={() => setActiveTab('profile')}
                         className={cn(
-                            'flex items-center gap-2 rounded-xl px-4 py-2.5 font-semibold text-sm transition-all',
+                            'flex items-center gap-2 cursor-pointer rounded-sm px-4 py-2.5 font-semibold text-sm transition-all',
                             activeTab === 'profile'
                                 ? 'bg-brand text-white shadow-xs'
                                 : 'bg-white text-neutral-600 hover:bg-neutral-100 hover:text-brand-text',
@@ -247,7 +247,7 @@ export default function SiswaPengaturan({
                         type="button"
                         onClick={() => setActiveTab('parent')}
                         className={cn(
-                            'flex items-center gap-2 rounded-xl px-4 py-2.5 font-semibold text-sm transition-all',
+                            'flex items-center gap-2 cursor-pointer rounded-sm px-4 py-2.5 font-semibold text-sm transition-all',
                             activeTab === 'parent'
                                 ? 'bg-brand text-white shadow-xs'
                                 : 'bg-white text-neutral-600 hover:bg-neutral-100 hover:text-brand-text',
@@ -260,7 +260,7 @@ export default function SiswaPengaturan({
                         type="button"
                         onClick={() => setActiveTab('security')}
                         className={cn(
-                            'flex items-center gap-2 rounded-xl px-4 py-2.5 font-semibold text-sm transition-all',
+                            'flex items-center gap-2 cursor-pointer rounded-sm px-4 py-2.5 font-semibold text-sm transition-all',
                             activeTab === 'security'
                                 ? 'bg-brand text-white shadow-xs'
                                 : 'bg-white text-neutral-600 hover:bg-neutral-100 hover:text-brand-text',
@@ -283,7 +283,7 @@ export default function SiswaPengaturan({
                 {/* TAB 1: DATA DIRI & AKADEMIK */}
                 {activeTab === 'profile' && (
                     <form onSubmit={handleProfileSubmit} className="space-y-6">
-                        <div className="rounded-3xl border border-neutral-200/80 bg-white p-6 shadow-xs sm:p-8">
+                        <div className="rounded-xl border border-neutral-200/80 bg-white p-6 shadow-xs sm:p-8">
                             <div className="border-neutral-100 border-b pb-4">
                                 <h2 className="font-bold text-brand-text text-lg sm:text-xl">
                                     Informasi Data Diri Siswa
@@ -298,21 +298,20 @@ export default function SiswaPengaturan({
                                 <div className="sm:col-span-2">
                                     <Label className="font-semibold text-brand-text text-sm">Foto Profil</Label>
                                     <div className="mt-2 flex flex-col gap-4 sm:flex-row sm:items-center">
-                                        <Avatar className="size-16 rounded-2xl border border-neutral-200 shadow-xs">
+                                        <Avatar className="size-16 rounded-sm border border-neutral-200 shadow-xs">
                                             <AvatarImage src={photoPreview || undefined} alt={user.name} className="object-cover" />
-                                            <AvatarFallback className="rounded-2xl bg-brand-soft font-semibold text-brand-dark">
+                                            <AvatarFallback className="rounded-xl bg-brand-soft font-semibold text-brand-dark">
                                                 {getInitials(profileForm.data.name || 'Siswa')}
                                             </AvatarFallback>
                                         </Avatar>
                                         <div className="flex flex-wrap items-center gap-2">
                                             <Button
                                                 type="button"
-                                                variant="outline"
                                                 size="sm"
                                                 onClick={() => fileInputRef.current?.click()}
-                                                className="rounded-xl border-neutral-200 text-xs hover:bg-neutral-50"
+                                                className="rounded-sm bg-brand text-xs text-white cursor-pointer hover:bg-brand-dark"
                                             >
-                                                <Camera className="mr-1.5 size-3.5 text-brand" />
+                                                <Camera className="mr-1.5 size-3.5 text-white" />
                                                 Pilih Foto Baru
                                             </Button>
                                             {photoPreview && (
@@ -321,7 +320,7 @@ export default function SiswaPengaturan({
                                                     variant="ghost"
                                                     size="sm"
                                                     onClick={handleRemovePhoto}
-                                                    className="rounded-xl text-rose-600 text-xs hover:bg-rose-50 hover:text-rose-700"
+                                                    className="rounded-sm text-rose-600 text-xs hover:bg-rose-50 hover:text-rose-700"
                                                 >
                                                     <Trash2 className="mr-1.5 size-3.5" />
                                                     Hapus Foto
@@ -337,19 +336,11 @@ export default function SiswaPengaturan({
 
                                 {/* NIS */}
                                 <div>
-                                    <Label htmlFor="nis" className="font-semibold text-brand-text text-sm">
+                                    <p className="font-semibold text-brand-text text-sm">
                                         Nomor Induk Siswa (NIS) <span className="text-rose-500">*</span>
-                                    </Label>
+                                    </p>
                                     <div className="relative mt-1.5">
-                                        <Input
-                                            id="nis"
-                                            type="text"
-                                            value={profileForm.data.nis}
-                                            onChange={(e) => profileForm.setData('nis', e.target.value)}
-                                            placeholder="Contoh: S-20260001"
-                                            className="rounded-xl border-neutral-200 pl-3 focus:border-brand"
-                                            required
-                                        />
+                                        <p className='font-regular text-brand-text text-sm'>{profileForm.data.nis}</p>
                                     </div>
                                     <InputError message={profileForm.errors.nis} className="mt-1" />
                                 </div>
@@ -366,7 +357,7 @@ export default function SiswaPengaturan({
                                             value={profileForm.data.name}
                                             onChange={(e) => profileForm.setData('name', e.target.value)}
                                             placeholder="Nama lengkap sesuai akta/ijazah"
-                                            className="rounded-xl border-neutral-200 focus:border-brand"
+                                            className="border-neutral-200 focus:border-brand"
                                             required
                                         />
                                     </div>
@@ -375,25 +366,11 @@ export default function SiswaPengaturan({
 
                                 {/* Pilihan Kelas */}
                                 <div>
-                                    <Label htmlFor="class_id" className="font-semibold text-brand-text text-sm">
+                                    <p className="font-semibold text-brand-text text-sm">
                                         Kelas
-                                    </Label>
+                                    </p>
                                     <div className="mt-1.5">
-                                        <Select
-                                            value={profileForm.data.class_id || ''}
-                                            onValueChange={(val) => profileForm.setData('class_id', val)}
-                                        >
-                                            <SelectTrigger className="w-full rounded-xl border-neutral-200">
-                                                <SelectValue placeholder="Pilih Kelas Siswa" />
-                                            </SelectTrigger>
-                                            <SelectContent className="rounded-xl border-neutral-200">
-                                                {classes.map((cls) => (
-                                                    <SelectItem key={cls.id} value={String(cls.id)}>
-                                                        {cls.name} (Tingkat {cls.grade_level})
-                                                    </SelectItem>
-                                                ))}
-                                            </SelectContent>
-                                        </Select>
+                                        <p className='font-regular text-brand-text text-sm'>{profileForm.data.class_id || 'Belum ada kelas'}</p>
                                     </div>
                                     <InputError message={profileForm.errors.class_id} className="mt-1" />
                                 </div>
@@ -408,7 +385,7 @@ export default function SiswaPengaturan({
                                             type="button"
                                             onClick={() => profileForm.setData('gender', 'L')}
                                             className={cn(
-                                                'flex items-center justify-center gap-2 rounded-xl border p-3 font-semibold text-sm transition-all',
+                                                'flex items-center justify-center gap-2 rounded-sm border p-3 font-semibold text-sm transition-all',
                                                 profileForm.data.gender === 'L'
                                                     ? 'border-brand bg-brand-soft/40 text-brand-dark ring-2 ring-brand/20'
                                                     : 'border-neutral-200 bg-white text-neutral-600 hover:border-neutral-300',
@@ -423,7 +400,7 @@ export default function SiswaPengaturan({
                                             type="button"
                                             onClick={() => profileForm.setData('gender', 'P')}
                                             className={cn(
-                                                'flex items-center justify-center gap-2 rounded-xl border p-3 font-semibold text-sm transition-all',
+                                                'flex items-center justify-center gap-2 rounded-sm border p-3 font-semibold text-sm transition-all',
                                                 profileForm.data.gender === 'P'
                                                     ? 'border-brand bg-brand-soft/40 text-brand-dark ring-2 ring-brand/20'
                                                     : 'border-neutral-200 bg-white text-neutral-600 hover:border-neutral-300',
@@ -449,7 +426,7 @@ export default function SiswaPengaturan({
                                             type="date"
                                             value={profileForm.data.birth_date}
                                             onChange={(e) => profileForm.setData('birth_date', e.target.value)}
-                                            className="rounded-xl border-neutral-200 focus:border-brand"
+                                            className="border-neutral-200 focus:border-brand"
                                         />
                                     </div>
                                     <InputError message={profileForm.errors.birth_date} className="mt-1" />
@@ -467,7 +444,7 @@ export default function SiswaPengaturan({
                                             value={profileForm.data.phone}
                                             onChange={(e) => profileForm.setData('phone', e.target.value)}
                                             placeholder="Contoh: 081234567890"
-                                            className="rounded-xl border-neutral-200 focus:border-brand"
+                                            className="border-neutral-200 focus:border-brand"
                                         />
                                     </div>
                                     <InputError message={profileForm.errors.phone} className="mt-1" />
@@ -485,7 +462,7 @@ export default function SiswaPengaturan({
                                             value={profileForm.data.address}
                                             onChange={(e) => profileForm.setData('address', e.target.value)}
                                             placeholder="Alamat lengkap (nama jalan, RT/RW, kelurahan, kecamatan, kota)"
-                                            className="rounded-xl border-neutral-200 focus:border-brand"
+                                            className="border-neutral-200 focus:border-brand"
                                         />
                                     </div>
                                     <InputError message={profileForm.errors.address} className="mt-1" />
@@ -496,7 +473,7 @@ export default function SiswaPengaturan({
                                 <Button
                                     type="submit"
                                     disabled={profileForm.processing}
-                                    className="gap-2 rounded-xl bg-brand px-6 font-semibold text-white shadow-xs hover:bg-brand-dark"
+                                    className="gap-2 rounded-sm bg-brand px-6 font-semibold text-white shadow-xs hover:bg-brand-dark"
                                 >
                                     <Save className="size-4" />
                                     {profileForm.processing ? 'Menyimpan...' : 'Simpan Data Diri'}
@@ -509,7 +486,7 @@ export default function SiswaPengaturan({
                 {/* TAB 2: DATA ORANG TUA / WALI */}
                 {activeTab === 'parent' && (
                     <form onSubmit={handleProfileSubmit} className="space-y-6">
-                        <div className="rounded-3xl border border-neutral-200/80 bg-white p-6 shadow-xs sm:p-8">
+                        <div className="rounded-xl border border-neutral-200/80 bg-white p-6 shadow-xs sm:p-8">
                             <div className="border-neutral-100 border-b pb-4">
                                 <h2 className="font-bold text-brand-text text-lg sm:text-xl">
                                     Data Orang Tua / Wali
@@ -532,7 +509,7 @@ export default function SiswaPengaturan({
                                             value={profileForm.data.parent_name}
                                             onChange={(e) => profileForm.setData('parent_name', e.target.value)}
                                             placeholder="Contoh: Bapak Ahmad / Ibu Siti"
-                                            className="rounded-xl border-neutral-200 focus:border-brand"
+                                            className="border-neutral-200 focus:border-brand"
                                         />
                                     </div>
                                     <InputError message={profileForm.errors.parent_name} className="mt-1" />
@@ -550,11 +527,11 @@ export default function SiswaPengaturan({
                                             value={profileForm.data.parent_phone}
                                             onChange={(e) => profileForm.setData('parent_phone', e.target.value)}
                                             placeholder="Contoh: 081298765432"
-                                            className="rounded-xl border-neutral-200 focus:border-brand"
+                                            className="border-neutral-200 focus:border-brand"
                                         />
                                     </div>
                                     <InputError message={profileForm.errors.parent_phone} className="mt-1" />
-                                    <div className="mt-2 flex items-start gap-2 rounded-xl bg-brand-soft/40 p-3 text-brand-dark text-xs">
+                                    <div className="mt-2 flex items-start gap-2 rounded-sm bg-brand-soft/40 p-3 text-brand-dark text-xs">
                                         <AlertCircle className="size-4 shrink-0 text-brand" />
                                         <span>
                                             Nomor WhatsApp orang tua akan digunakan untuk pengiriman notifikasi otomatis saat absensi siswa tercatat.
@@ -567,7 +544,7 @@ export default function SiswaPengaturan({
                                 <Button
                                     type="submit"
                                     disabled={profileForm.processing}
-                                    className="gap-2 rounded-xl bg-brand px-6 font-semibold text-white shadow-xs hover:bg-brand-dark"
+                                    className="gap-2 rounded-sm bg-brand px-6 font-semibold text-white shadow-xs hover:bg-brand-dark"
                                 >
                                     <Save className="size-4" />
                                     {profileForm.processing ? 'Menyimpan...' : 'Simpan Data Orang Tua'}
@@ -582,7 +559,7 @@ export default function SiswaPengaturan({
                     <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
                         {/* Email & Akun */}
                         <form onSubmit={handleProfileSubmit} className="h-full">
-                            <div className="flex h-full flex-col justify-between rounded-3xl border border-neutral-200/80 bg-white p-6 shadow-xs sm:p-8">
+                            <div className="flex h-full flex-col justify-between rounded-xl border border-neutral-200/80 bg-white p-6 shadow-xs sm:p-8">
                                 <div>
                                     <div className="border-neutral-100 border-b pb-4">
                                         <h2 className="font-bold text-brand-text text-lg">Alamat Email Akun</h2>
@@ -603,7 +580,7 @@ export default function SiswaPengaturan({
                                                     value={profileForm.data.email}
                                                     onChange={(e) => profileForm.setData('email', e.target.value)}
                                                     placeholder="email@example.com"
-                                                    className="rounded-xl border-neutral-200 focus:border-brand"
+                                                    className="border-neutral-200 focus:border-brand"
                                                     required
                                                 />
                                             </div>
@@ -616,7 +593,7 @@ export default function SiswaPengaturan({
                                     <Button
                                         type="submit"
                                         disabled={profileForm.processing}
-                                        className="gap-2 rounded-xl bg-brand px-5 font-semibold text-white shadow-xs hover:bg-brand-dark"
+                                        className="gap-2 rounded-sm bg-brand px-5 font-semibold text-white shadow-xs hover:bg-brand-dark"
                                     >
                                         <Save className="size-4" />
                                         {profileForm.processing ? 'Menyimpan...' : 'Perbarui Email'}
@@ -627,7 +604,7 @@ export default function SiswaPengaturan({
 
                         {/* Ganti Kata Sandi */}
                         <form onSubmit={handlePasswordSubmit} className="h-full">
-                            <div className="flex h-full flex-col justify-between rounded-3xl border border-neutral-200/80 bg-white p-6 shadow-xs sm:p-8">
+                            <div className="flex h-full flex-col justify-between rounded-xl border border-neutral-200/80 bg-white p-6 shadow-xs sm:p-8">
                                 <div>
                                     <div className="border-neutral-100 border-b pb-4">
                                         <h2 className="font-bold text-brand-text text-lg">Ubah Kata Sandi</h2>
@@ -648,7 +625,7 @@ export default function SiswaPengaturan({
                                                     value={passwordForm.data.current_password}
                                                     onChange={(e) => passwordForm.setData('current_password', e.target.value)}
                                                     placeholder="••••••••"
-                                                    className="rounded-xl border-neutral-200 focus:border-brand"
+                                                    className="border-neutral-200 focus:border-brand"
                                                     autoComplete="current-password"
                                                 />
                                             </div>
@@ -666,7 +643,7 @@ export default function SiswaPengaturan({
                                                     value={passwordForm.data.password}
                                                     onChange={(e) => passwordForm.setData('password', e.target.value)}
                                                     placeholder="••••••••"
-                                                    className="rounded-xl border-neutral-200 focus:border-brand"
+                                                    className="border-neutral-200 focus:border-brand"
                                                     autoComplete="new-password"
                                                 />
                                             </div>
@@ -684,7 +661,7 @@ export default function SiswaPengaturan({
                                                     value={passwordForm.data.password_confirmation}
                                                     onChange={(e) => passwordForm.setData('password_confirmation', e.target.value)}
                                                     placeholder="••••••••"
-                                                    className="rounded-xl border-neutral-200 focus:border-brand"
+                                                    className="border-neutral-200 focus:border-brand"
                                                     autoComplete="new-password"
                                                 />
                                             </div>
@@ -697,7 +674,7 @@ export default function SiswaPengaturan({
                                     <Button
                                         type="submit"
                                         disabled={passwordForm.processing}
-                                        className="gap-2 rounded-xl bg-brand px-5 font-semibold text-white shadow-xs hover:bg-brand-dark"
+                                        className="gap-2 rounded-sm bg-brand px-5 font-semibold text-white shadow-xs hover:bg-brand-dark"
                                     >
                                         <KeyRound className="size-4" />
                                         {passwordForm.processing ? 'Menyimpan...' : 'Perbarui Kata Sandi'}

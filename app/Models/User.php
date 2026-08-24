@@ -39,14 +39,7 @@ class User extends Authenticatable implements PasskeyUser
     /** @use HasFactory<UserFactory> */
     use HasFactory, Notifiable, PasskeyAuthenticatable;
 
-    /**
-     * The accessors to append to the model's array form.
-     *
-     * @var list<string>
-     */
-    protected $appends = [
-        'avatar',
-    ];
+    protected $appends = ['avatar'];
 
     /**
      * Get the attributes that should be cast.

@@ -15,6 +15,7 @@ import {
 import { UserMenuContent } from '@/components/user-menu-content';
 import { useInitials } from '@/hooks/use-initials';
 import { useIsMobile } from '@/hooks/use-mobile';
+import type { Auth } from '@/types';
 
 const roleLabels: Record<string, string> = {
     admin: 'Administrator',
@@ -23,7 +24,7 @@ const roleLabels: Record<string, string> = {
 };
 
 export function NavUser() {
-    const { auth } = usePage().props;
+    const { auth } = usePage<{ auth: Auth }>().props;
     const { state } = useSidebar();
     const isMobile = useIsMobile();
     const getInitials = useInitials();
@@ -35,6 +36,15 @@ export function NavUser() {
     const roleLabel = auth.user.role
         ? (roleLabels[auth.user.role] ?? auth.user.role)
         : 'Pengguna';
+
+    const photoUrl =
+        auth.photo ||
+        auth.user.avatar ||
+        (auth.user.photo
+            ? auth.user.photo.startsWith('http') || auth.user.photo.startsWith('/')
+                ? auth.user.photo
+                : `/storage/${auth.user.photo}`
+            : undefined);
 
     return (
         <SidebarMenu>
@@ -48,7 +58,7 @@ export function NavUser() {
                         >
                             <Avatar className="h-8 w-8 overflow-hidden rounded-full ring-2 ring-white/20">
                                 <AvatarImage
-                                    src={auth.user.avatar}
+                                    src={photoUrl}
                                     alt={auth.user.name}
                                 />
                                 <AvatarFallback className="bg-white/20 text-white">

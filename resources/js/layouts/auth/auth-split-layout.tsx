@@ -1,12 +1,18 @@
-import { Link } from '@inertiajs/react';
+import { Link, usePage } from '@inertiajs/react';
 import type { PropsWithChildren } from 'react';
 import { landingpage } from '@/routes';
 import heroImage from '../../../images/bg-hero.jpg';
-import Logo from '../../../images/logo.png';
+import SchoolLogo from '../../../images/logo.png';
+
 
 export default function AuthSplitLayout({
     children,
 }: PropsWithChildren) {
+    const { name, logo } = usePage<{
+        name: string,
+        logo: string,
+    }>().props;
+
     return (
         <div className="flex min-h-svh bg-brand-bg">
             <div className="relative hidden w-[40%] flex-col justify-between overflow-hidden bg-brand-dark p-10 text-white lg:flex">
@@ -19,14 +25,21 @@ export default function AuthSplitLayout({
                     className="relative z-10 flex items-center gap-3"
                 >
                     <span className="flex size-12 items-center justify-center rounded-xl bg-white p-1.5">
+                        {logo ?
                         <img
-                            src={Logo}
+                            src={logo}
+                            alt="Daarul Quran Lantaburo"
+                            className="size-full object-contain"
+                        />:
+                        <img
+                            src={SchoolLogo}
                             alt="Daarul Quran Lantaburo"
                             className="size-full object-contain"
                         />
+                        }
                     </span>
                     <span className="font-semibold text-sm text-white">
-                        Daarul Quran Lantaburo
+                        {name}
                     </span>
                 </Link>
 
@@ -57,7 +70,7 @@ export default function AuthSplitLayout({
                 >
                     <span className="flex size-11 items-center justify-center rounded-xl bg-white p-1.5 shadow-sm ring-1 ring-brand-soft">
                         <img
-                            src={Logo}
+                            src={SchoolLogo}
                             alt="Daarul Quran Lantaburo"
                             className="size-full object-contain"
                         />

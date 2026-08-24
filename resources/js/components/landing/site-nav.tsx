@@ -6,6 +6,7 @@ import { FaLocationDot } from 'react-icons/fa6';
 import { MdEmail } from 'react-icons/md';
 import { login, register } from '@/routes';
 import { dashboard as dashboardAdmin } from '@/routes/admin';
+import { dashboard as dashboardCalonSiswa } from '@/routes/calon-siswa';
 import { dashboard as dashboardGuru } from '@/routes/guru';
 import { dashboard as dashboardSiswa } from '@/routes/siswa';
 import type { Auth } from '@/types';
@@ -42,7 +43,8 @@ export default function SiteNav({ loggedIn }: SiteNavProps) {
     const role = auth.user?.role;
     const isGuru = role === 'guru' || role === 'teacher';
     const isSiswa = role === 'siswa' || role === 'student';
-    const dashboardUrl = isSiswa ? dashboardSiswa() : isGuru ? dashboardGuru() : dashboardAdmin();
+    const isCalonSiswa = role === 'calon_siswa';
+    const dashboardUrl = isSiswa ? dashboardSiswa() : isGuru ? dashboardGuru() : isCalonSiswa ? dashboardCalonSiswa() : dashboardAdmin();
 
     const [logoPreview] = useState<string | null>(
         logo ? `/storage/${logo}` : null,
