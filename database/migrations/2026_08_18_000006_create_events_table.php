@@ -17,6 +17,8 @@ return new class extends Migration
             $table->text('description')->nullable();
             $table->date('event_date');
             $table->string('location', 200)->nullable();
+            $table->string('contact_person', 100)->nullable();
+            $table->string('phone', 15)->nullable();
             $table->timestamps();
         });
     }

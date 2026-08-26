@@ -55,7 +55,7 @@ export default function Programs() {
                 <div className="mt-14 grid gap-6 lg:grid-cols-[1.15fr_1fr]">
                     <div className="rounded-2xl bg-brand-bg p-8 lg:p-10">
                         <div className="flex items-center justify-between gap-4">
-                            <span className="flex size-12 items-center justify-center rounded-xl bg-brand text-white">
+                            <span className="flex size-12 items-center justify-center rounded-sm bg-brand text-white">
                                 <featured.icon className="size-6" />
                             </span>
                             <span className="rounded-full bg-brand-soft px-3 py-1 text-xs font-semibold text-brand">
@@ -76,7 +76,7 @@ export default function Programs() {
                                 key={program.title}
                                 className="flex flex-1 gap-5 border border-brand-soft/70 p-7"
                             >
-                                <span className="flex size-11 shrink-0 items-center justify-center rounded-lg bg-brand-soft text-brand">
+                                <span className="flex size-11 shrink-0 items-center justify-center rounded-sm bg-brand-soft text-brand">
                                     <program.icon className="size-5" />
                                 </span>
                                 <div>

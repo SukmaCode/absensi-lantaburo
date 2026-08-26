@@ -8,6 +8,7 @@ use App\Models\Student;
 use App\Models\User;
 use App\Services\MidtransService;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
 use Laravel\Fortify\Contracts\CreatesNewUsers;
 
 class CreateNewUser implements CreatesNewUsers
@@ -25,6 +26,9 @@ class CreateNewUser implements CreatesNewUsers
             ...$this->profileRules(),
             'password' => $this->passwordRules(),
             'phone' => ['nullable', 'string', 'max:20'],
+            'role' => ['sometimes', Rule::in(['calon_siswa'])],
+        ], [
+            'role.in' => 'Pendaftaran akun hanya diperbolehkan untuk calon siswa.',
         ])->validate();
 
         $user = User::create([

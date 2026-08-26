@@ -14,6 +14,8 @@ export interface EventItem {
     description: string | null;
     event_date: string;
     location: string | null;
+    contact_person: string | null;
+    phone: string | null;
 }
 
 export interface LandingPageProps {

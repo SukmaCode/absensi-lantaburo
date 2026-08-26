@@ -5,6 +5,8 @@ use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\DataGuruController;
 use App\Http\Controllers\Admin\DataKelasController;
 use App\Http\Controllers\Admin\DataSiswaController;
+use App\Http\Controllers\Admin\EventController;
+use App\Http\Controllers\Admin\PengaturanAkunController as AdminPengaturanAkunController;
 use App\Http\Controllers\Admin\PengumumanController;
 use App\Http\Controllers\Admin\SchoolProfileController;
 use App\Http\Controllers\CalonSiswa\PaymentController;
@@ -49,6 +51,15 @@ Route::middleware(['auth', 'verified', 'admin'])->prefix('admin')->group(functio
 
     Route::get('school-profile', SchoolProfileController::class)->name('admin.school-profile');
     Route::put('school-profile/{id}', [SchoolProfileController::class, 'update'])->name('admin.school-profile.update');
+
+    Route::get('event', EventController::class)->name('admin.event');
+    Route::post('event', [EventController::class, 'store'])->name('admin.event.store');
+    Route::put('event/{id}', [EventController::class, 'update'])->name('admin.event.update');
+    Route::delete('event/{id}', [EventController::class, 'destroy'])->name('admin.event.destroy');
+
+    Route::get('pengaturan', [AdminPengaturanAkunController::class, 'edit'])->name('admin.pengaturan');
+    Route::post('pengaturan', [AdminPengaturanAkunController::class, 'update'])->name('admin.pengaturan.update');
+    Route::put('pengaturan/password', [AdminPengaturanAkunController::class, 'updatePassword'])->name('admin.pengaturan.password');
 });
 
 Route::middleware(['auth', 'verified', 'teacher'])->prefix('guru')->group(function () {

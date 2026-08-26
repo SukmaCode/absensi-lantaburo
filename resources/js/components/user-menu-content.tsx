@@ -11,6 +11,7 @@ import { UserInfo } from '@/components/user-info';
 import { useMobileNavigation } from '@/hooks/use-mobile-navigation';
 import { logout } from '@/routes';
 import { edit } from '@/routes/profile';
+import { pengaturan as adminPengaturan } from '@/routes/admin';
 import { pengaturan as guruPengaturan } from '@/routes/guru';
 import { pengaturan as siswaPengaturan } from '@/routes/siswa';
 import type { User } from '@/types';
@@ -24,7 +25,14 @@ export function UserMenuContent({ user }: Props) {
     const { isMobile, setOpenMobile } = useSidebar();
     const isSiswa = user.role === 'siswa' || user.role === 'student';
     const isGuru = user.role === 'guru' || user.role === 'teacher';
-    const settingsHref = isSiswa ? siswaPengaturan() : isGuru ? guruPengaturan() : edit();
+    const isAdmin = user.role === 'admin';
+    const settingsHref = isSiswa
+        ? siswaPengaturan()
+        : isGuru
+          ? guruPengaturan()
+          : isAdmin
+            ? adminPengaturan()
+            : edit();
 
     const handleLogout = () => {
         cleanup();
@@ -56,7 +64,7 @@ export function UserMenuContent({ user }: Props) {
                         }}
                     >
                         <Settings className="mr-2" />
-                        {isSiswa || isGuru ? 'Pengaturan Akun' : 'Settings'}
+                        {isSiswa || isGuru || isAdmin ? 'Pengaturan Akun' : 'Settings'}
                     </Link>
                 </DropdownMenuItem>
             </DropdownMenuGroup>

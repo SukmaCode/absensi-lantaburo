@@ -3,7 +3,7 @@ import { Quote } from 'lucide-react';
 export default function Testimonials() {
     return (
         <section id="testimoni" className="bg-white">
-            <div className="mx-auto w-full max-w-4xl px-5 py-20 sm:px-8 lg:py-28">
+            <div className="mx-auto w-full max-w-4xl px-5 py-10 sm:px-8">
                 <div className="text-center">
                     <p className="mb-4 text-xs font-semibold tracking-[0.2em] text-brand uppercase">
                         Testimoni

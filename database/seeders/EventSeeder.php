@@ -14,6 +14,14 @@ class EventSeeder extends Seeder
     {
         $events = [
             [
+                'title' => 'Psikotes',
+                'description' => 'Psikotes untuk siswa dan umum',
+                'event_date' => now()->addDays(7)->toDateString(),
+                'location' => 'Kampus Lantaburo',
+                'contact_person' => 'Panitia Psikotes',
+                'phone' => '08123456789',
+            ],
+            [
                 'title' => 'Open House Homeschooling Lantaburo',
                 'description' => 'Kunjungi kami dan kenali cara belajar di Lantaburo. Tur fasilitas, sesi diskusi dengan pendamping belajar, dan konsultasi langsung untuk orang tua.',
                 'event_date' => now()->addDays(7)->toDateString(),

@@ -34,6 +34,8 @@ import {
     dataGuru,
     dataKelas,
     dataSiswa,
+    event as adminEvent,
+    pengaturan as adminPengaturan,
     pengumuman,
     schoolProfile,
 } from '@/routes/admin';
@@ -51,7 +53,6 @@ import {
     riwayat as siswaRiwayat,
 } from '@/routes/siswa';
 import { dashboard as calonSiswaDashboard } from '@/routes/calon-siswa';
-import { edit } from '@/routes/profile';
 import type { Auth, NavItem } from '@/types';
 
 const calonSiswaNavItems: NavItem[] = [
@@ -94,13 +95,18 @@ const adminNavItems: NavItem[] = [
         icon: GiMegaphone,
     },
     {
+        title: 'Agenda Kegiatan',
+        href: adminEvent(),
+        icon: FaCalendarAlt,
+    },
+    {
         title: 'Pengaturan Sekolah',
         href: schoolProfile(),
         icon: MdSettings,
     },
     {
-        title: 'Pengaturan',
-        href: edit(),
+        title: 'Pengaturan Akun',
+        href: adminPengaturan(),
         icon: MdSettings,
     },
 ];

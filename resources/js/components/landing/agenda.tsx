@@ -12,14 +12,32 @@ function formatDate(dateString: string): string {
     });
 }
 
-interface AgendaProps {
-    events: EventItem[];
+function getWhatsAppUrl(
+    phone: string,
+    title: string,
+    contactPerson?: string | null
+): string {
+    let cleanPhone = phone.replace(/\D/g, '');
+    if (cleanPhone.startsWith('0')) {
+        cleanPhone = `62${cleanPhone.slice(1)}`;
+    } else if (cleanPhone.startsWith('8')) {
+        cleanPhone = `62${cleanPhone}`;
+    }
+
+    const greeting = contactPerson ? `Halo ${contactPerson}` : 'Halo Admin';
+    const message = `${greeting}, saya ingin bertanya mengenai agenda kegiatan "${title}" di Homeschooling Lantaburo.`;
+
+    return `https://wa.me/${cleanPhone}?text=${encodeURIComponent(message)}`;
 }
 
-export default function Agenda({ events }: AgendaProps) {
+interface AgendaProps {
+    events?: EventItem[];
+}
+
+export default function Agenda({ events = [] }: AgendaProps) {
     return (
         <section id='agenda' className="bg-white">
-            <div className="mx-auto w-full max-w-6xl px-5 py-20 sm:px-8 lg:py-28">
+            <div className="mx-auto w-full max-w-6xl px-5 py-10 sm:px-8">
                 <div className="max-w-2xl">
                     <p className="mb-4 font-semibold text-xs tracking-[0.2em] text-brand uppercase">
                         Agenda
@@ -60,6 +78,35 @@ export default function Agenda({ events }: AgendaProps) {
                                     <p className="mt-2 leading-relaxed text-brand-muted">
                                         {event.description}
                                     </p>
+                                    {(event.contact_person || event.phone) && (
+                                        <div className="mt-3 flex flex-wrap items-center gap-x-4 gap-y-1 text-sm text-brand-muted">
+                                            {event.contact_person && (
+                                                <p>
+                                                    Kontak:{' '}
+                                                    <span className="font-medium text-brand-text">
+                                                        {event.contact_person}
+                                                    </span>
+                                                </p>
+                                            )}
+                                            {event.phone && (
+                                                <p>
+                                                    WhatsApp:{' '}
+                                                    <a
+                                                        href={getWhatsAppUrl(
+                                                            event.phone,
+                                                            event.title,
+                                                            event.contact_person
+                                                        )}
+                                                        target="_blank"
+                                                        rel="noopener noreferrer"
+                                                        className="font-medium text-brand underline underline-offset-2 transition-colors hover:text-brand-dark"
+                                                    >
+                                                        {event.phone}
+                                                    </a>
+                                                </p>
+                                            )}
+                                        </div>
+                                    )}
                                 </div>
                             </article>
                         ))}

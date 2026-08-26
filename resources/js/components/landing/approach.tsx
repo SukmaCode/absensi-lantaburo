@@ -28,7 +28,7 @@ const principles = [
 export default function Approach() {
     return (
         <section className="bg-brand-bg">
-            <div className="mx-auto grid w-full max-w-6xl gap-14 px-5 py-20 sm:px-8 lg:grid-cols-[1fr_1.3fr] lg:gap-20 lg:py-28">
+            <div className="mx-auto grid w-full max-w-6xl gap-14 px-5 py-10 sm:px-8 lg:grid-cols-[1fr_1.3fr] lg:gap-20">
                 <div>
                     <p className="mb-4 text-xs font-semibold tracking-[0.2em] text-brand uppercase">
                         Pendekatan Belajar

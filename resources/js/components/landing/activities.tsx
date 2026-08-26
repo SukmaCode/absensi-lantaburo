@@ -26,7 +26,7 @@ const gallery = [
 export default function Activities() {
     return (
         <section id="aktivitas" className="bg-brand-dark">
-            <div className="mx-auto w-full max-w-6xl px-5 py-20 sm:px-8 lg:py-28">
+            <div className="mx-auto w-full max-w-6xl px-5 py-10 sm:px-8">
                 <div className="max-w-2xl">
                     <p className="mb-4 text-xs font-semibold tracking-[0.2em] text-brand-soft uppercase">
                         Aktivitas

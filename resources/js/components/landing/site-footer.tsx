@@ -17,7 +17,7 @@ interface SiteFooterProps {
 export default function SiteFooter({ school }: SiteFooterProps) {
     return (
         <footer id="kontak" className="bg-brand-text">
-            <div className="mx-auto w-full max-w-6xl px-5 py-16 sm:px-8 lg:py-20">
+            <div className="mx-auto w-full max-w-6xl px-5 py-10 sm:px-8">
                 <div className="grid gap-12 lg:grid-cols-[1.4fr_1fr_1fr]">
                     <div>
                         <div className="flex items-center gap-2.5">

@@ -1,6 +1,6 @@
 export default function CallToAction() {
     return (
-        <section className="relative overflow-hidden bg-linear-to-r from-brand-dark to-brand">
+        <section className="relative overflow-hidden bg-brand-dark">
             <div className="absolute -top-16 -right-10 size-56 rounded-full border-[18px] border-white/10" />
             <div className="absolute -bottom-20 -left-16 size-64 rounded-3xl bg-brand-warm/15" />
             <div className="relative mx-auto w-full max-w-3xl px-5 py-20 text-center sm:px-8 lg:py-28">
