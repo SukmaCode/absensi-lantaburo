@@ -7,15 +7,18 @@ use App\Http\Requests\Admin\StoreStudentRequest;
 use App\Http\Requests\Admin\UpdateStudentRequest;
 use App\Services\DataSiswaService;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Inertia\Response;
 
 class DataSiswaController extends Controller
 {
-    public function __invoke(DataSiswaService $service): Response
+    public function __invoke(Request $request, DataSiswaService $service): Response
     {
+        $search = $request->input('search');
+
         return Inertia::render('admin/data-siswa', array_merge(
-            $service->allStudents(),
+            $service->allStudents($search),
             ['classes' => $service->classes()],
         ));
     }

@@ -247,7 +247,7 @@ export default function AbsenSiswaPage({ todayAttendance, currentTime, currentDa
                     <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
                         <div className="flex flex-col gap-6 rounded-2xl border border-neutral-100 bg-white p-6 shadow-xs lg:col-span-2">
                             <div className="flex items-center gap-3 border-b border-neutral-100 pb-4">
-                                <div className="flex size-11 items-center justify-center rounded-xl bg-[#e7f6e0] text-brand">
+                                <div className="flex size-11 items-center justify-center rounded-sm bg-[#e7f6e0] text-brand">
                                     <CheckCircle2 className="size-6" />
                                 </div>
                                 <div>
@@ -257,14 +257,14 @@ export default function AbsenSiswaPage({ todayAttendance, currentTime, currentDa
                             </div>
 
                             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-                                <div className="rounded-xl border border-neutral-100 bg-neutral-50/70 p-4">
+                                <div className="rounded-sm border border-neutral-100 bg-neutral-50/70 p-4">
                                     <span className="text-xs text-brand-muted">Waktu Kirim</span>
                                     <div className="mt-1 flex items-center gap-2">
                                         <Clock className="size-4 text-brand" />
                                         <span className="font-bold text-xl text-brand-text">{todayAttendance.checkInTime} WIB</span>
                                     </div>
                                 </div>
-                                <div className="rounded-xl border border-neutral-100 bg-neutral-50/70 p-4">
+                                <div className="rounded-sm border border-neutral-100 bg-neutral-50/70 p-4">
                                     <span className="text-xs text-brand-muted">Status Kehadiran</span>
                                     <div className="mt-1">
                                         {todayAttendance.status ? (
@@ -282,14 +282,14 @@ export default function AbsenSiswaPage({ todayAttendance, currentTime, currentDa
                             </div>
 
                             {todayAttendance.notes && (
-                                <div className="rounded-xl border border-neutral-100 bg-neutral-50/50 p-4 text-sm">
+                                <div className="rounded-sm border border-neutral-100 bg-neutral-50/50 p-4 text-sm">
                                     <span className="text-xs font-medium text-brand-text">Catatan dari Guru:</span>
                                     <p className="mt-1 text-brand-muted">{todayAttendance.notes}</p>
                                 </div>
                             )}
 
                             <div className="flex items-center justify-end">
-                                <Button asChild className="rounded-xl bg-brand text-white hover:bg-brand-dark">
+                                <Button asChild className="rounded-sm bg-brand text-white hover:bg-brand-dark">
                                     <Link href={dashboard()}>Kembali ke Beranda</Link>
                                 </Button>
                             </div>
@@ -340,7 +340,7 @@ export default function AbsenSiswaPage({ todayAttendance, currentTime, currentDa
                                             onValueChange={handleDeviceChange}
                                             disabled={cameraLoading}
                                         >
-                                            <SelectTrigger className="h-8.5 w-full sm:w-[220px] rounded-xl border-neutral-200 text-xs bg-neutral-50/70 hover:bg-neutral-100">
+                                            <SelectTrigger className="h-8.5 w-full sm:w-[220px] text-black rounded-sm border-neutral-200 text-xs bg-neutral-50/70 hover:bg-neutral-100">
                                                 <Video className="mr-1.5 size-3.5 text-brand shrink-0" />
                                                 <SelectValue placeholder="Pilih Kamera" />
                                             </SelectTrigger>
@@ -400,7 +400,7 @@ export default function AbsenSiswaPage({ todayAttendance, currentTime, currentDa
                                                             type="button"
                                                             size="sm"
                                                             onClick={() => startCamera()}
-                                                            className="mt-1 rounded-xl bg-brand text-white hover:bg-brand-dark px-4 shadow-sm"
+                                                            className="mt-1 rounded-sm bg-brand text-white hover:bg-brand-dark px-4 shadow-sm"
                                                         >
                                                             <Camera className="mr-1.5 size-4" />
                                                             Nyalakan Kamera
@@ -425,7 +425,7 @@ export default function AbsenSiswaPage({ todayAttendance, currentTime, currentDa
                                         type="button"
                                         variant="outline"
                                         onClick={retakePhoto}
-                                        className="rounded-xl border-neutral-200 gap-2 hover:bg-neutral-50"
+                                        className="rounded-sm border-neutral-200 gap-2 hover:bg-neutral-50"
                                     >
                                         <RotateCcw className="size-4" />
                                         Foto Ulang
@@ -437,7 +437,7 @@ export default function AbsenSiswaPage({ todayAttendance, currentTime, currentDa
                                                 <Button
                                                     type="button"
                                                     onClick={capturePhoto}
-                                                    className="gap-2 rounded-xl bg-brand px-6 text-white hover:bg-brand-dark shadow-sm"
+                                                    className="gap-2 rounded-sm bg-brand px-6 text-white hover:bg-brand-dark shadow-sm"
                                                 >
                                                     <Camera className="size-4" />
                                                     Ambil Foto Sekarang
@@ -446,7 +446,7 @@ export default function AbsenSiswaPage({ todayAttendance, currentTime, currentDa
                                                     type="button"
                                                     variant="outline"
                                                     onClick={stopCamera}
-                                                    className="gap-2 rounded-xl border-neutral-200 text-neutral-700 hover:bg-neutral-100 hover:text-neutral-900"
+                                                    className="gap-2 rounded-sm border-neutral-200 text-neutral-700 hover:bg-neutral-100 hover:text-neutral-900"
                                                 >
                                                     <CameraOff className="size-4 text-neutral-500" />
                                                     Matikan Kamera
@@ -457,7 +457,7 @@ export default function AbsenSiswaPage({ todayAttendance, currentTime, currentDa
                                                 type="button"
                                                 onClick={() => startCamera()}
                                                 disabled={cameraLoading}
-                                                className="gap-2 rounded-xl bg-brand px-6 text-white hover:bg-brand-dark shadow-sm"
+                                                className="gap-2 rounded-sm bg-brand px-6 text-white hover:bg-brand-dark shadow-sm"
                                             >
                                                 {cameraLoading ? (
                                                     <>
@@ -494,14 +494,14 @@ export default function AbsenSiswaPage({ todayAttendance, currentTime, currentDa
                             </div>
 
                             {/* Current Time */}
-                            <div className="flex items-center justify-between rounded-xl border border-neutral-100 bg-white p-3 text-xs">
+                            <div className="flex items-center justify-between rounded-sm border border-neutral-100 bg-white p-3 text-xs">
                                 <span className="text-brand-muted">Waktu Saat Ini</span>
                                 <span className="font-bold text-brand-text tabular-nums">{currentTime} WIB</span>
                             </div>
 
                             {/* Checklist */}
                             <div className="space-y-2.5">
-                                <div className={cn('flex items-center gap-3 rounded-xl border p-3 text-sm transition-colors', capturedPhoto ? 'border-green-200 bg-green-50' : 'border-neutral-200 bg-neutral-50')}>
+                                <div className={cn('flex items-center gap-3 rounded-sm border p-3 text-sm transition-colors', capturedPhoto ? 'border-green-200 bg-green-50' : 'border-neutral-200 bg-neutral-50')}>
                                     <div className={cn('flex size-7 shrink-0 items-center justify-center rounded-full', capturedPhoto ? 'bg-brand text-white' : 'bg-neutral-200 text-neutral-500')}>
                                         {capturedPhoto ? <CheckCircle2 className="size-4" /> : <Camera className="size-4" />}
                                     </div>
@@ -517,7 +517,7 @@ export default function AbsenSiswaPage({ todayAttendance, currentTime, currentDa
                             </div>
 
                             {/* Info Notice */}
-                            <div className="flex items-start gap-2 rounded-xl bg-blue-50/80 p-3 text-[11px] text-blue-700">
+                            <div className="flex items-start gap-2 rounded-sm bg-blue-50/80 p-3 text-[11px] text-blue-700">
                                 <AlertCircle className="mt-0.5 size-3.5 shrink-0" />
                                 <p>Status kehadiran (Hadir, Terlambat, dll.) akan ditentukan oleh guru wali kelas Anda setelah foto diterima.</p>
                             </div>
@@ -526,7 +526,7 @@ export default function AbsenSiswaPage({ todayAttendance, currentTime, currentDa
                             <Button
                                 type="submit"
                                 disabled={processing || !capturedPhoto}
-                                className="mt-auto h-11 w-full gap-2 rounded-xl bg-brand font-semibold text-white shadow-xs hover:bg-brand-dark disabled:opacity-50"
+                                className="mt-auto h-11 w-full gap-2 rounded-sm bg-brand font-semibold text-white shadow-xs hover:bg-brand-dark disabled:opacity-50"
                             >
                                 {processing ? (
                                     <>

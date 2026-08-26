@@ -15,9 +15,9 @@ class DataGuruService
         private readonly DataGuruRepository $dataGuruRepository,
     ) {}
 
-    public function allTeachers(): array
+    public function allTeachers(?string $search = null): array
     {
-        $teachers = $this->dataGuruRepository->allTeachers();
+        $teachers = $this->dataGuruRepository->allTeachers($search);
 
         return [
             'teachers' => $teachers->map(fn (Teacher $teacher) => [
@@ -32,6 +32,9 @@ class DataGuruService
                 'raw_status' => $teacher->user->status,
                 'avatar' => $teacher->user->photo,
             ])->all(),
+            'filters' => [
+                'search' => $search ?? '',
+            ],
             'pagination' => [
                 'current_page' => $teachers->currentPage(),
                 'last_page' => $teachers->lastPage(),

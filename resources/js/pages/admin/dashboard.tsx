@@ -27,21 +27,17 @@ export default function Dashboard({
     return (
         <>
             <Head title="Dashboard" />
-            <div className="flex flex-1 flex-col gap-6 bg-brand-bg p-4 sm:p-6 lg:p-8">
-                <div className='flex justify-between'>
+            <div className="flex flex-1 flex-col gap-4 bg-brand-bg p-4 sm:gap-6 sm:p-6">
+                <div className='flex flex-col gap-1 sm:flex-row sm:items-start sm:justify-between'>
                     <div>
-                        <h1 className="font-bold text-2xl text-brand-text sm:text-3xl">
+                        <h1 className="font-bold text-xl text-brand-text sm:text-2xl lg:text-3xl">
                             Selamat Datang, {firstName}
                         </h1>
-                        <p className="mt-1.5 text-sm text-brand-muted">
+                        <p className="mt-1 text-sm text-brand-muted">
                             Berikut ringkasan aktivitas dan kehadiran hari ini.
                         </p>
-                        <p className="mt-2 text-xs text-brand-muted">{today}</p>
+                        <p className="mt-1.5 text-xs text-brand-muted">{today}</p>
                     </div>
-
-                    {/* <div className="rounded-2xl border border-neutral-100 bg-white p-6">
-                        <QuickActions />
-                    </div> */}
                 </div>
 
                 <AttendanceSummary
@@ -53,18 +49,18 @@ export default function Dashboard({
                     attendanceRate={attendanceSummary.attendanceRate}
                 />
 
-                <div className="grid grid-cols-1 gap-6 lg:grid-cols-[2fr_1fr]">
-                    <div className="flex flex-col gap-6">
-                        <div className="rounded-2xl border border-neutral-100 bg-white p-6">
+                <div className="grid grid-cols-1 gap-4 sm:gap-6 xl:grid-cols-[2fr_1fr]">
+                    <div className="flex flex-col gap-4 sm:gap-6">
+                        <div className="rounded-2xl border border-neutral-100 bg-white p-4 sm:p-6">
                             <AttendanceOverview {...attendanceOverview} />
                         </div>
-                        <div className="rounded-2xl border border-neutral-100 bg-white p-6">
+                        <div className="rounded-2xl border border-neutral-100 bg-white p-4 sm:p-6">
                             <RecentAttendance records={recentAttendance} />
                         </div>
                     </div>
 
-                    <div className="flex flex-col gap-6">
-                        <div className="rounded-2xl border border-neutral-100 bg-white p-6">
+                    <div className="flex flex-col gap-4 sm:gap-6">
+                        <div className="rounded-2xl border border-neutral-100 bg-white p-4 sm:p-6">
                             <Announcements items={announcements} />
                         </div>
                     </div>

@@ -1,6 +1,6 @@
-import { Link } from '@inertiajs/react';
-import { Filter, Plus, Search, UserRoundCheck } from 'lucide-react';
-import { useState } from 'react';
+import { Head, router } from '@inertiajs/react';
+import { useEffect, useRef, useState } from 'react';
+import { ChevronLeft, ChevronRight, Filter, Plus, Search, UserRoundCheck } from 'lucide-react';
 import FormAddStudent from '@/components/data-siswa/FormAddStudent';
 import { FormUpdateStudent } from '@/components/data-siswa/FormUpdateStudent';
 import { Button } from '@/components/ui/button';
@@ -31,16 +31,67 @@ export default function DataSiswa({
     students,
     pagination,
     classes,
+    filters,
 }: {
     students: StudentPreviewRow[];
     pagination: StudentPagination;
     classes: ClassOption[];
+    filters?: { search?: string };
 }) {
     const [open, setOpen] = useState(false);
     const [editingId, setEditingId] = useState<number | null>(null);
+    const [searchQuery, setSearchQuery] = useState(filters?.search ?? '');
+    const isFirstRender = useRef(true);
+
+    useEffect(() => {
+        if (isFirstRender.current) {
+            isFirstRender.current = false;
+            return;
+        }
+
+        const timer = setTimeout(() => {
+            router.get(
+                dataSiswa.url({
+                    query: searchQuery.trim() ? { search: searchQuery } : undefined,
+                }),
+                {},
+                {
+                    preserveState: true,
+                    preserveScroll: true,
+                    replace: true,
+                },
+            );
+        }, 400);
+
+        return () => clearTimeout(timer);
+    }, [searchQuery]);
+
+    const goToPage = (page: number) => {
+        router.get(
+            dataSiswa.url({
+                query: {
+                    page,
+                    ...(searchQuery.trim() ? { search: searchQuery.trim() } : {}),
+                },
+            }),
+            {},
+            { preserveState: true, preserveScroll: true },
+        );
+    };
+
+    const maxButtons = 10;
+    const startPage =
+        Math.floor((pagination.current_page - 1) / maxButtons) * maxButtons + 1;
+    const endPage = Math.min(startPage + maxButtons - 1, pagination.last_page);
+    const pages = Array.from(
+        { length: endPage - startPage + 1 },
+        (_, i) => startPage + i,
+    );
 
     return (
-        <div className="h-full border border-neutral-100 bg-white p-6">
+        <>
+            <Head title="Data Siswa" />
+            <div className="flex flex-1 flex-col border border-neutral-100 bg-white p-4 sm:p-6">
             <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
                 <div>
                     <h2 className="font-semibold text-base text-brand-text">
@@ -64,6 +115,8 @@ export default function DataSiswa({
                     <Search className="absolute top-1/2 left-3 size-4 -translate-y-1/2 text-brand-muted" />
                     <Input
                         type="search"
+                        value={searchQuery}
+                        onChange={(e) => setSearchQuery(e.target.value)}
                         placeholder="Cari nama, NIS, atau kelas..."
                         className="border border-neutral-200 bg-white pl-9 text-black focus-visible:border-2 focus-visible:border-brand"
                     />
@@ -81,14 +134,14 @@ export default function DataSiswa({
                 <table className="w-full min-w-130 text-left text-sm">
                     <thead>
                         <tr className="border-b border-neutral-100 text-xs text-brand-muted">
-                            <th className="pb-3 font-medium">No</th>
-                            <th className="pb-3 font-medium">Nama</th>
-                            <th className="pb-3 font-medium">NIS</th>
-                            <th className="pb-3 font-medium">Kelas</th>
-                            <th className="pb-3 font-medium">Status</th>
-                            <th className="pb-3 font-medium">Status Pembayaran</th>
-                            <th className="pb-3 font-medium">Tipe Pembayaran</th>
-                            <th className="pb-3 font-medium">Aksi</th>
+                            <th className="pb-3 min-w-12 font-medium">No</th>
+                            <th className="pb-3 min-w-36 font-medium">Nama</th>
+                            <th className="pb-3 min-w-36 font-medium">NIS</th>
+                            <th className="pb-3 min-w-24 font-medium">Kelas</th>
+                            <th className="pb-3 min-w-24 font-medium">Status</th>
+                            <th className="pb-3 min-w-24 font-medium">Status Pembayaran</th>
+                            <th className="pb-3 min-w-36 font-medium">Tipe Pembayaran</th>
+                            <th className="pb-3 min-w-24 font-medium">Aksi</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -207,45 +260,54 @@ export default function DataSiswa({
                 <p className="text-sm text-brand-muted">
                     Menampilkan {pagination.total} siswa
                 </p>
-                <div className="flex flex-wrap items-center gap-1">
-                    {pagination.links.map((link, index) => {
-                        const label = link.label
-                            .replaceAll('&laquo;', '«')
-                            .replaceAll('&raquo;', '»');
-
-                        return link.url ? (
+                {pagination.last_page > 1 && (
+                    <div className="flex flex-wrap items-center gap-1">
+                        <Button
+                            variant="outline"
+                            size="sm"
+                            onClick={() =>
+                                goToPage(pagination.current_page - 1)
+                            }
+                            disabled={pagination.current_page === 1}
+                            className="border-neutral-200 bg-white text-brand-text hover:bg-brand-soft"
+                        >
+                            <ChevronLeft className="size-4" />
+                        </Button>
+                        {pages.map((pageNumber) => (
                             <Button
-                                key={index}
-                                asChild
+                                key={pageNumber}
                                 variant="outline"
                                 size="sm"
+                                onClick={() => goToPage(pageNumber)}
                                 className={cn(
                                     'border-neutral-200 bg-white text-brand-text hover:bg-brand-soft',
-                                    link.active &&
+                                    pageNumber === pagination.current_page &&
                                     'border-brand bg-brand text-white hover:bg-brand-dark',
                                 )}
                             >
-                                <Link href={link.url} preserveScroll>
-                                    {label}
-                                </Link>
+                                {pageNumber}
                             </Button>
-                        ) : (
-                            <Button
-                                key={index}
-                                variant="outline"
-                                size="sm"
-                                disabled
-                                className="border-neutral-200 bg-white text-brand-muted"
-                            >
-                                {label}
-                            </Button>
-                        );
-                    })}
-                </div>
+                        ))}
+                        <Button
+                            variant="outline"
+                            size="sm"
+                            onClick={() =>
+                                goToPage(pagination.current_page + 1)
+                            }
+                            disabled={
+                                pagination.current_page ===
+                                pagination.last_page
+                            }
+                            className="border-neutral-200 bg-white text-brand-text hover:bg-brand-soft"
+                        >
+                            <ChevronRight className="size-4" />
+                        </Button>
+                    </div>
+                )}
             </div>
 
             <Dialog open={open} onOpenChange={setOpen}>
-                <DialogContent className="max-h-[90vh] overflow-y-auto sm:max-w-2xl bg-white custom-scrollbar">
+                <DialogContent className="max-h-[90vh] overflow-y-auto sm:max-w-2xl bg-white text-black custom-scrollbar">
                     <DialogHeader>
                         <DialogTitle className='text-black'>Tambah Siswa</DialogTitle>
                         <DialogDescription>
@@ -259,6 +321,7 @@ export default function DataSiswa({
                 </DialogContent>
             </Dialog>
         </div>
+        </>
     );
 }
 

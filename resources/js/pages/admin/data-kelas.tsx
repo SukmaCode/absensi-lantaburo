@@ -1,6 +1,6 @@
 import { Fragment, useEffect, useRef, useState } from 'react';
-import { Head, Link, router } from '@inertiajs/react';
-import { Filter, Plus, Search, Users, School } from 'lucide-react';
+import { Head, router } from '@inertiajs/react';
+import { ChevronLeft, ChevronRight, Filter, Plus, Search, Users, School } from 'lucide-react';
 import { FaTrash } from 'react-icons/fa';
 import FormAddClass from '@/components/data-kelas/FormAddClass';
 import { Button } from '@/components/ui/button';
@@ -82,12 +82,32 @@ export default function DataKelas({
         });
     }
 
-    // function handleSearch
+    const goToPage = (page: number) => {
+        router.get(
+            dataKelas.url({
+                query: {
+                    page,
+                    ...(searchQuery.trim() ? { search: searchQuery.trim() } : {}),
+                },
+            }),
+            {},
+            { preserveState: true, preserveScroll: true },
+        );
+    };
+
+    const maxButtons = 10;
+    const startPage =
+        Math.floor((pagination.current_page - 1) / maxButtons) * maxButtons + 1;
+    const endPage = Math.min(startPage + maxButtons - 1, pagination.last_page);
+    const pages = Array.from(
+        { length: endPage - startPage + 1 },
+        (_, i) => startPage + i,
+    );
 
     return (
         <>
             <Head title="Data Kelas" />
-            <div className="h-full border border-neutral-100 bg-white p-6">
+            <div className="flex flex-1 flex-col border border-neutral-100 bg-white p-4 sm:p-6">
                 <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
                     <div>
                         <h2 className="font-semibold text-base text-brand-text">
@@ -266,41 +286,50 @@ export default function DataKelas({
                     <p className="text-sm text-brand-muted">
                         Menampilkan {pagination.total} kelas
                     </p>
-                    <div className="flex flex-wrap items-center gap-1">
-                        {pagination.links.map((link, index) => {
-                            const label = link.label
-                                .replaceAll('&laquo;', '«')
-                                .replaceAll('&raquo;', '»');
-
-                            return link.url ? (
+                    {pagination.last_page > 1 && (
+                        <div className="flex flex-wrap items-center gap-1">
+                            <Button
+                                variant="outline"
+                                size="sm"
+                                onClick={() =>
+                                    goToPage(pagination.current_page - 1)
+                                }
+                                disabled={pagination.current_page === 1}
+                                className="border-neutral-200 bg-white text-brand-text hover:bg-brand-soft"
+                            >
+                                <ChevronLeft className="size-4" />
+                            </Button>
+                            {pages.map((pageNumber) => (
                                 <Button
-                                    key={index}
-                                    asChild
+                                    key={pageNumber}
                                     variant="outline"
                                     size="sm"
+                                    onClick={() => goToPage(pageNumber)}
                                     className={cn(
                                         'border-neutral-200 bg-white text-brand-text hover:bg-brand-soft',
-                                        link.active &&
+                                        pageNumber === pagination.current_page &&
                                         'border-brand bg-brand text-white hover:bg-brand-dark',
                                     )}
                                 >
-                                    <Link href={link.url} preserveScroll>
-                                        {label}
-                                    </Link>
+                                    {pageNumber}
                                 </Button>
-                            ) : (
-                                <Button
-                                    key={index}
-                                    variant="outline"
-                                    size="sm"
-                                    disabled
-                                    className="border-neutral-200 bg-white text-brand-muted"
-                                >
-                                    {label}
-                                </Button>
-                            );
-                        })}
-                    </div>
+                            ))}
+                            <Button
+                                variant="outline"
+                                size="sm"
+                                onClick={() =>
+                                    goToPage(pagination.current_page + 1)
+                                }
+                                disabled={
+                                    pagination.current_page ===
+                                    pagination.last_page
+                                }
+                                className="border-neutral-200 bg-white text-brand-text hover:bg-brand-soft"
+                            >
+                                <ChevronRight className="size-4" />
+                            </Button>
+                        </div>
+                    )}
                 </div>
 
                 {/* Modal Add Class */}

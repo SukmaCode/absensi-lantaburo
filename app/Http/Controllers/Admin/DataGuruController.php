@@ -7,15 +7,23 @@ use App\Http\Requests\Admin\StoreTeacherRequest;
 use App\Http\Requests\Admin\UpdateTeacherRequest;
 use App\Services\DataGuruService;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Inertia\Response;
 
 class DataGuruController extends Controller
 {
-    public function __invoke(DataGuruService $service): Response
+    public function __invoke(Request $request, DataGuruService $service): Response
     {
-        return Inertia::render('admin/data-guru', $service->allTeachers());
+        $search = $request->query('search');
+
+        return Inertia::render('admin/data-guru', $service->allTeachers(is_string($search) ? $search : null));
     }
+
+    // public function search(Request $request, DataGuruService $service): Collection
+    // {
+    //     return $service->searchTeachers($request->search);
+    // }
 
     public function create(StoreTeacherRequest $request, DataGuruService $service): RedirectResponse
     {

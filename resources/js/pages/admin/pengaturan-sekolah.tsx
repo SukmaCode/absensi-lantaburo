@@ -65,7 +65,7 @@ export default function PengaturanSekolah({ schoolProfile: profile }: { schoolPr
         <>
             <Head title="Pengaturan Sekolah" />
 
-            <div className="h-full border border-neutral-100 bg-white p-6">
+            <div className="flex flex-1 flex-col border border-neutral-100 bg-white p-4 sm:p-6">
                 {/* Header */}
                 <div className="flex flex-col gap-1">
                     <h2 className="font-semibold text-base text-brand-text">Pengaturan Sekolah</h2>
@@ -188,7 +188,7 @@ export default function PengaturanSekolah({ schoolProfile: profile }: { schoolPr
                             id="description_body"
                             name="description_body"
                             rows={1}
-                            className="resize-none text-black"
+                            className="resize-none text-black h-40"
                             value={data.description_body}
                             onChange={(e) => setData('description_body', e.target.value)}
                             placeholder="Deskripsi lengkap tentang sekolah..."

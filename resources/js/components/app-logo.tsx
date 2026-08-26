@@ -1,6 +1,7 @@
 import { usePage } from '@inertiajs/react';
 import { useState } from 'react';
 import AppLogoIcon from '@/components/app-logo-icon';
+import { FaSchool } from "react-icons/fa";
 
 export default function AppLogo() {
     const { name, logo } = usePage<{
@@ -18,7 +19,7 @@ export default function AppLogo() {
                 {logoPreview ? (
                     <img src={logoPreview} alt={name} className="size-8 fill-current text-white dark:text-black" />
                 ) : (
-                    <AppLogoIcon className="size-8 fill-current text-white dark:text-black" />
+                    <FaSchool className="size-8 fill-current text-white" />
                 )}
             </div>
             <div className="ml-1 grid flex-1 text-left text-sm">

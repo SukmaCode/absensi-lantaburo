@@ -14,9 +14,9 @@ class DataSiswaService
         private readonly DataSiswaRepository $dataSiswaRepository,
     ) {}
 
-    public function allStudents(): array
+    public function allStudents(?string $search = null): array
     {
-        $students = $this->dataSiswaRepository->allStudents();
+        $students = $this->dataSiswaRepository->allStudents($search);
 
         return [
             'students' => $students->map(fn (Student $student) => [
@@ -29,6 +29,9 @@ class DataSiswaService
                 'payment_type' => $student->user->latestPayment?->payment_type,
                 // 'photo' => $student->user->photo,
             ])->all(),
+            'filters' => [
+                'search' => $search,
+            ],
             'pagination' => [
                 'current_page' => $students->currentPage(),
                 'last_page' => $students->lastPage(),

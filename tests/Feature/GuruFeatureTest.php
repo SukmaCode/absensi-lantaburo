@@ -15,6 +15,7 @@ test('guests are redirected from guru routes', function () {
     $this->get(route('guru.absen'))->assertRedirect(route('login'));
     $this->get(route('guru.absen-murid'))->assertRedirect(route('login'));
     $this->get(route('guru.rekap-murid'))->assertRedirect(route('login'));
+    $this->get(route('guru.pengaturan'))->assertRedirect(route('login'));
 });
 
 test('non-guru users are forbidden from guru routes', function () {

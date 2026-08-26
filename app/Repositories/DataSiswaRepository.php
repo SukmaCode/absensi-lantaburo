@@ -9,7 +9,7 @@ use Illuminate\Support\Collection;
 
 class DataSiswaRepository
 {
-    public function allStudents(): LengthAwarePaginator
+    public function allStudents(?string $search = null): LengthAwarePaginator
     {
         return Student::query()
             ->with([
@@ -17,6 +17,15 @@ class DataSiswaRepository
                 'user.latestPayment' => fn ($q) => $q->select('payments.id', 'payments.user_id', 'payments.status', 'payments.payment_type'),
                 'schoolClass:id,name',
             ])
+            ->when($search, function ($query) use ($search) {
+                $query->where('nis', 'like', "%{$search}%")
+                    ->orWhereHas('user', function ($query) use ($search) {
+                        $query->where('name', 'like', "%{$search}%");
+                    })
+                    ->orWhereHas('schoolClass', function ($query) use ($search) {
+                        $query->where('name', 'like', "%{$search}%");
+                    });
+            })
             ->orderBy('id', 'asc')
             ->paginate(5);
     }

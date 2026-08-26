@@ -1,17 +1,11 @@
 import { usePage } from '@inertiajs/react';
-import { Bell } from 'lucide-react';
-import { Breadcrumbs } from '@/components/breadcrumbs';
+import { FaBell } from "react-icons/fa";
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
 import { SidebarTrigger } from '@/components/ui/sidebar';
 import { useInitials } from '@/hooks/use-initials';
-import type { BreadcrumbItem as BreadcrumbItemType } from '@/types';
 
-export function AppSidebarHeader({
-    breadcrumbs = [],
-}: {
-    breadcrumbs?: BreadcrumbItemType[];
-}) {
+export function AppSidebarHeader() {
     const { auth } = usePage().props;
     const getInitials = useInitials();
     const today = new Date().toLocaleDateString('id-ID', {
@@ -38,8 +32,8 @@ export function AppSidebarHeader({
                     className="relative rounded-full text-black hover:bg-brand-soft hover:text-brand-dark"
                     aria-label="Notifikasi"
                 >
-                    <Bell className="size-5" />
-                    <span className="absolute top-1.5 right-2 size-2 rounded-full bg-brand" />
+                    <FaBell className="size-5 text-brand-dark" />
+                    {/* <span className="absolute top-1.5 right-2 size-2 rounded-full bg-red-500" /> */}
                 </Button>
                 {auth.user && (
                     <Avatar className="size-8 overflow-hidden rounded-full">

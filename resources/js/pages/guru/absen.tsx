@@ -258,7 +258,7 @@ export default function AbsenGuruPage({
             if (videoRef.current.srcObject !== streamRef.current) {
                 videoRef.current.srcObject = streamRef.current;
             }
-            videoRef.current.play().catch(() => {});
+            videoRef.current.play().catch(() => { });
         }
     }, [cameraActive]);
 
@@ -310,7 +310,7 @@ export default function AbsenGuruPage({
                     <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
                         <div className="flex flex-col gap-6 rounded-2xl border border-neutral-100 bg-white p-6 shadow-xs lg:col-span-2">
                             <div className="flex items-center gap-3 border-b border-neutral-100 pb-4">
-                                <div className="flex size-11 items-center justify-center rounded-xl bg-[#e7f6e0] text-brand">
+                                <div className="flex size-11 items-center justify-center rounded-sm bg-[#e7f6e0] text-brand">
                                     <CheckCircle2 className="size-6" />
                                 </div>
                                 <div>
@@ -324,7 +324,7 @@ export default function AbsenGuruPage({
                             </div>
 
                             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-                                <div className="rounded-xl border border-neutral-100 bg-neutral-50/70 p-4">
+                                <div className="rounded-sm border border-neutral-100 bg-neutral-50/70 p-4">
                                     <span className="text-xs text-brand-muted">Waktu Masuk</span>
                                     <div className="mt-1 flex items-center gap-2">
                                         <Clock className="size-4 text-brand" />
@@ -333,7 +333,7 @@ export default function AbsenGuruPage({
                                         </span>
                                     </div>
                                 </div>
-                                <div className="rounded-xl border border-neutral-100 bg-neutral-50/70 p-4">
+                                <div className="rounded-sm border border-neutral-100 bg-neutral-50/70 p-4">
                                     <span className="text-xs text-brand-muted">Status Kehadiran</span>
                                     <div className="mt-1 flex items-center gap-2">
                                         <span
@@ -351,7 +351,7 @@ export default function AbsenGuruPage({
                             </div>
 
                             {/* GPS & Notes Info */}
-                            <div className="flex flex-col gap-3 rounded-xl border border-neutral-100 bg-neutral-50/50 p-4 text-sm text-brand-muted">
+                            <div className="flex flex-col gap-3 rounded-sm border border-neutral-100 bg-neutral-50/50 p-4 text-sm text-brand-muted">
                                 <div className="flex items-start gap-2.5">
                                     <MapPin className="mt-0.5 size-4 text-brand shrink-0" />
                                     <div>
@@ -378,7 +378,7 @@ export default function AbsenGuruPage({
                             </div>
 
                             <div className="flex items-center justify-end">
-                                <Button asChild className="rounded-xl bg-brand text-white hover:bg-brand-dark">
+                                <Button asChild className="rounded-sm bg-brand text-white hover:bg-brand-dark">
                                     <Link href={dashboard()}>Kembali ke Beranda</Link>
                                 </Button>
                             </div>
@@ -413,7 +413,7 @@ export default function AbsenGuruPage({
                                     <Camera className="size-5 text-brand" />
                                     <div>
                                         <h2 className="font-semibold text-base text-brand-text">Kamera Selfie</h2>
-                                        <div className="flex items-center gap-1.5 text-xs text-brand-muted">
+                                        <div className="flex font-regular items-center gap-1.5 text-xs text-brand-muted">
                                             <span
                                                 className={cn(
                                                     'inline-block size-2 rounded-full',
@@ -433,7 +433,7 @@ export default function AbsenGuruPage({
                                             onValueChange={handleDeviceChange}
                                             disabled={cameraLoading}
                                         >
-                                            <SelectTrigger className="h-8.5 w-full sm:w-[220px] rounded-xl border-neutral-200 text-xs bg-neutral-50/70 hover:bg-neutral-100">
+                                            <SelectTrigger className="h-8.5 w-full sm:w-[220px] text-black font-regular rounded-sm border-neutral-200 text-xs bg-neutral-50/70 hover:bg-neutral-100 text-brand-text">
                                                 <Video className="mr-1.5 size-3.5 text-brand shrink-0" />
                                                 <SelectValue placeholder="Pilih Kamera" />
                                             </SelectTrigger>
@@ -442,7 +442,7 @@ export default function AbsenGuruPage({
                                                     <SelectItem
                                                         key={device.deviceId || idx}
                                                         value={device.deviceId || `device-${idx}`}
-                                                        className="text-xs"
+                                                        className="text-xs font-regular"
                                                     >
                                                         {device.label || `Kamera ${idx + 1}`}
                                                     </SelectItem>
@@ -493,15 +493,6 @@ export default function AbsenGuruPage({
                                                                 {cameraError ?? 'Kamera sedang nonaktif. Klik tombol di bawah untuk menyalakan.'}
                                                             </p>
                                                         </div>
-                                                        <Button
-                                                            type="button"
-                                                            size="sm"
-                                                            onClick={() => startCamera()}
-                                                            className="mt-1 rounded-xl bg-brand text-white hover:bg-brand-dark px-4 shadow-sm"
-                                                        >
-                                                            <Camera className="mr-1.5 size-4" />
-                                                            Nyalakan Kamera
-                                                        </Button>
                                                     </>
                                                 )}
                                             </div>
@@ -524,7 +515,7 @@ export default function AbsenGuruPage({
                                         type="button"
                                         variant="outline"
                                         onClick={retakePhoto}
-                                        className="rounded-xl border-neutral-200 gap-2 hover:bg-neutral-50"
+                                        className="rounded-sm bg-brand border-neutral-200 gap-2 hover:bg-brand-dark"
                                     >
                                         <RotateCcw className="size-4" />
                                         Foto Ulang
@@ -536,7 +527,7 @@ export default function AbsenGuruPage({
                                                 <Button
                                                     type="button"
                                                     onClick={capturePhoto}
-                                                    className="gap-2 rounded-xl bg-brand px-6 text-white hover:bg-brand-dark shadow-sm"
+                                                    className="gap-2 rounded-sm bg-brand px-6 text-white hover:bg-brand-dark shadow-sm"
                                                 >
                                                     <Camera className="size-4" />
                                                     Ambil Foto Sekarang
@@ -545,9 +536,9 @@ export default function AbsenGuruPage({
                                                     type="button"
                                                     variant="outline"
                                                     onClick={stopCamera}
-                                                    className="gap-2 rounded-xl border-neutral-200 text-neutral-700 hover:bg-neutral-100 hover:text-neutral-900"
+                                                    className="gap-2 rounded-sm bg-red-500 border-neutral-200 text-white hover:bg-red-600 hover:text-neutral-100"
                                                 >
-                                                    <CameraOff className="size-4 text-neutral-500" />
+                                                    <CameraOff className="size-4 text-white" />
                                                     Matikan Kamera
                                                 </Button>
                                             </>
@@ -556,7 +547,7 @@ export default function AbsenGuruPage({
                                                 type="button"
                                                 onClick={() => startCamera()}
                                                 disabled={cameraLoading}
-                                                className="gap-2 rounded-xl bg-brand px-6 text-white hover:bg-brand-dark shadow-sm"
+                                                className="gap-2 rounded-sm bg-brand px-6 text-white hover:bg-brand-dark shadow-sm"
                                             >
                                                 {cameraLoading ? (
                                                     <>
@@ -593,7 +584,7 @@ export default function AbsenGuruPage({
                             </div>
 
                             {/* GPS Status Card */}
-                            <div className="rounded-xl border border-neutral-100 bg-neutral-50/70 p-4">
+                            <div className="rounded-sm border border-neutral-100 bg-neutral-50/70 p-4">
                                 <div className="flex items-center justify-between">
                                     <span className="text-xs font-semibold text-brand-text">Deteksi Lokasi GPS</span>
                                     <Button
@@ -646,7 +637,7 @@ export default function AbsenGuruPage({
                             </div>
 
                             {/* Current Time Reminder */}
-                            <div className="flex items-center justify-between rounded-xl border border-neutral-100 bg-white p-3 text-xs">
+                            <div className="flex items-center justify-between rounded-sm border border-neutral-100 bg-white p-3 text-xs">
                                 <span className="text-brand-muted">Waktu Saat Ini</span>
                                 <span className="font-bold text-brand-text tabular-nums">{currentTime} WIB</span>
                             </div>
@@ -662,14 +653,14 @@ export default function AbsenGuruPage({
                                     value={data.notes}
                                     onChange={(e) => setData('notes', e.target.value)}
                                     placeholder="Contoh: Piket pagi, tugas luar, dll."
-                                    className="rounded-xl text-xs"
+                                    className="text-xs"
                                     maxLength={255}
                                 />
                                 {errors.notes && <p className="text-xs text-rose-500">{errors.notes}</p>}
                             </div>
 
                             {/* Warning info */}
-                            <div className="flex items-start gap-2 rounded-xl bg-amber-50/80 p-3 text-[11px] text-amber-700">
+                            <div className="flex items-start gap-2 rounded-sm bg-amber-50/80 p-3 text-[11px] text-amber-700">
                                 <AlertCircle className="mt-0.5 size-3.5 shrink-0" />
                                 <p>Foto selfie & lokasi GPS akan tersimpan sebagai bukti kehadiran resmi.</p>
                             </div>
@@ -678,7 +669,7 @@ export default function AbsenGuruPage({
                             <Button
                                 type="submit"
                                 disabled={processing || !capturedPhoto}
-                                className="mt-auto h-11 w-full gap-2 rounded-xl bg-brand font-semibold text-white shadow-xs hover:bg-brand-dark disabled:opacity-50"
+                                className="mt-auto h-11 w-full gap-2 rounded-sm bg-brand font-semibold text-white shadow-xs hover:bg-brand-dark disabled:opacity-50"
                             >
                                 {processing ? (
                                     <>

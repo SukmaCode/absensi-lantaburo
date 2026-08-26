@@ -6,10 +6,12 @@ import {
     DropdownMenuLabel,
     DropdownMenuSeparator,
 } from '@/components/ui/dropdown-menu';
+import { useSidebar } from '@/components/ui/sidebar';
 import { UserInfo } from '@/components/user-info';
 import { useMobileNavigation } from '@/hooks/use-mobile-navigation';
 import { logout } from '@/routes';
 import { edit } from '@/routes/profile';
+import { pengaturan as guruPengaturan } from '@/routes/guru';
 import { pengaturan as siswaPengaturan } from '@/routes/siswa';
 import type { User } from '@/types';
 
@@ -19,11 +21,16 @@ type Props = {
 
 export function UserMenuContent({ user }: Props) {
     const cleanup = useMobileNavigation();
+    const { isMobile, setOpenMobile } = useSidebar();
     const isSiswa = user.role === 'siswa' || user.role === 'student';
-    const settingsHref = isSiswa ? siswaPengaturan() : edit();
+    const isGuru = user.role === 'guru' || user.role === 'teacher';
+    const settingsHref = isSiswa ? siswaPengaturan() : isGuru ? guruPengaturan() : edit();
 
     const handleLogout = () => {
         cleanup();
+        if (isMobile) {
+            setOpenMobile(false);
+        }
         router.flushAll();
     };
 
@@ -41,10 +48,15 @@ export function UserMenuContent({ user }: Props) {
                         className="block w-full cursor-pointer"
                         href={settingsHref}
                         prefetch
-                        onClick={cleanup}
+                        onClick={() => {
+                            cleanup();
+                            if (isMobile) {
+                                setOpenMobile(false);
+                            }
+                        }}
                     >
                         <Settings className="mr-2" />
-                        {isSiswa ? 'Pengaturan Akun' : 'Settings'}
+                        {isSiswa || isGuru ? 'Pengaturan Akun' : 'Settings'}
                     </Link>
                 </DropdownMenuItem>
             </DropdownMenuGroup>

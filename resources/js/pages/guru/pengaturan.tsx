@@ -1,19 +1,17 @@
-import { Head, router, useForm } from '@inertiajs/react';
+import { Head, useForm } from '@inertiajs/react';
 import {
-    AlertCircle,
-    Calendar,
+    BookOpen,
     Camera,
     CheckCircle2,
     GraduationCap,
-    HeartHandshake,
+    Info,
     KeyRound,
     Lock,
     Mail,
-    MapPin,
     Phone,
     Save,
+    School,
     ShieldCheck,
-    Sparkles,
     Trash2,
     User as UserIcon,
 } from 'lucide-react';
@@ -23,29 +21,20 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import {
-    Select,
-    SelectContent,
-    SelectItem,
-    SelectTrigger,
-    SelectValue,
-} from '@/components/ui/select';
-import { Textarea } from '@/components/ui/textarea';
 import { useInitials } from '@/hooks/use-initials';
 import { cn } from '@/lib/utils';
-import { dashboard, pengaturan } from '@/routes/siswa';
-import { password } from '@/routes/siswa/pengaturan';
-import type { PengaturanSiswaPageProps } from '@/types/siswa';
+import { dashboard, pengaturan } from '@/routes/guru';
+import { password, update } from '@/routes/guru/pengaturan';
+import type { PengaturanGuruPageProps } from '@/types/guru';
 
-export default function SiswaPengaturan({
-    student,
+export default function GuruPengaturan({
+    teacher,
     user,
-    classes,
     status,
-}: PengaturanSiswaPageProps) {
+}: PengaturanGuruPageProps) {
     const getInitials = useInitials();
     const fileInputRef = useRef<HTMLInputElement>(null);
-    const [activeTab, setActiveTab] = useState<'profile' | 'parent' | 'security'>('profile');
+    const [activeTab, setActiveTab] = useState<'profile' | 'security'>('profile');
     const [photoPreview, setPhotoPreview] = useState<string | null>(user.avatar || null);
 
     // Profile Form
@@ -53,26 +42,16 @@ export default function SiswaPengaturan({
         name: string;
         email: string;
         phone: string;
-        nis: string;
-        class_id: string;
-        gender: 'L' | 'P';
-        birth_date: string;
-        address: string;
-        parent_name: string;
-        parent_phone: string;
+        nip: string;
+        subject: string;
         photo: File | string | null;
         remove_photo: boolean;
     }>({
         name: user.name || '',
         email: user.email || '',
         phone: user.phone || '',
-        nis: student.nis || '',
-        class_id: student.class_id ? String(student.class_id) : '',
-        gender: student.gender || 'L',
-        birth_date: student.birth_date || '',
-        address: student.address || '',
-        parent_name: student.parent_name || '',
-        parent_phone: student.parent_phone || '',
+        nip: teacher.nip || '',
+        subject: teacher.subject || '',
         photo: null,
         remove_photo: false,
     });
@@ -83,22 +62,6 @@ export default function SiswaPengaturan({
         password: '',
         password_confirmation: '',
     });
-
-    // Calculate profile completeness score
-    const requiredFields = [
-        profileForm.data.name,
-        profileForm.data.email,
-        profileForm.data.nis,
-        profileForm.data.class_id,
-        profileForm.data.gender,
-        profileForm.data.birth_date,
-        profileForm.data.phone,
-        profileForm.data.address,
-        profileForm.data.parent_name,
-        profileForm.data.parent_phone,
-    ];
-    const filledCount = requiredFields.filter((val) => Boolean(val && String(val).trim() !== '')).length;
-    const completenessPercent = Math.round((filledCount / requiredFields.length) * 100);
 
     const handlePhotoChange = (e: ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files?.[0];
@@ -131,7 +94,7 @@ export default function SiswaPengaturan({
 
     const handleProfileSubmit = (e: React.FormEvent) => {
         e.preventDefault();
-        profileForm.post(pengaturan.url(), {
+        profileForm.post(update.url(), {
             preserveScroll: true,
             forceFormData: true,
         });
@@ -149,7 +112,7 @@ export default function SiswaPengaturan({
 
     return (
         <>
-            <Head title="Pengaturan Akun Siswa" />
+            <Head title="Pengaturan Akun Guru" />
 
             <div className="flex flex-1 flex-col gap-6 bg-brand-bg p-4 sm:p-6 lg:p-8">
                 {/* Header Banner */}
@@ -158,7 +121,11 @@ export default function SiswaPengaturan({
                         <div className="flex flex-col gap-4 sm:flex-row sm:items-center">
                             <div className="relative group">
                                 <Avatar className="size-20 rounded-md border-2 border-brand/20 shadow-md sm:size-24">
-                                    <AvatarImage src={photoPreview || undefined} alt={user.name} className="object-cover" />
+                                    <AvatarImage
+                                        src={photoPreview || undefined}
+                                        alt={user.name}
+                                        className="object-cover"
+                                    />
                                     <AvatarFallback className="rounded-md bg-brand-soft font-bold text-2xl text-brand-dark">
                                         {getInitials(user.name)}
                                     </AvatarFallback>
@@ -166,7 +133,7 @@ export default function SiswaPengaturan({
                                 <button
                                     type="button"
                                     onClick={() => fileInputRef.current?.click()}
-                                    className="absolute -right-1 -bottom-1 flex size-8 items-center justify-center rounded-sm border border-white bg-brand text-white shadow-md transition-transform hover:scale-110"
+                                    className="absolute -right-1 -bottom-1 flex size-8 items-center justify-center rounded-sm border border-white bg-brand text-white shadow-md transition-transform hover:scale-110 cursor-pointer"
                                     title="Ubah Foto Profil"
                                 >
                                     <Camera className="size-4" />
@@ -176,39 +143,64 @@ export default function SiswaPengaturan({
                             <div>
                                 <div className="flex flex-wrap items-center gap-2">
                                     <h1 className="font-bold text-2xl text-brand-text sm:text-3xl">
-                                        {user.name || 'Profil Siswa'}
+                                        {user.name || 'Profil Guru'}
                                     </h1>
                                     <span className="inline-flex items-center gap-1 rounded-full border border-emerald-200 bg-emerald-50 px-2.5 py-0.5 font-medium text-emerald-700 text-xs">
                                         <GraduationCap className="size-3.5" />
-                                        Siswa Aktif
+                                        Tenaga Pendidik
                                     </span>
                                 </div>
-                                <p className="mt-1 text-sm text-brand-muted">
-                                    NIS: <span className="font-medium text-brand-text">{student.nis || '-'}</span> &bull; Kelas:{' '}
-                                    <span className="font-medium text-brand-text">{student.className || 'Belum diatur'}</span>
-                                </p>
+                                <div className="mt-1 flex flex-wrap items-center gap-x-3 gap-y-1 text-sm text-brand-muted">
+                                    <span>
+                                        NIP:{' '}
+                                        <span className="font-medium text-brand-text">
+                                            {teacher.nip || 'Belum diatur'}
+                                        </span>
+                                    </span>
+                                    <span>&bull;</span>
+                                    <span>
+                                        Mata Pelajaran:{' '}
+                                        <span className="font-medium text-brand-text">
+                                            {teacher.subject || 'Belum diatur'}
+                                        </span>
+                                    </span>
+                                </div>
                             </div>
                         </div>
 
-                        {/* Profile Completion Indicator */}
-                        <div className="flex flex-col gap-2 rounded-2xl border border-neutral-200/80 bg-white/80 p-4 shadow-xs backdrop-blur-xs sm:min-w-[260px]">
+                        {/* Homeroom Assignment Badge Card */}
+                        <div className="flex flex-col gap-2 rounded-2xl border border-neutral-200/80 bg-white/90 p-4 shadow-xs backdrop-blur-xs sm:min-w-[260px]">
                             <div className="flex items-center justify-between text-xs">
                                 <span className="flex items-center gap-1.5 font-semibold text-brand-text">
-                                    <Sparkles className="size-4 text-brand" />
-                                    Kelengkapan Data
+                                    <School className="size-4 text-brand" />
+                                    Penugasan Kelas
                                 </span>
-                                <span className="font-bold text-brand">{completenessPercent}%</span>
+                                {teacher.homeroomClass ? (
+                                    <span className="rounded-full bg-brand-soft px-2 py-0.5 font-semibold text-[11px] text-brand-dark">
+                                        Wali Kelas
+                                    </span>
+                                ) : (
+                                    <span className="rounded-full bg-neutral-100 px-2 py-0.5 font-medium text-[11px] text-neutral-600">
+                                        Guru Pengajar
+                                    </span>
+                                )}
                             </div>
-                            <div className="h-2 w-full overflow-hidden rounded-full bg-neutral-100">
-                                <div
-                                    className="h-full rounded-full bg-gradient-to-r from-brand-soft to-brand transition-all duration-500"
-                                    style={{ width: `${completenessPercent}%` }}
-                                />
+                            <div className="mt-1">
+                                {teacher.homeroomClass ? (
+                                    <p className="font-bold text-brand-text text-sm">
+                                        {teacher.homeroomClass.name} (Tingkat {teacher.homeroomClass.gradeLevel})
+                                    </p>
+                                ) : (
+                                    <p className="text-brand-muted text-xs">
+                                        Tidak mengampu perwalian kelas saat ini.
+                                    </p>
+                                )}
                             </div>
                             <p className="text-[11px] text-brand-muted">
-                                {completenessPercent === 100
-                                    ? 'Data profil Anda sudah terisi lengkap!'
-                                    : 'Lengkapi seluruh informasi data diri & orang tua.'}
+                                Status akun:{' '}
+                                <span className="font-semibold text-emerald-600 capitalize">
+                                    {user.status === 'active' ? 'Aktif' : user.status}
+                                </span>
                             </p>
                         </div>
                     </div>
@@ -218,7 +210,9 @@ export default function SiswaPengaturan({
                 {status === 'profile-updated' && (
                     <div className="flex items-center gap-3 rounded-2xl border border-emerald-200 bg-emerald-50/90 p-4 text-emerald-800 shadow-xs">
                         <CheckCircle2 className="size-5 shrink-0 text-emerald-600" />
-                        <p className="font-medium text-sm">Profil dan data siswa Anda berhasil diperbarui.</p>
+                        <p className="font-medium text-sm">
+                            Profil dan informasi data guru Anda berhasil diperbarui.
+                        </p>
                     </div>
                 )}
 
@@ -242,20 +236,7 @@ export default function SiswaPengaturan({
                         )}
                     >
                         <UserIcon className="size-4" />
-                        Data Diri & Akademik
-                    </button>
-                    <button
-                        type="button"
-                        onClick={() => setActiveTab('parent')}
-                        className={cn(
-                            'flex items-center gap-2 cursor-pointer rounded-sm px-4 py-2.5 font-semibold text-sm transition-all',
-                            activeTab === 'parent'
-                                ? 'bg-brand text-white shadow-xs'
-                                : 'bg-white text-neutral-600 hover:bg-neutral-100 hover:text-brand-text',
-                        )}
-                    >
-                        <HeartHandshake className="size-4" />
-                        Data Orang Tua / Wali
+                        Data Diri & Pengajar
                     </button>
                     <button
                         type="button"
@@ -281,16 +262,16 @@ export default function SiswaPengaturan({
                     className="hidden"
                 />
 
-                {/* TAB 1: DATA DIRI & AKADEMIK */}
+                {/* TAB 1: DATA DIRI & PENGAJAR */}
                 {activeTab === 'profile' && (
                     <form onSubmit={handleProfileSubmit} className="space-y-6">
                         <div className="rounded-xl border border-neutral-200/80 bg-white p-6 shadow-xs sm:p-8">
                             <div className="border-neutral-100 border-b pb-4">
                                 <h2 className="font-bold text-brand-text text-lg sm:text-xl">
-                                    Informasi Data Diri Siswa
+                                    Informasi Profil & Data Guru
                                 </h2>
                                 <p className="mt-0.5 text-brand-muted text-xs sm:text-sm">
-                                    Isi informasi identitas siswa dan data akademik sekolah dengan lengkap.
+                                    Perbarui identitas pendidik, NIP, serta mata pelajaran yang Anda ampu di sekolah.
                                 </p>
                             </div>
 
@@ -300,9 +281,13 @@ export default function SiswaPengaturan({
                                     <Label className="font-semibold text-brand-text text-sm">Foto Profil</Label>
                                     <div className="mt-2 flex flex-col gap-4 sm:flex-row sm:items-center">
                                         <Avatar className="size-16 rounded-sm border border-neutral-200 shadow-xs">
-                                            <AvatarImage src={photoPreview || undefined} alt={user.name} className="object-cover" />
-                                            <AvatarFallback className="rounded-xl bg-brand-soft font-semibold text-brand-dark">
-                                                {getInitials(profileForm.data.name || 'Siswa')}
+                                            <AvatarImage
+                                                src={photoPreview || undefined}
+                                                alt={user.name}
+                                                className="object-cover"
+                                            />
+                                            <AvatarFallback className="rounded-sm bg-brand-soft font-semibold text-brand-dark">
+                                                {getInitials(profileForm.data.name || 'Guru')}
                                             </AvatarFallback>
                                         </Avatar>
                                         <div className="flex flex-wrap items-center gap-2">
@@ -321,7 +306,7 @@ export default function SiswaPengaturan({
                                                     variant="ghost"
                                                     size="sm"
                                                     onClick={handleRemovePhoto}
-                                                    className="rounded-sm text-rose-600 text-xs hover:bg-rose-50 hover:text-rose-700"
+                                                    className="rounded-sm text-rose-600 text-xs hover:bg-rose-50 hover:text-rose-700 cursor-pointer"
                                                 >
                                                     <Trash2 className="mr-1.5 size-3.5" />
                                                     Hapus Foto
@@ -335,21 +320,10 @@ export default function SiswaPengaturan({
                                     <InputError message={profileForm.errors.photo} className="mt-1" />
                                 </div>
 
-                                {/* NIS */}
-                                <div>
-                                    <p className="font-semibold text-brand-text text-sm">
-                                        Nomor Induk Siswa (NIS) <span className="text-rose-500">*</span>
-                                    </p>
-                                    <div className="relative mt-1.5">
-                                        <p className='font-regular text-brand-text text-sm'>{profileForm.data.nis}</p>
-                                    </div>
-                                    <InputError message={profileForm.errors.nis} className="mt-1" />
-                                </div>
-
                                 {/* Nama Lengkap */}
-                                <div>
+                                <div className="sm:col-span-2">
                                     <Label htmlFor="name" className="font-semibold text-brand-text text-sm">
-                                        Nama Lengkap Siswa <span className="text-rose-500">*</span>
+                                        Nama Lengkap Guru <span className="text-rose-500">*</span>
                                     </Label>
                                     <div className="relative mt-1.5">
                                         <Input
@@ -357,7 +331,7 @@ export default function SiswaPengaturan({
                                             type="text"
                                             value={profileForm.data.name}
                                             onChange={(e) => profileForm.setData('name', e.target.value)}
-                                            placeholder="Nama lengkap sesuai akta/ijazah"
+                                            placeholder="Nama lengkap beserta gelar (contoh: Ahmad Fauzi, S.Pd.)"
                                             className="border-neutral-200 focus:border-brand"
                                             required
                                         />
@@ -365,78 +339,46 @@ export default function SiswaPengaturan({
                                     <InputError message={profileForm.errors.name} className="mt-1" />
                                 </div>
 
-                                {/* Pilihan Kelas */}
+                                {/* NIP */}
                                 <div>
-                                    <p className="font-semibold text-brand-text text-sm">
-                                        Kelas
-                                    </p>
-                                    <div className="mt-1.5">
-                                        <p className='font-regular text-brand-text text-sm'>{profileForm.data.class_id || 'Belum ada kelas'}</p>
-                                    </div>
-                                    <InputError message={profileForm.errors.class_id} className="mt-1" />
-                                </div>
-
-                                {/* Jenis Kelamin */}
-                                <div>
-                                    <Label className="font-semibold text-brand-text text-sm">
-                                        Jenis Kelamin <span className="text-rose-500">*</span>
-                                    </Label>
-                                    <div className="mt-1.5 grid grid-cols-2 gap-3">
-                                        <button
-                                            type="button"
-                                            onClick={() => profileForm.setData('gender', 'L')}
-                                            className={cn(
-                                                'flex items-center justify-center gap-2 rounded-sm border p-3 font-semibold text-sm transition-all',
-                                                profileForm.data.gender === 'L'
-                                                    ? 'border-brand bg-brand-soft/40 text-brand-dark ring-2 ring-brand/20'
-                                                    : 'border-neutral-200 bg-white text-neutral-600 hover:border-neutral-300',
-                                            )}
-                                        >
-                                            <span className="flex size-5 items-center justify-center rounded-full border border-current text-xs">
-                                                L
-                                            </span>
-                                            Laki-laki
-                                        </button>
-                                        <button
-                                            type="button"
-                                            onClick={() => profileForm.setData('gender', 'P')}
-                                            className={cn(
-                                                'flex items-center justify-center gap-2 rounded-sm border p-3 font-semibold text-sm transition-all',
-                                                profileForm.data.gender === 'P'
-                                                    ? 'border-brand bg-brand-soft/40 text-brand-dark ring-2 ring-brand/20'
-                                                    : 'border-neutral-200 bg-white text-neutral-600 hover:border-neutral-300',
-                                            )}
-                                        >
-                                            <span className="flex size-5 items-center justify-center rounded-full border border-current text-xs">
-                                                P
-                                            </span>
-                                            Perempuan
-                                        </button>
-                                    </div>
-                                    <InputError message={profileForm.errors.gender} className="mt-1" />
-                                </div>
-
-                                {/* Tanggal Lahir */}
-                                <div>
-                                    <Label htmlFor="birth_date" className="font-semibold text-brand-text text-sm">
-                                        Tanggal Lahir
+                                    <Label htmlFor="nip" className="font-semibold text-brand-text text-sm">
+                                        Nomor Induk Pegawai (NIP)
                                     </Label>
                                     <div className="relative mt-1.5">
                                         <Input
-                                            id="birth_date"
-                                            type="date"
-                                            value={profileForm.data.birth_date}
-                                            onChange={(e) => profileForm.setData('birth_date', e.target.value)}
+                                            id="nip"
+                                            type="text"
+                                            value={profileForm.data.nip}
+                                            onChange={(e) => profileForm.setData('nip', e.target.value)}
+                                            placeholder="Contoh: 198501012010011001"
                                             className="border-neutral-200 focus:border-brand"
                                         />
                                     </div>
-                                    <InputError message={profileForm.errors.birth_date} className="mt-1" />
+                                    <InputError message={profileForm.errors.nip} className="mt-1" />
                                 </div>
 
-                                {/* Nomor Telepon / WA Siswa */}
+                                {/* Mata Pelajaran */}
                                 <div>
+                                    <Label htmlFor="subject" className="font-semibold text-brand-text text-sm">
+                                        Mata Pelajaran yang Diampu
+                                    </Label>
+                                    <div className="relative mt-1.5">
+                                        <Input
+                                            id="subject"
+                                            type="text"
+                                            value={profileForm.data.subject}
+                                            onChange={(e) => profileForm.setData('subject', e.target.value)}
+                                            placeholder="Contoh: Matematika / Bahasa Arab"
+                                            className="border-neutral-200 focus:border-brand"
+                                        />
+                                    </div>
+                                    <InputError message={profileForm.errors.subject} className="mt-1" />
+                                </div>
+
+                                {/* Nomor Telepon / WA */}
+                                <div className="sm:col-span-2">
                                     <Label htmlFor="phone" className="font-semibold text-brand-text text-sm">
-                                        No. WhatsApp / Telepon Siswa
+                                        No. WhatsApp / Telepon
                                     </Label>
                                     <div className="relative mt-1.5">
                                         <Input
@@ -451,92 +393,24 @@ export default function SiswaPengaturan({
                                     <InputError message={profileForm.errors.phone} className="mt-1" />
                                 </div>
 
-                                {/* Alamat Lengkap */}
-                                <div className="sm:col-span-2">
-                                    <Label htmlFor="address" className="font-semibold text-brand-text text-sm">
-                                        Alamat Tempat Tinggal
-                                    </Label>
-                                    <div className="mt-1.5">
-                                        <Textarea
-                                            id="address"
-                                            rows={3}
-                                            value={profileForm.data.address}
-                                            onChange={(e) => profileForm.setData('address', e.target.value)}
-                                            placeholder="Alamat lengkap (nama jalan, RT/RW, kelurahan, kecamatan, kota)"
-                                            className="border-neutral-200 focus:border-brand"
-                                        />
-                                    </div>
-                                    <InputError message={profileForm.errors.address} className="mt-1" />
-                                </div>
-                            </div>
-
-                            <div className="mt-8 flex items-center justify-end gap-3 border-neutral-100 border-t pt-4">
-                                <Button
-                                    type="submit"
-                                    disabled={profileForm.processing}
-                                    className="gap-2 rounded-sm bg-brand px-6 font-semibold text-white shadow-xs hover:bg-brand-dark"
-                                >
-                                    <Save className="size-4" />
-                                    {profileForm.processing ? 'Menyimpan...' : 'Simpan Data Diri'}
-                                </Button>
-                            </div>
-                        </div>
-                    </form>
-                )}
-
-                {/* TAB 2: DATA ORANG TUA / WALI */}
-                {activeTab === 'parent' && (
-                    <form onSubmit={handleProfileSubmit} className="space-y-6">
-                        <div className="rounded-xl border border-neutral-200/80 bg-white p-6 shadow-xs sm:p-8">
-                            <div className="border-neutral-100 border-b pb-4">
-                                <h2 className="font-bold text-brand-text text-lg sm:text-xl">
-                                    Data Orang Tua / Wali
-                                </h2>
-                                <p className="mt-0.5 text-brand-muted text-xs sm:text-sm">
-                                    Informasi ini penting untuk komunikasi sekolah terkait absensi dan laporan akademik.
-                                </p>
-                            </div>
-
-                            <div className="mt-6 grid grid-cols-1 gap-6 sm:grid-cols-2">
-                                {/* Nama Orang Tua / Wali */}
-                                <div className="sm:col-span-2">
-                                    <Label htmlFor="parent_name" className="font-semibold text-brand-text text-sm">
-                                        Nama Lengkap Orang Tua / Wali
-                                    </Label>
-                                    <div className="relative mt-1.5">
-                                        <Input
-                                            id="parent_name"
-                                            type="text"
-                                            value={profileForm.data.parent_name}
-                                            onChange={(e) => profileForm.setData('parent_name', e.target.value)}
-                                            placeholder="Contoh: Bapak Ahmad / Ibu Siti"
-                                            className="border-neutral-200 focus:border-brand"
-                                        />
-                                    </div>
-                                    <InputError message={profileForm.errors.parent_name} className="mt-1" />
-                                </div>
-
-                                {/* No Telepon / WA Orang Tua */}
-                                <div className="sm:col-span-2">
-                                    <Label htmlFor="parent_phone" className="font-semibold text-brand-text text-sm">
-                                        No. WhatsApp / Telepon Orang Tua
-                                    </Label>
-                                    <div className="relative mt-1.5">
-                                        <Input
-                                            id="parent_phone"
-                                            type="tel"
-                                            value={profileForm.data.parent_phone}
-                                            onChange={(e) => profileForm.setData('parent_phone', e.target.value)}
-                                            placeholder="Contoh: 081298765432"
-                                            className="border-neutral-200 focus:border-brand"
-                                        />
-                                    </div>
-                                    <InputError message={profileForm.errors.parent_phone} className="mt-1" />
-                                    <div className="mt-2 flex items-start gap-2 rounded-sm bg-brand-soft/40 p-3 text-brand-dark text-xs">
-                                        <AlertCircle className="size-4 shrink-0 text-brand" />
-                                        <span>
-                                            Nomor WhatsApp orang tua akan digunakan untuk pengiriman notifikasi otomatis saat absensi siswa tercatat.
-                                        </span>
+                                {/* Informational Banner for Homeroom */}
+                                <div className="sm:col-span-2 rounded-lg border border-emerald-100 bg-emerald-50/60 p-4 text-emerald-900 text-xs">
+                                    <div className="flex items-start gap-2.5">
+                                        <Info className="size-4 shrink-0 text-emerald-600 mt-0.5" />
+                                        <div>
+                                            <p className="font-semibold">Informasi Penugasan Wali Kelas</p>
+                                            <p className="mt-0.5 text-emerald-800">
+                                                {teacher.homeroomClass ? (
+                                                    <>
+                                                        Saat ini Anda ditugaskan sebagai wali kelas{' '}
+                                                        <span className="font-bold">{teacher.homeroomClass.name}</span>.
+                                                        Pengaturan penugasan kelas dikelola secara terpusat oleh administrator sekolah.
+                                                    </>
+                                                ) : (
+                                                    'Anda belum ditugaskan sebagai wali kelas. Fitur absensi murid dan rekap kehadiran kelas akan aktif otomatis setelah administrator menugaskan kelas kepada Anda.'
+                                                )}
+                                            </p>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -545,17 +419,17 @@ export default function SiswaPengaturan({
                                 <Button
                                     type="submit"
                                     disabled={profileForm.processing}
-                                    className="gap-2 rounded-sm bg-brand px-6 font-semibold text-white shadow-xs hover:bg-brand-dark"
+                                    className="gap-2 rounded-sm bg-brand px-6 font-semibold text-white shadow-xs hover:bg-brand-dark cursor-pointer"
                                 >
                                     <Save className="size-4" />
-                                    {profileForm.processing ? 'Menyimpan...' : 'Simpan Data Orang Tua'}
+                                    {profileForm.processing ? 'Menyimpan...' : 'Simpan Data Guru'}
                                 </Button>
                             </div>
                         </div>
                     </form>
                 )}
 
-                {/* TAB 3: KEAMANAN & AKUN */}
+                {/* TAB 2: KEAMANAN & AKUN */}
                 {activeTab === 'security' && (
                     <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
                         {/* Email & Akun */}
@@ -565,7 +439,7 @@ export default function SiswaPengaturan({
                                     <div className="border-neutral-100 border-b pb-4">
                                         <h2 className="font-bold text-brand-text text-lg">Alamat Email Akun</h2>
                                         <p className="mt-0.5 text-brand-muted text-xs">
-                                            Email digunakan untuk masuk ke sistem absensi dan pemulihan akun.
+                                            Email digunakan untuk masuk ke portal guru dan pemberitahuan sistem.
                                         </p>
                                     </div>
 
@@ -580,7 +454,7 @@ export default function SiswaPengaturan({
                                                     type="email"
                                                     value={profileForm.data.email}
                                                     onChange={(e) => profileForm.setData('email', e.target.value)}
-                                                    placeholder="email@example.com"
+                                                    placeholder="guru@lantaburo.sch.id"
                                                     className="border-neutral-200 focus:border-brand"
                                                     required
                                                 />
@@ -594,7 +468,7 @@ export default function SiswaPengaturan({
                                     <Button
                                         type="submit"
                                         disabled={profileForm.processing}
-                                        className="gap-2 rounded-sm bg-brand px-5 font-semibold text-white shadow-xs hover:bg-brand-dark"
+                                        className="gap-2 rounded-sm bg-brand px-5 font-semibold text-white shadow-xs hover:bg-brand-dark cursor-pointer"
                                     >
                                         <Save className="size-4" />
                                         {profileForm.processing ? 'Menyimpan...' : 'Perbarui Email'}
@@ -616,7 +490,10 @@ export default function SiswaPengaturan({
 
                                     <div className="mt-6 space-y-4">
                                         <div>
-                                            <Label htmlFor="current_password" className="font-semibold text-brand-text text-sm">
+                                            <Label
+                                                htmlFor="current_password"
+                                                className="font-semibold text-brand-text text-sm"
+                                            >
                                                 Kata Sandi Saat Ini
                                             </Label>
                                             <div className="relative mt-1.5">
@@ -624,13 +501,18 @@ export default function SiswaPengaturan({
                                                     id="current_password"
                                                     type="password"
                                                     value={passwordForm.data.current_password}
-                                                    onChange={(e) => passwordForm.setData('current_password', e.target.value)}
+                                                    onChange={(e) =>
+                                                        passwordForm.setData('current_password', e.target.value)
+                                                    }
                                                     placeholder="••••••••"
                                                     className="border-neutral-200 focus:border-brand"
                                                     autoComplete="current-password"
                                                 />
                                             </div>
-                                            <InputError message={passwordForm.errors.current_password} className="mt-1" />
+                                            <InputError
+                                                message={passwordForm.errors.current_password}
+                                                className="mt-1"
+                                            />
                                         </div>
 
                                         <div>
@@ -642,7 +524,9 @@ export default function SiswaPengaturan({
                                                     id="password"
                                                     type="password"
                                                     value={passwordForm.data.password}
-                                                    onChange={(e) => passwordForm.setData('password', e.target.value)}
+                                                    onChange={(e) =>
+                                                        passwordForm.setData('password', e.target.value)
+                                                    }
                                                     placeholder="••••••••"
                                                     className="border-neutral-200 focus:border-brand"
                                                     autoComplete="new-password"
@@ -652,7 +536,10 @@ export default function SiswaPengaturan({
                                         </div>
 
                                         <div>
-                                            <Label htmlFor="password_confirmation" className="font-semibold text-brand-text text-sm">
+                                            <Label
+                                                htmlFor="password_confirmation"
+                                                className="font-semibold text-brand-text text-sm"
+                                            >
                                                 Konfirmasi Kata Sandi Baru
                                             </Label>
                                             <div className="relative mt-1.5">
@@ -660,13 +547,18 @@ export default function SiswaPengaturan({
                                                     id="password_confirmation"
                                                     type="password"
                                                     value={passwordForm.data.password_confirmation}
-                                                    onChange={(e) => passwordForm.setData('password_confirmation', e.target.value)}
+                                                    onChange={(e) =>
+                                                        passwordForm.setData('password_confirmation', e.target.value)
+                                                    }
                                                     placeholder="••••••••"
                                                     className="border-neutral-200 focus:border-brand"
                                                     autoComplete="new-password"
                                                 />
                                             </div>
-                                            <InputError message={passwordForm.errors.password_confirmation} className="mt-1" />
+                                            <InputError
+                                                message={passwordForm.errors.password_confirmation}
+                                                className="mt-1"
+                                            />
                                         </div>
                                     </div>
                                 </div>
@@ -675,7 +567,7 @@ export default function SiswaPengaturan({
                                     <Button
                                         type="submit"
                                         disabled={passwordForm.processing}
-                                        className="gap-2 rounded-sm bg-brand px-5 font-semibold text-white shadow-xs hover:bg-brand-dark"
+                                        className="gap-2 rounded-sm bg-brand px-5 font-semibold text-white shadow-xs hover:bg-brand-dark cursor-pointer"
                                     >
                                         <KeyRound className="size-4" />
                                         {passwordForm.processing ? 'Menyimpan...' : 'Perbarui Kata Sandi'}
@@ -690,7 +582,7 @@ export default function SiswaPengaturan({
     );
 }
 
-SiswaPengaturan.layout = {
+GuruPengaturan.layout = {
     breadcrumbs: [
         {
             title: 'Dashboard',

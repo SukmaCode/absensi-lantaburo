@@ -1,16 +1,23 @@
+import { useEffect, useRef } from 'react';
 import { Head, router } from '@inertiajs/react';
-import { ChevronLeft, ChevronRight, ClipboardList } from 'lucide-react';
+import { ChevronLeft, ChevronRight, ClipboardList, Filter, Search } from 'lucide-react';
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
 import { cn } from '@/lib/utils';
 import { absensi } from '@/routes/admin';
+import { Maps } from '@/components/absensi/Maps';
 import { Pagination } from '@/types/dashboard';
 
 interface AttendanceRow {
+    teacher_id?: number | null;
     name: string;
     date: string;
+    class?: string | null;
     time: string;
     status: string;
+    latitude?: number | null;
+    longitude?: number | null;
 }
 
 interface AttendanceData {
@@ -31,14 +38,46 @@ const statusStyles: Record<string, string> = {
 export default function Absensi({
     studentAttendances,
     teacherAttendances,
+    filters
 }: {
     studentAttendances: AttendanceData;
     teacherAttendances: AttendanceData;
+    filters?: {
+        search?: string;
+    };
 }) {
     const [tab, setTab] = useState<Tab>('siswa');
+    const [searchQuery, setSearchQuery] = useState(filters?.search ?? '');
+    const [showMap, isShowMap] = useState(false);
+    const [selectedData, setSelectedData] = useState<AttendanceRow | null>(null);
 
     const current = tab === 'siswa' ? studentAttendances : teacherAttendances;
     const { data: rows, pagination } = current;
+
+    const isFirstRender = useRef(true);
+
+    useEffect(() => {
+        if (isFirstRender.current) {
+            isFirstRender.current = false;
+            return;
+        }
+
+        const timer = setTimeout(() => {
+            router.get(
+                absensi.url({
+                    query: searchQuery.trim() ? { search: searchQuery } : undefined,
+                }),
+                {},
+                {
+                    preserveState: true,
+                    preserveScroll: true,
+                    replace: true,
+                },
+            );
+        }, 400);
+
+        return () => clearTimeout(timer);
+    }, [searchQuery]);
 
     const goToPage = (page: number) => {
         router.get(
@@ -69,7 +108,7 @@ export default function Absensi({
     return (
         <>
             <Head title="Rekap Kehadiran" />
-            <div className="h-full border border-neutral-100 bg-white p-6">
+            <div className="flex flex-1 flex-col border border-neutral-100 bg-white p-4 sm:p-6">
                 <div>
                     <h2 className="font-semibold text-base text-brand-text">
                         Rekap Kehadiran
@@ -106,23 +145,38 @@ export default function Absensi({
                     </button>
                 </div>
 
+                <div className="mt-5 flex flex-col gap-3 sm:flex-row sm:items-center">
+                    <div className="relative flex-1">
+                        <Search className="absolute top-1/2 left-3 size-4 -translate-y-1/2 text-brand-muted" />
+                        <Input
+                            type="search"
+                            value={searchQuery}
+                            onChange={(e) => setSearchQuery(e.target.value)}
+                            placeholder={tab === 'siswa' ? "Cari nama siswa atau kelas" : "Cari nama guru"}
+                            className="border border-neutral-200 bg-white pl-9 text-black focus-visible:border-2 focus-visible:border-brand"
+                        />
+                    </div>
+                </div>
+
                 <div className="mt-4 overflow-x-auto">
                     <table className="w-full min-w-130 text-left text-sm">
                         <thead>
                             <tr className="border-b border-neutral-100 text-xs text-brand-muted">
                                 <th className="pb-3 font-medium">No</th>
                                 <th className="pb-3 font-medium">Nama</th>
+                                {tab === 'siswa' && <th className="pb-3 font-medium">Kelas</th>}
                                 <th className="pb-3 font-medium">Tanggal</th>
                                 <th className="pb-3 font-medium">
                                     Waktu Absen
                                 </th>
                                 <th className="pb-3 font-medium">Status</th>
+                                {tab === 'guru' && <th className="pb-3 font-medium">Lokasi</th>}
                             </tr>
                         </thead>
                         <tbody>
                             {rows.length === 0 ? (
                                 <tr>
-                                    <td colSpan={5}>
+                                    <td colSpan={tab === 'guru' ? 6 : 5}>
                                         <div className="flex flex-col items-center justify-center gap-3 py-12 text-center">
                                             <div className="flex size-12 items-center justify-center rounded-2xl bg-brand-soft">
                                                 <ClipboardList className="size-6 text-brand-dark" />
@@ -153,6 +207,9 @@ export default function Absensi({
                                         <td className="py-3 font-medium text-brand-text">
                                             {row.name}
                                         </td>
+                                        {tab === 'siswa' && <td className="py-3 text-brand-muted tabular-nums">
+                                            {row.class}
+                                        </td>}
                                         <td className="py-3 text-brand-muted tabular-nums">
                                             {row.date}
                                         </td>
@@ -170,6 +227,23 @@ export default function Absensi({
                                                 {row.status}
                                             </span>
                                         </td>
+                                        {tab === 'guru' &&
+                                            <td className="py-3">
+                                                {row.latitude != null && row.longitude != null ? (
+                                                    <Button
+                                                        onClick={() => {
+                                                            setSelectedData(row);
+                                                            isShowMap(true);
+                                                        }}
+                                                        size="sm"
+                                                        className="border border-neutral-200 bg-white text-brand-text hover:bg-brand-soft"
+                                                    >
+                                                        Lihat Lokasi
+                                                    </Button>
+                                                ) : (
+                                                    <span className="text-xs text-brand-muted">—</span>
+                                                )}
+                                            </td>}
                                     </tr>
                                 ))
                             )}
@@ -228,6 +302,16 @@ export default function Absensi({
                     )}
                 </div>
             </div>
+            {showMap && tab === 'guru' && selectedData && selectedData.latitude != null && selectedData.longitude != null && (
+                <Maps
+                    latitude={selectedData.latitude}
+                    longitude={selectedData.longitude}
+                    teacherName={selectedData.name}
+                    date={selectedData.date}
+                    time={selectedData.time}
+                    onClose={() => isShowMap(false)}
+                />
+            )}
         </>
     );
 }

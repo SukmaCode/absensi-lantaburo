@@ -10,6 +10,7 @@ use App\Http\Controllers\Admin\SchoolProfileController;
 use App\Http\Controllers\CalonSiswa\PaymentController;
 use App\Http\Controllers\Guru\AbsenGuruController;
 use App\Http\Controllers\Guru\AbsenMuridController;
+use App\Http\Controllers\Guru\PengaturanAkunController as GuruPengaturanAkunController;
 use App\Http\Controllers\Guru\RekapMuridController;
 use App\Http\Controllers\LandingController;
 use App\Http\Controllers\MidtransWebhookController;
@@ -60,6 +61,10 @@ Route::middleware(['auth', 'verified', 'teacher'])->prefix('guru')->group(functi
     Route::post('absen-murid', [AbsenMuridController::class, 'store'])->name('guru.absen-murid.store');
 
     Route::get('rekap-murid', RekapMuridController::class)->name('guru.rekap-murid');
+
+    Route::get('pengaturan', [GuruPengaturanAkunController::class, 'edit'])->name('guru.pengaturan');
+    Route::post('pengaturan', [GuruPengaturanAkunController::class, 'update'])->name('guru.pengaturan.update');
+    Route::put('pengaturan/password', [GuruPengaturanAkunController::class, 'updatePassword'])->name('guru.pengaturan.password');
 });
 
 Route::middleware(['auth', 'verified', 'student'])->prefix('siswa')->group(function () {

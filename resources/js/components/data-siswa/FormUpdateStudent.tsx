@@ -1,4 +1,5 @@
 import { useForm } from '@inertiajs/react';
+import React from 'react';
 import { Check, LoaderCircle, X } from 'lucide-react';
 import InputError from '@/components/input-error';
 import { Button } from '@/components/ui/button';
@@ -33,7 +34,7 @@ export function FormUpdateStudent({ student, classes, onCancel }: FormUpdateStud
         status: student.status === 'Aktif' ? 'active' : 'inactive',
     });
 
-    function submit(e: React.FormEvent) {
+    function submit(e: React.SubmitEvent) {
         e.preventDefault();
         put(update.url(student.id), {
             preserveScroll: true,

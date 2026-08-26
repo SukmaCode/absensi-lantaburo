@@ -8,6 +8,38 @@
 @custom-variant dark (&:is(.dark *));
 
 @font-face {
+    font-family: 'Plus Jakarta Sans';
+    src: url('../fonts/PlusJakartaSans-Regular.ttf') format('truetype');
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Plus Jakarta Sans';
+    src: url('../fonts/PlusJakartaSans-Medium.ttf') format('truetype');
+    font-weight: 500;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Plus Jakarta Sans';
+    src: url('../fonts/PlusJakartaSans-SemiBold.ttf') format('truetype');
+    font-weight: 600;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Plus Jakarta Sans';
+    src: url('../fonts/PlusJakartaSans-Bold.ttf') format('truetype');
+    font-weight: 700;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
     font-family: 'Plus Jakarta Sans Regular';
     src: url('../fonts/PlusJakartaSans-Regular.ttf') format('truetype');
     font-weight: 400;
@@ -40,10 +72,11 @@
 }
 
 @theme {
-    --font-regular: 'Plus Jakarta Sans Regular', sans-serif;
-    --font-medium: 'Plus Jakarta Sans Medium', sans-serif;
-    --font-semibold: 'Plus Jakarta Sans Semibold', sans-serif;
-    --font-bold: 'Plus Jakarta Sans Bold', sans-serif;
+    --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    --font-regular: 'Plus Jakarta Sans Regular', 'Plus Jakarta Sans', sans-serif;
+    --font-medium: 'Plus Jakarta Sans Medium', 'Plus Jakarta Sans', sans-serif;
+    --font-semibold: 'Plus Jakarta Sans Semibold', 'Plus Jakarta Sans', sans-serif;
+    --font-bold: 'Plus Jakarta Sans Bold', 'Plus Jakarta Sans', sans-serif;
 
     --color-brand: #41c623;
     --color-brand-dark: #246914;
@@ -177,9 +210,25 @@
         @apply border-border;
     }
 
+    html,
+    body,
+    input,
+    button,
+    select,
+    textarea,
+    optgroup {
+        font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    }
+
     body {
         @apply bg-background text-foreground;
+        font-weight: 400;
     }
+}
+
+@utility font-regular {
+    font-family: 'Plus Jakarta Sans Regular', 'Plus Jakarta Sans', sans-serif;
+    font-weight: 400;
 }
 
 @layer utilities {

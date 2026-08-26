@@ -54,28 +54,28 @@ export function AttendanceSummary({
     ];
 
     return (
-        <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
+        <div className="grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4">
             {stats.map(
                 ({ label, value, detail, icon, iconClassName, emphasized }) => (
                     <div
                         key={label}
                         className={cn(
-                            'flex items-start gap-4 rounded-2xl border border-neutral-100 bg-white p-5',
+                            'flex items-start gap-3 rounded-2xl border border-neutral-100 bg-white p-4 sm:gap-4 sm:p-5',
                             emphasized &&
                                 'border-brand/30 bg-brand-bg/60 lg:row-span-1',
                         )}
                     >
                         <div
                             className={cn(
-                                'flex size-11 shrink-0 items-center justify-center rounded-xl',
+                                'flex size-9 shrink-0 items-center justify-center rounded-xl sm:size-11',
                                 iconClassName,
                             )}
                         >
                             {icon}
                         </div>
                         <div className="min-w-0">
-                            <p className="text-sm text-brand-muted">{label}</p>
-                            <p className="mt-1 font-bold text-3xl text-brand-text tabular-nums">
+                            <p className="text-xs text-brand-muted sm:text-sm">{label}</p>
+                            <p className="mt-1 font-bold text-2xl text-brand-text tabular-nums sm:text-3xl">
                                 {value}
                             </p>
                             <p className="mt-0.5 truncate text-xs text-brand-muted">

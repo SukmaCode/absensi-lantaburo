@@ -14,17 +14,21 @@ class AbsensiService
     /**
      * @return array<int, array<string, string>>
      */
-    public function studentAttendances(): array
+    public function studentAttendances(?string $search = null): array
     {
-        $students = $this->repository->studentAttendances();
+        $students = $this->repository->studentAttendances($search);
 
         return [
             'data' => $students->map(fn (AttendanceStudent $attendance) => [
                 'name' => $attendance->student->user->name,
+                'class' => $attendance->student->schoolClass->name ?? '-',
                 'date' => $this->formatDate($attendance->date),
                 'time' => $this->formatTime($attendance->check_in_time),
                 'status' => $this->statusLabel($attendance->status),
             ])->all(),
+            'filters' => [
+                'search' => $search ?? '',
+            ],
             'pagination' => [
                 'current_page' => $students->currentPage(),
                 'last_page' => $students->lastPage(),
@@ -40,11 +44,11 @@ class AbsensiService
     }
 
     /**
-     * @return array<int, array<string, string>>
+     * @return array<int, array<string, string|float|null>>
      */
-    public function teacherAttendances(): array
+    public function teacherAttendances(?string $search = null): array
     {
-        $teachers = $this->repository->teacherAttendances();
+        $teachers = $this->repository->teacherAttendances($search);
 
         return [
             'data' => $teachers->map(fn (AttendanceTeacher $attendance) => [
@@ -52,7 +56,12 @@ class AbsensiService
                 'date' => $this->formatDate($attendance->date),
                 'time' => $this->formatTime($attendance->check_in_time),
                 'status' => $this->statusLabel($attendance->status),
+                'latitude' => $attendance->latitude ?? null,
+                'longitude' => $attendance->longitude ?? null,
             ])->all(),
+            'filters' => [
+                'search' => $search ?? '',
+            ],
             'pagination' => [
                 'current_page' => $teachers->currentPage(),
                 'last_page' => $teachers->lastPage(),

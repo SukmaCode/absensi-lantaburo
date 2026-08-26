@@ -11,7 +11,7 @@ class UpdateStudentRequest extends FormRequest
         $studentId = $this->route('id');
 
         return [
-            'nis' => ['required', 'string', 'max:30', "unique:students,nis,{$studentId}"],
+            'nis' => ['required', 'integer', "unique:students,nis,{$studentId}"],
             'class_id' => ['nullable', 'exists:classes,id'],
             'status' => ['required', 'in:active,inactive'],
         ];
@@ -22,6 +22,7 @@ class UpdateStudentRequest extends FormRequest
         return [
             'nis.required' => 'NIS harus diisi.',
             'nis.unique' => 'NIS sudah terdaftar.',
+            'nis.integer' => 'NIS harus berupa angka.',
             'class_id.exists' => 'Kelas tidak valid.',
             'status.required' => 'Status harus dipilih.',
             'status.in' => 'Status tidak valid.',

@@ -10,6 +10,11 @@ import {
     Settings,
     Users,
 } from 'lucide-react';
+import { MdDashboard, MdSettings } from "react-icons/md";
+import { FaClipboardList, FaCamera, FaCalendarAlt } from "react-icons/fa";
+import { PiStudentFill } from "react-icons/pi";
+import { GiTeacher, GiMegaphone } from "react-icons/gi";
+import { SiGoogleclassroom } from "react-icons/si";
 import AppLogo from '@/components/app-logo';
 import { NavMain } from '@/components/nav-main';
 import { NavUser } from '@/components/nav-user';
@@ -21,6 +26,7 @@ import {
     SidebarMenu,
     SidebarMenuButton,
     SidebarMenuItem,
+    useSidebar
 } from '@/components/ui/sidebar';
 import {
     absensi,
@@ -35,6 +41,7 @@ import {
     absen as guruAbsen,
     absenMurid as guruAbsenMurid,
     dashboard as guruDashboard,
+    pengaturan as guruPengaturan,
     rekapMurid as guruRekapMurid,
 } from '@/routes/guru';
 import {
@@ -51,7 +58,7 @@ const calonSiswaNavItems: NavItem[] = [
     {
         title: 'Status Pendaftaran',
         href: calonSiswaDashboard(),
-        icon: LayoutGrid,
+        icon: MdDashboard,
     },
 ];
 
@@ -59,42 +66,42 @@ const adminNavItems: NavItem[] = [
     {
         title: 'Dashboard',
         href: adminDashboard(),
-        icon: LayoutGrid,
+        icon: MdDashboard,
     },
     {
         title: 'Absensi',
         href: absensi(),
-        icon: ClipboardList,
+        icon: FaClipboardList,
     },
     {
         title: 'Data Siswa',
         href: dataSiswa(),
-        icon: Users,
+        icon: PiStudentFill,
     },
     {
         title: 'Data Guru',
         href: dataGuru(),
-        icon: GraduationCap,
+        icon: GiTeacher,
     },
     {
         title: 'Data Kelas',
         href: dataKelas(),
-        icon: School,
+        icon: SiGoogleclassroom,
     },
     {
         title: 'Pengumuman',
         href: pengumuman(),
-        icon: Megaphone,
+        icon: GiMegaphone,
     },
     {
         title: 'Pengaturan Sekolah',
         href: schoolProfile(),
-        icon: Settings,
+        icon: MdSettings,
     },
     {
         title: 'Pengaturan',
         href: edit(),
-        icon: Settings,
+        icon: MdSettings,
     },
 ];
 
@@ -102,27 +109,27 @@ const guruNavItems: NavItem[] = [
     {
         title: 'Dashboard',
         href: guruDashboard(),
-        icon: LayoutGrid,
+        icon: MdDashboard,
     },
     {
         title: 'Absen Saya',
         href: guruAbsen(),
-        icon: Camera,
+        icon: FaCamera,
     },
     {
         title: 'Absen Murid',
         href: guruAbsenMurid(),
-        icon: Users,
+        icon: PiStudentFill,
     },
     {
         title: 'Rekap Kehadiran',
         href: guruRekapMurid(),
-        icon: CalendarDays,
+        icon: FaCalendarAlt,
     },
     {
-        title: 'Pengaturan',
-        href: edit(),
-        icon: Settings,
+        title: 'Pengaturan Akun',
+        href: guruPengaturan(),
+        icon: MdSettings,
     },
 ];
 
@@ -130,27 +137,28 @@ const siswaNavItems: NavItem[] = [
     {
         title: 'Dashboard',
         href: siswaDashboard(),
-        icon: LayoutGrid,
+        icon: MdDashboard,
     },
     {
         title: 'Absen Saya',
         href: siswaAbsen(),
-        icon: Camera,
+        icon: FaCamera,
     },
     {
         title: 'Riwayat Kehadiran',
         href: siswaRiwayat(),
-        icon: CalendarDays,
+        icon: FaCalendarAlt,
     },
     {
         title: 'Pengaturan Akun',
         href: siswaPengaturan(),
-        icon: Settings,
+        icon: MdSettings,
     },
 ];
 
 export function AppSidebar() {
     const { auth } = usePage<{ auth: Auth }>().props;
+    const { isMobile, setOpenMobile } = useSidebar();
     const role = auth.user?.role;
     const isCalonSiswa = role === 'calon_siswa';
     const isSiswa = role === 'siswa' || role === 'student';
@@ -184,7 +192,15 @@ export function AppSidebar() {
                 <SidebarMenu>
                     <SidebarMenuItem>
                         <SidebarMenuButton size="lg" asChild>
-                            <Link href={homeUrl} prefetch>
+                            <Link
+                                href={homeUrl}
+                                prefetch
+                                onClick={() => {
+                                    if (isMobile) {
+                                        setOpenMobile(false);
+                                    }
+                                }}
+                            >
                                 <AppLogo />
                             </Link>
                         </SidebarMenuButton>

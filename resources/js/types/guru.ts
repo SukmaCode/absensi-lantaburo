@@ -113,3 +113,28 @@ export interface RekapMuridPageProps {
     students: StudentRecapRow[];
     summary: MonthlyRecapSummary;
 }
+
+export interface TeacherProfileData {
+    id: number;
+    user_id: number;
+    nip: string;
+    subject: string;
+    homeroomClass: HomeroomClassInfo | null;
+}
+
+export interface TeacherUserData {
+    id: number;
+    name: string;
+    email: string;
+    phone: string;
+    photo: string | null;
+    avatar: string | null;
+    status: string;
+}
+
+export interface PengaturanGuruPageProps {
+    teacher: TeacherProfileData;
+    user: TeacherUserData;
+    status?: string | null;
+}
+

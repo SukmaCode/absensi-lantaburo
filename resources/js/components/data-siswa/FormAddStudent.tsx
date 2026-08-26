@@ -172,7 +172,7 @@ export default function FormAddStudent({
                         value={data.status}
                         onValueChange={(value) => setData('status', value)}
                     >
-                        <SelectTrigger className="w-full">
+                        <SelectTrigger className="w-full text-black">
                             <SelectValue placeholder="Pilih status" />
                         </SelectTrigger>
                         <SelectContent>

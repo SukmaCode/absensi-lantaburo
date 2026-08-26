@@ -4,14 +4,12 @@ import {
     Megaphone,
     Plus,
     Search,
-    Pencil,
-    Trash2,
-    Users,
-    GraduationCap,
-    BookOpen,
-    CalendarDays,
     AlertTriangle,
 } from 'lucide-react';
+import { FaUsers } from "react-icons/fa";
+import { GiTeacher } from "react-icons/gi";
+import { PiStudentFill } from "react-icons/pi";
+import { MdModeEdit, MdDelete } from "react-icons/md";
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import {
@@ -45,17 +43,17 @@ const TARGET_ROLE_CONFIG: Record<
 > = {
     all: {
         label: 'Semua',
-        icon: Users,
+        icon: FaUsers,
         className: 'bg-blue-50 text-blue-700',
     },
     guru: {
         label: 'Guru',
-        icon: BookOpen,
+        icon: GiTeacher,
         className: 'bg-purple-50 text-purple-700',
     },
     siswa: {
         label: 'Siswa',
-        icon: GraduationCap,
+        icon: PiStudentFill,
         className: 'bg-amber-50 text-amber-700',
     },
 };
@@ -104,7 +102,7 @@ export default function Pengumuman({
     return (
         <>
             <Head title="Pengumuman" />
-            <div className="h-full border border-neutral-100 bg-white p-6">
+            <div className="flex flex-1 flex-col border border-neutral-100 bg-white p-4 sm:p-6">
                 {/* Header */}
                 <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
                     <div>
@@ -162,12 +160,7 @@ export default function Pengumuman({
                                     <th className="pb-3 font-medium">Judul</th>
                                     <th className="pb-3 font-medium">Target</th>
                                     <th className="pb-3 font-medium">Dibuat oleh</th>
-                                    <th className="pb-3 font-medium">
-                                        <span className="flex items-center gap-1">
-                                            <CalendarDays className="size-3" />
-                                            Waktu Publish
-                                        </span>
-                                    </th>
+                                    <th className="pb-3 font-medium">Waktu Publish</th>
                                     <th className="pb-3 font-medium">Aksi</th>
                                 </tr>
                             </thead>
@@ -222,7 +215,7 @@ export default function Pengumuman({
                                                         className="h-8 border-neutral-200 bg-white px-2 text-brand-text hover:bg-brand-soft"
                                                         onClick={() => setEditTarget(announcement)}
                                                     >
-                                                        <Pencil className="size-3.5" />
+                                                        <MdModeEdit className="size-3.5" />
                                                     </Button>
                                                     <Button
                                                         variant="outline"
@@ -232,7 +225,7 @@ export default function Pengumuman({
                                                             setDeleteTarget(announcement)
                                                         }
                                                     >
-                                                        <Trash2 className="size-3.5" />
+                                                        <MdDelete className="size-3.5" />
                                                     </Button>
                                                 </div>
                                             </td>
@@ -265,7 +258,7 @@ export default function Pengumuman({
                                         className={cn(
                                             'border-neutral-200 bg-white text-brand-text hover:bg-brand-soft',
                                             link.active &&
-                                                'border-brand bg-brand text-white hover:bg-brand-dark',
+                                            'border-brand bg-brand text-white hover:bg-brand-dark',
                                         )}
                                     >
                                         <Link href={link.url} preserveScroll>
