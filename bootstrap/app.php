@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Middleware\EnsureUserIsAdmin;
+use App\Http\Middleware\EnsureUserIsParent;
 use App\Http\Middleware\EnsureUserIsStudent;
 use App\Http\Middleware\EnsureUserIsTeacher;
 use App\Http\Middleware\HandleAppearance;
@@ -33,6 +34,7 @@ return Application::configure(basePath: dirname(__DIR__))
 
         $middleware->alias([
             'admin' => EnsureUserIsAdmin::class,
+            'parent' => EnsureUserIsParent::class,
             'student' => EnsureUserIsStudent::class,
             'teacher' => EnsureUserIsTeacher::class,
         ]);

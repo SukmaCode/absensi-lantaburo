@@ -20,7 +20,7 @@ class StoreTeacherRequest extends FormRequest
             'password' => ['required', 'string', 'min:8'],
             'phone' => ['nullable', 'string', 'max:20'],
             'nip' => ['required', 'string', 'max:30', 'unique:teachers,nip'],
-            'subject' => ['required', 'string', 'max:100'],
+            'subject' => ['nullable', 'string', 'max:100'],
             'status' => ['nullable', 'in:active,inactive'],
         ];
     }

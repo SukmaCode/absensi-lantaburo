@@ -4,6 +4,7 @@ import {
     Calendar,
     CheckCheck,
     CheckCircle2,
+    Clock,
     GraduationCap,
     Loader2,
     Save,
@@ -33,18 +34,20 @@ export default function AbsenMuridPage({
     students,
     date,
     formattedDate,
+    currentTime,
 }: AbsenMuridPageProps) {
     const [searchQuery, setSearchQuery] = useState('');
     const [selectedDate, setSelectedDate] = useState(date);
 
     // Prepare state for batch attendance items
-    const { data, setData, post, processing } = useForm<{
+    const { data, setData, post, processing, errors } = useForm<{
         date: string;
         attendances: Array<{
             student_id: number;
             status: StatusType;
             notes: string;
         }>;
+        attendance_time?: string;
     }>({
         date: date,
         attendances: students.map((s) => ({
@@ -114,9 +117,13 @@ export default function AbsenMuridPage({
             onSuccess: () => {
                 toast.success('Absensi kelas berhasil disimpan!');
             },
-            onError: (err) => {
-                console.error(err);
-                toast.error('Gagal menyimpan absensi. Periksa kembali form isian.');
+            onError: (formErrors) => {
+                const firstError = Object.values(formErrors)[0];
+                if (firstError) {
+                    toast.error(typeof firstError === 'string' ? firstError : 'Gagal menyimpan absensi.');
+                } else {
+                    toast.error('Gagal menyimpan absensi. Periksa kembali form isian.');
+                }
             },
         });
     };
@@ -141,8 +148,15 @@ export default function AbsenMuridPage({
                         </p>
                     </div>
 
-                    {/* Date Picker Filter */}
-                    <div className="flex items-center gap-2">
+                    {/* Schedule Badge & Date Picker Filter */}
+                    <div className="flex flex-wrap items-center gap-2.5">
+                        <div className="inline-flex items-center gap-1.5 rounded-sm border border-neutral-200 bg-white px-3 py-1.5 text-xs text-brand-muted shadow-xs">
+                            <Clock className="size-3.5 text-brand shrink-0" />
+                            <span>Jadwal Absen: <strong className="text-brand">08:00 - 09:00 WIB</strong></span>
+                            {currentTime && (
+                                <span className="ml-1 text-neutral-400">({currentTime} WIB)</span>
+                            )}
+                        </div>
                         <div className="flex items-center gap-2 rounded-sm border border-neutral-200 bg-white px-3 py-1.5 shadow-xs">
                             <Calendar className="size-4 text-brand shrink-0" />
                             <input
@@ -167,6 +181,16 @@ export default function AbsenMuridPage({
                     </div>
                 ) : (
                     <form onSubmit={handleSubmit} className="flex flex-col gap-6">
+                        {/* Attendance Time Error Alert */}
+                        {errors.attendance_time && (
+                            <div className="flex items-start gap-2.5 rounded-xl border border-rose-200 bg-rose-50 p-4 text-xs text-rose-700 shadow-xs">
+                                <AlertCircle className="mt-0.5 size-4 shrink-0 text-rose-600" />
+                                <div>
+                                    <p className="font-semibold text-rose-800">Waktu Absensi Tidak Sesuai</p>
+                                    <p className="mt-0.5 text-rose-600">{errors.attendance_time}</p>
+                                </div>
+                            </div>
+                        )}
                         {/* Summary Bar & Quick Actions */}
                         <div className="flex flex-col gap-4 rounded-2xl border border-neutral-100 bg-white p-5 shadow-xs sm:flex-row sm:items-center sm:justify-between">
                             <div className="flex flex-wrap items-center gap-2 sm:gap-3 text-xs">

@@ -60,6 +60,7 @@ test('absensi page shows teacher attendance recap', function () {
         'date' => '2026-08-21',
         'check_in_time' => '07:25:00',
         'status' => 'terlambat',
+        'photo_selfie' => 'attendance/teacher/photo.jpg',
     ]);
 
     $this->actingAs($admin)->get(route('admin.absensi'))
@@ -68,5 +69,6 @@ test('absensi page shows teacher attendance recap', function () {
             ->has('teacherAttendances.data', 1)
             ->where('teacherAttendances.data.0.name', $teacher->user->name)
             ->where('teacherAttendances.data.0.time', '07:25')
-            ->where('teacherAttendances.data.0.status', 'Terlambat'));
+            ->where('teacherAttendances.data.0.status', 'Terlambat')
+            ->where('teacherAttendances.data.0.photo_url', asset('storage/attendance/teacher/photo.jpg')));
 });

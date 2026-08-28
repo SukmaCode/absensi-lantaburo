@@ -14,7 +14,12 @@ return new class extends Migration
         Schema::create('school_profile', function (Blueprint $table) {
             $table->id();
             $table->string('name', 200)->nullable();
-            $table->string('logo')->nullable();
+            $table->string('logo', 150)->nullable();
+            $table->string('hero_image', 150)->nullable();
+            $table->string('about_image', 150)->nullable();
+            $table->string('activities_image_1', 150)->nullable();
+            $table->string('activities_image_2', 150)->nullable();
+            $table->string('activities_image_3', 150)->nullable();
             $table->text('description_heading')->nullable();
             $table->text('description_body')->nullable();
             $table->text('address')->nullable();

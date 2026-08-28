@@ -89,7 +89,7 @@ export default function SiswaPengaturan({
         profileForm.data.name,
         profileForm.data.email,
         profileForm.data.nis,
-        profileForm.data.class_id,
+        // profileForm.data.class_id,
         profileForm.data.gender,
         profileForm.data.birth_date,
         profileForm.data.phone,
@@ -373,6 +373,9 @@ export default function SiswaPengaturan({
                                     <div className="mt-1.5">
                                         <p className='font-regular text-brand-text text-sm'>{profileForm.data.class_id || 'Belum ada kelas'}</p>
                                     </div>
+                                    {!profileForm.data.class_id && (
+                                        <p className="text-xs text-brand-muted">Tunggu admin menambahkan kamu di kelas</p>
+                                    )}
                                     <InputError message={profileForm.errors.class_id} className="mt-1" />
                                 </div>
 

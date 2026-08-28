@@ -4,6 +4,7 @@ import {
     Calendar,
     ChevronLeft,
     ChevronRight,
+    Download,
     FileSpreadsheet,
     GraduationCap,
     Printer,
@@ -14,6 +15,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { cn } from '@/lib/utils';
 import { rekapMurid } from '@/routes/guru';
+import { exportMethod as exportRekapMurid } from '@/routes/guru/rekap-murid';
 import type { RekapMuridPageProps } from '@/types/guru';
 
 const statusBadgeStyles: Record<string, string> = {
@@ -73,6 +75,10 @@ export default function RekapMuridPage({
         window.print();
     };
 
+    const handleExportExcel = () => {
+        window.location.href = exportRekapMurid.url({ query: { month: selectedMonth } });
+    };
+
     return (
         <>
             <Head title="Rekap Kehadiran Murid" />
@@ -124,6 +130,17 @@ export default function RekapMuridPage({
                                 <ChevronRight className="size-4" />
                             </Button>
                         </div>
+
+                        <Button
+                            variant="outline"
+                            size="sm"
+                            onClick={handleExportExcel}
+                            disabled={!hasHomeroomClass}
+                            className="rounded-sm border-emerald-600 bg-emerald-50 text-xs font-semibold text-emerald-800 hover:bg-emerald-100 hover:text-emerald-900 transition-colors shadow-2xs"
+                        >
+                            <Download className="mr-1.5 size-3.5 text-emerald-700" />
+                            Export Excel
+                        </Button>
 
                         <Button
                             variant="outline"
@@ -212,9 +229,9 @@ export default function RekapMuridPage({
                                     <thead>
                                         <tr className="bg-neutral-50/80 text-brand-muted border-b border-neutral-100">
                                             <th className="sticky left-0 z-10 bg-neutral-50 p-2 font-semibold text-left w-8">No</th>
-                                            <th className="sticky left-8 z-10 bg-neutral-50 p-2 font-semibold text-left w-24">NIS</th>
-                                            <th className="sticky left-26 z-10 bg-neutral-50 p-2 font-semibold text-left min-w-44">Nama Siswa</th>
-                                            <th className="sticky left-70 z-10 bg-neutral-50 p-2 font-semibold w-8">L/P</th>
+                                            <th className="sticky left-8 z-10 bg-neutral-50 p-2 font-semibold text-left min-w-44">Nama Siswa</th>
+                                            <th className="bg-neutral-50 p-2 font-semibold text-left w-24">NIS</th>
+                                            <th className="bg-neutral-50 p-2 font-semibold w-8">L/P</th>
 
                                             {/* Date Columns */}
                                             {daysInMonth.map((day) => (
@@ -253,13 +270,13 @@ export default function RekapMuridPage({
                                                     <td className="sticky left-0 z-10 bg-white p-2 text-left text-brand-muted tabular-nums">
                                                         {idx + 1}
                                                     </td>
-                                                    <td className="sticky left-8 z-10 bg-white p-2 text-left font-mono text-[11px] text-brand-muted">
-                                                        {student.nis}
-                                                    </td>
-                                                    <td className="sticky left-26 z-10 bg-white p-2 text-left font-medium text-brand-text truncate">
+                                                    <td className="sticky left-8 z-10 bg-white p-2 text-left font-medium text-brand-text truncate">
                                                         {student.name}
                                                     </td>
-                                                    <td className="sticky left-70 z-10 bg-white p-2 text-brand-muted">
+                                                    <td className="bg-white p-2 text-left font-mono text-[11px] text-brand-muted">
+                                                        {student.nis}
+                                                    </td>
+                                                    <td className="bg-white p-2 text-brand-muted">
                                                         <span
                                                             className={cn(
                                                                 'inline-flex size-5 items-center justify-center rounded text-[10px] font-semibold',

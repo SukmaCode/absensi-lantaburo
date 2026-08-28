@@ -58,6 +58,13 @@ class UserFactory extends Factory
         ]);
     }
 
+    public function asOrangTua(): static
+    {
+        return $this->state(fn (array $attributes) => [
+            'role' => 'orang_tua',
+        ]);
+    }
+
     /**
      * Indicate that the model's email address should be unverified.
      */
@@ -71,5 +78,12 @@ class UserFactory extends Factory
     /**
      * Indicate that the model has two-factor authentication configured.
      */
-    public function withTwoFactor(): static {}
+    public function withTwoFactor(): static
+    {
+        return $this->state(fn (array $attributes) => [
+            'two_factor_secret' => 'secret',
+            'two_factor_recovery_codes' => '[]',
+            'two_factor_confirmed_at' => now(),
+        ]);
+    }
 }

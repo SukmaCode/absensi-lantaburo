@@ -6,6 +6,11 @@ use App\Models\SchoolProfile;
 
 class SchoolProfileRepository
 {
+    public function getSchoolProfile(): ?SchoolProfile
+    {
+        return SchoolProfile::query()->first();
+    }
+
     public function findBySchoolId(int $school_id): SchoolProfile
     {
         return SchoolProfile::query()->findOrFail($school_id);

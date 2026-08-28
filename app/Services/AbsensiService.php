@@ -58,6 +58,7 @@ class AbsensiService
                 'status' => $this->statusLabel($attendance->status),
                 'latitude' => $attendance->latitude ?? null,
                 'longitude' => $attendance->longitude ?? null,
+                'photo_url' => $attendance->photo_selfie ? asset('storage/'.$attendance->photo_selfie) : null,
             ])->all(),
             'filters' => [
                 'search' => $search ?? '',

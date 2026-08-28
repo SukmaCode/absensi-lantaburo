@@ -21,10 +21,20 @@ class DataSiswaService
         return [
             'students' => $students->map(fn (Student $student) => [
                 'id' => $student->id,
+                'user_id' => $student->user_id,
                 'name' => $student->user->name,
+                'email' => $student->user->email,
+                'phone' => $student->user->phone,
                 'nis' => $student->nis,
+                'class_id' => $student->class_id,
                 'class' => $student->schoolClass?->name,
+                'gender' => $student->gender,
+                'birth_date' => $student->birth_date,
+                'address' => $student->address,
+                'parent_name' => $student->parent_name,
+                'parent_phone' => $student->parent_phone,
                 'status' => $student->user->status === 'active' ? 'Aktif' : 'Nonaktif',
+                'raw_status' => $student->user->status,
                 'payment_status' => $student->user->latestPayment?->status,
                 'payment_type' => $student->user->latestPayment?->payment_type,
                 // 'photo' => $student->user->photo,
@@ -85,12 +95,28 @@ class DataSiswaService
     {
         return DB::transaction(function () use ($data) {
             $student = Student::query()->findOrFail($data['id']);
+
+            $userUpdates = [
+                'name' => $data['name'],
+                'email' => $data['email'],
+                'phone' => $data['phone'] ?? null,
+                'status' => $data['status'] ?? $student->user->status,
+            ];
+
+            if (! empty($data['password'])) {
+                $userUpdates['password'] = Hash::make($data['password']);
+            }
+
+            $student->user->update($userUpdates);
+
             $student->update([
                 'nis' => $data['nis'],
                 'class_id' => $data['class_id'] ?? null,
-            ]);
-            $student->user->update([
-                'status' => $data['status'] ?? $student->user->status,
+                'gender' => $data['gender'],
+                'birth_date' => $data['birth_date'] ?? null,
+                'address' => $data['address'] ?? null,
+                'parent_name' => $data['parent_name'] ?? null,
+                'parent_phone' => $data['parent_phone'] ?? null,
             ]);
 
             return $student;

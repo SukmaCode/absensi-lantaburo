@@ -125,3 +125,96 @@ test('creating a student requires mandatory fields', function () {
         ->post(route('admin.data-siswa.store'), [])
         ->assertSessionHasErrors(['name', 'email', 'password', 'nis', 'gender']);
 });
+
+test('guests are redirected to the login page when updating a student', function () {
+    $student = Student::factory()->create();
+
+    $this->put(route('admin.data-siswa.update', $student->id))->assertRedirect(route('login'));
+});
+
+test('non-admin users are forbidden from updating a student', function () {
+    $user = User::factory()->asSiswa()->create();
+    $student = Student::factory()->create();
+
+    $this->actingAs($user)
+        ->put(route('admin.data-siswa.update', $student->id), [
+            'name' => 'Updated Name',
+            'email' => 'updated@example.com',
+            'nis' => '999999',
+            'gender' => 'L',
+            'status' => 'active',
+        ])
+        ->assertForbidden();
+});
+
+test('admin users can update a student with all fields', function () {
+    $admin = User::factory()->asAdmin()->create();
+    $student = Student::factory()->create([
+        'nis' => '111111',
+        'gender' => 'L',
+    ]);
+
+    $this->actingAs($admin)
+        ->put(route('admin.data-siswa.update', $student->id), [
+            'name' => 'Nama Siswa Baru',
+            'email' => 'siswabaru@example.com',
+            'phone' => '08987654321',
+            'nis' => '222222',
+            'gender' => 'P',
+            'birth_date' => '2011-08-20',
+            'address' => 'Jl. Baru No. 12',
+            'parent_name' => 'Ayah Baru',
+            'parent_phone' => '08111222333',
+            'status' => 'inactive',
+        ])
+        ->assertRedirect(route('admin.data-siswa'));
+
+    $this->assertDatabaseHas('users', [
+        'id' => $student->user_id,
+        'name' => 'Nama Siswa Baru',
+        'email' => 'siswabaru@example.com',
+        'phone' => '08987654321',
+        'status' => 'inactive',
+    ]);
+
+    $this->assertDatabaseHas('students', [
+        'id' => $student->id,
+        'nis' => '222222',
+        'gender' => 'P',
+        'birth_date' => '2011-08-20',
+        'address' => 'Jl. Baru No. 12',
+        'parent_name' => 'Ayah Baru',
+        'parent_phone' => '08111222333',
+    ]);
+});
+
+test('updating a student keeping own email and nis succeeds', function () {
+    $admin = User::factory()->asAdmin()->create();
+    $student = Student::factory()->create();
+
+    $this->actingAs($admin)
+        ->put(route('admin.data-siswa.update', $student->id), [
+            'name' => $student->user->name,
+            'email' => $student->user->email,
+            'nis' => $student->nis,
+            'gender' => $student->gender,
+            'status' => 'active',
+        ])
+        ->assertRedirect(route('admin.data-siswa'));
+});
+
+test('updating a student with duplicate email or nis of another student fails validation', function () {
+    $admin = User::factory()->asAdmin()->create();
+    $student1 = Student::factory()->create();
+    $student2 = Student::factory()->create();
+
+    $this->actingAs($admin)
+        ->put(route('admin.data-siswa.update', $student1->id), [
+            'name' => 'Test Name',
+            'email' => $student2->user->email,
+            'nis' => $student2->nis,
+            'gender' => 'L',
+            'status' => 'active',
+        ])
+        ->assertSessionHasErrors(['email', 'nis']);
+});

@@ -8,6 +8,7 @@ import {
     Clock,
     Compass,
     FileText,
+    GraduationCap,
     Loader2,
     MapPin,
     RefreshCw,
@@ -32,6 +33,8 @@ import { absen, dashboard } from '@/routes/guru';
 import type { AbsenGuruPageProps } from '@/types/guru';
 
 export default function AbsenGuruPage({
+    hasHomeroomClass,
+    homeroomClass,
     todayAttendance,
     currentTime,
     currentDate,
@@ -55,6 +58,8 @@ export default function AbsenGuruPage({
         latitude: '',
         longitude: '',
         notes: '',
+        homeroom_class: '',
+        attendance_time: '',
     });
 
     // Stop Webcam
@@ -240,9 +245,9 @@ export default function AbsenGuruPage({
         );
     };
 
-    // Initialize Camera and GPS on mount if not attended yet
+    // Initialize Camera and GPS on mount if teacher has homeroom class and not attended yet
     useEffect(() => {
-        if (!todayAttendance.hasAttended) {
+        if (hasHomeroomClass && !todayAttendance.hasAttended) {
             startCamera();
             fetchLocation();
         }
@@ -250,7 +255,7 @@ export default function AbsenGuruPage({
         return () => {
             stopCamera();
         };
-    }, [todayAttendance.hasAttended]);
+    }, [hasHomeroomClass, todayAttendance.hasAttended]);
 
     // Ensure video stream remains attached when cameraActive changes
     useEffect(() => {
@@ -275,8 +280,13 @@ export default function AbsenGuruPage({
             onSuccess: () => {
                 toast.success('Presensi kehadiran berhasil dikirim!');
             },
-            onError: () => {
-                toast.error('Gagal mengirim presensi. Periksa kembali form isian.');
+            onError: (formErrors) => {
+                const firstError = Object.values(formErrors)[0];
+                if (firstError) {
+                    toast.error(typeof firstError === 'string' ? firstError : 'Gagal mengirim presensi.');
+                } else {
+                    toast.error('Gagal mengirim presensi. Periksa kembali form isian.');
+                }
             },
         });
     };
@@ -288,14 +298,6 @@ export default function AbsenGuruPage({
                 {/* Header Navigation */}
                 <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
                     <div>
-                        <div className="flex items-center gap-2">
-                            <Button asChild variant="ghost" size="sm" className="-ml-2 h-8 px-2 text-brand-muted hover:text-brand-text">
-                                <Link href={dashboard()}>
-                                    <ArrowLeft className="mr-1 size-4" />
-                                    Kembali ke Dashboard
-                                </Link>
-                            </Button>
-                        </div>
                         <h1 className="mt-1 font-bold text-2xl text-brand-text sm:text-3xl">
                             Absensi Guru
                         </h1>
@@ -303,10 +305,40 @@ export default function AbsenGuruPage({
                             {currentDate} &bull; Jam Sistem: {currentTime} WIB
                         </p>
                     </div>
+                    {hasHomeroomClass && homeroomClass && (
+                        <div className="inline-flex items-center gap-2 rounded-xl border border-neutral-200/80 bg-white px-3.5 py-2 text-xs font-medium text-brand-text shadow-xs">
+                            <GraduationCap className="size-4 text-brand" />
+                            <span>
+                                Wali Kelas: <strong className="text-brand">{homeroomClass.name}</strong> ({homeroomClass.gradeLevel})
+                            </span>
+                        </div>
+                    )}
                 </div>
 
-                {/* State 1: Already Attended Today */}
-                {todayAttendance.hasAttended ? (
+                {/* State 0: Not Assigned to any Class */}
+                {!hasHomeroomClass ? (
+                    <div className="flex flex-col items-center justify-center gap-4 rounded-2xl border border-dashed border-amber-200 bg-white p-8 sm:p-12 text-center shadow-xs">
+                        <div className="flex size-16 items-center justify-center rounded-2xl bg-amber-50 text-amber-600 ring-8 ring-amber-50/50">
+                            <AlertCircle className="size-8" />
+                        </div>
+                        <div className="max-w-md space-y-1.5">
+                            <h2 className="font-bold text-lg sm:text-xl text-brand-text">
+                                Anda Belum Mendapatkan Penugasan Kelas
+                            </h2>
+                            <p className="text-xs sm:text-sm text-brand-muted leading-relaxed">
+                                Presensi kehadiran guru hanya dapat dilakukan oleh guru yang telah terdaftar dan mendapatkan penugasan kelas di sistem. Silakan hubungi <strong>Administrator Sekolah</strong> untuk mengatur penugasan kelas Anda.
+                            </p>
+                        </div>
+                        <div className="mt-2 flex flex-wrap items-center justify-center gap-3">
+                            <Button asChild className="rounded-sm bg-brand text-white hover:bg-brand-dark px-6 text-xs font-semibold">
+                                <Link href={dashboard()}>
+                                    <ArrowLeft className="mr-1.5 size-4" />
+                                    Kembali ke Dashboard
+                                </Link>
+                            </Button>
+                        </div>
+                    </div>
+                ) : todayAttendance.hasAttended ? (
                     <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
                         <div className="flex flex-col gap-6 rounded-2xl border border-neutral-100 bg-white p-6 shadow-xs lg:col-span-2">
                             <div className="flex items-center gap-3 border-b border-neutral-100 pb-4">
@@ -636,10 +668,16 @@ export default function AbsenGuruPage({
                                 </div>
                             </div>
 
-                            {/* Current Time Reminder */}
-                            <div className="flex items-center justify-between rounded-sm border border-neutral-100 bg-white p-3 text-xs">
-                                <span className="text-brand-muted">Waktu Saat Ini</span>
-                                <span className="font-bold text-brand-text tabular-nums">{currentTime} WIB</span>
+                            {/* Current Time Reminder & Schedule */}
+                            <div className="flex flex-col gap-1.5 rounded-sm border border-neutral-100 bg-neutral-50/70 p-3 text-xs">
+                                <div className="flex items-center justify-between">
+                                    <span className="text-brand-muted">Waktu Saat Ini</span>
+                                    <span className="font-bold text-brand-text tabular-nums">{currentTime} WIB</span>
+                                </div>
+                                <div className="flex items-center justify-between border-t border-neutral-200/60 pt-1.5">
+                                    <span className="text-brand-muted">Jadwal Presensi</span>
+                                    <span className="font-semibold text-brand">08:00 - 09:00 WIB</span>
+                                </div>
                             </div>
 
                             {/* Optional Notes */}
@@ -664,6 +702,20 @@ export default function AbsenGuruPage({
                                 <AlertCircle className="mt-0.5 size-3.5 shrink-0" />
                                 <p>Foto selfie & lokasi GPS akan tersimpan sebagai bukti kehadiran resmi.</p>
                             </div>
+
+                            {errors.homeroom_class && (
+                                <p className="text-center text-xs text-rose-500 font-medium">{errors.homeroom_class}</p>
+                            )}
+
+                            {errors.attendance_time && (
+                                <div className="flex items-start gap-2 rounded-sm border border-rose-200 bg-rose-50 p-3 text-xs text-rose-700">
+                                    <AlertCircle className="mt-0.5 size-4 shrink-0 text-rose-600" />
+                                    <div>
+                                        <span className="font-semibold">Peringatan: </span>
+                                        <span>{errors.attendance_time}</span>
+                                    </div>
+                                </div>
+                            )}
 
                             {/* Submit Button */}
                             <Button

@@ -4,6 +4,7 @@ namespace App\Http\Requests\Guru;
 
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Validator;
 
 class StoreTeacherAttendanceRequest extends FormRequest
 {
@@ -36,5 +37,15 @@ class StoreTeacherAttendanceRequest extends FormRequest
             'longitude.numeric' => 'Koordinat longitude tidak valid.',
             'notes.max' => 'Catatan maksimal 255 karakter.',
         ];
+    }
+
+    public function withValidator(Validator $validator): void
+    {
+        $validator->after(function (Validator $validator) {
+            $teacher = $this->user()?->teacher;
+            if (! $teacher || ! $teacher->homeroomClass) {
+                $validator->errors()->add('homeroom_class', 'Anda belum mendapatkan penugasan kelas sehingga tidak dapat melakukan absensi.');
+            }
+        });
     }
 }

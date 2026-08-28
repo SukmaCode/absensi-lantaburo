@@ -20,6 +20,7 @@ class DatabaseSeeder extends Seeder
             TeacherSeeder::class,
             SchoolClassSeeder::class,
             StudentSeeder::class,
+            ParentSeeder::class,
             AttendanceStudentSeeder::class,
             AttendanceTeacherSeeder::class,
             AnnouncementSeeder::class,

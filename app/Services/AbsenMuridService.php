@@ -7,6 +7,7 @@ use App\Models\Student;
 use App\Models\Teacher;
 use App\Repositories\GuruRepository;
 use Illuminate\Support\Carbon;
+use Illuminate\Validation\ValidationException;
 
 class AbsenMuridService
 {
@@ -27,6 +28,7 @@ class AbsenMuridService
                 'students' => [],
                 'date' => $targetDate,
                 'formattedDate' => Carbon::parse($targetDate)->translatedFormat('l, d F Y'),
+                'currentTime' => Carbon::now()->format('H:i'),
             ];
         }
 
@@ -59,6 +61,7 @@ class AbsenMuridService
             'students' => $studentData,
             'date' => $targetDate,
             'formattedDate' => Carbon::parse($targetDate)->translatedFormat('l, d F Y'),
+            'currentTime' => Carbon::now()->format('H:i'),
         ];
     }
 
@@ -67,6 +70,14 @@ class AbsenMuridService
      */
     public function saveBatchAttendance(string $date, array $attendances): void
     {
+        $now = Carbon::now();
+        $currentTime = $now->format('H:i:s');
+        if ($currentTime < '08:00:00' || $currentTime > '09:00:00') {
+            throw ValidationException::withMessages([
+                'attendance_time' => 'Presensi murid hanya dapat dilakukan pada jam 08:00 - 09:00 pagi.',
+            ]);
+        }
+
         $this->repository->saveBatchStudentAttendance($date, $attendances);
     }
 }

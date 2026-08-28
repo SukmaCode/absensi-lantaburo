@@ -39,7 +39,7 @@ export default function SiteFooter({ school }: SiteFooterProps) {
                             <span className="font-bold text-white">Daarul Quran Lantaburo</span>
                         </div>
                         <p className="mt-5 max-w-sm text-sm leading-relaxed text-white/60">
-                            {school?.description ??
+                            {school?.description_body ??
                                 'Lembaga pendidikan alternatif yang menghadirkan pengalaman belajar personal, mendukung, dan bermakna bagi setiap anak.'}
                         </p>
                     </div>

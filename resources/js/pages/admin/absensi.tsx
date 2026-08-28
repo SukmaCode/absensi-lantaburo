@@ -7,6 +7,7 @@ import { Input } from '@/components/ui/input';
 import { cn } from '@/lib/utils';
 import { absensi } from '@/routes/admin';
 import { Maps } from '@/components/absensi/Maps';
+import { PhotoModal } from '@/components/absensi/PhotoModal';
 import { Pagination } from '@/types/dashboard';
 
 interface AttendanceRow {
@@ -18,6 +19,7 @@ interface AttendanceRow {
     status: string;
     latitude?: number | null;
     longitude?: number | null;
+    photo_url?: string | null;
 }
 
 interface AttendanceData {
@@ -50,6 +52,8 @@ export default function Absensi({
     const [searchQuery, setSearchQuery] = useState(filters?.search ?? '');
     const [showMap, isShowMap] = useState(false);
     const [selectedData, setSelectedData] = useState<AttendanceRow | null>(null);
+    const [showPhoto, setShowPhoto] = useState(false);
+    const [selectedPhotoData, setSelectedPhotoData] = useState<AttendanceRow | null>(null);
 
     const current = tab === 'siswa' ? studentAttendances : teacherAttendances;
     const { data: rows, pagination } = current;
@@ -171,12 +175,13 @@ export default function Absensi({
                                 </th>
                                 <th className="pb-3 font-medium">Status</th>
                                 {tab === 'guru' && <th className="pb-3 font-medium">Lokasi</th>}
+                                {tab === 'guru' && <th className="pb-3 font-medium">Gambar</th>}
                             </tr>
                         </thead>
                         <tbody>
                             {rows.length === 0 ? (
                                 <tr>
-                                    <td colSpan={tab === 'guru' ? 6 : 5}>
+                                    <td colSpan={tab === 'guru' ? 7 : 5}>
                                         <div className="flex flex-col items-center justify-center gap-3 py-12 text-center">
                                             <div className="flex size-12 items-center justify-center rounded-2xl bg-brand-soft">
                                                 <ClipboardList className="size-6 text-brand-dark" />
@@ -239,6 +244,24 @@ export default function Absensi({
                                                         className="border border-neutral-200 bg-white text-brand-text hover:bg-brand-soft"
                                                     >
                                                         Lihat Lokasi
+                                                    </Button>
+                                                ) : (
+                                                    <span className="text-xs text-brand-muted">—</span>
+                                                )}
+                                            </td>}
+                                        {tab === 'guru' &&
+                                            <td className="py-3">
+                                                {row.photo_url ? (
+                                                    <Button
+                                                        type="button"
+                                                        onClick={() => {
+                                                            setSelectedPhotoData(row);
+                                                            setShowPhoto(true);
+                                                        }}
+                                                        size="sm"
+                                                        className="border border-neutral-200 bg-white text-brand-text hover:bg-brand-soft"
+                                                    >
+                                                        Lihat absen gambar
                                                     </Button>
                                                 ) : (
                                                     <span className="text-xs text-brand-muted">—</span>
@@ -310,6 +333,16 @@ export default function Absensi({
                     date={selectedData.date}
                     time={selectedData.time}
                     onClose={() => isShowMap(false)}
+                />
+            )}
+            {showPhoto && tab === 'guru' && selectedPhotoData && selectedPhotoData.photo_url && (
+                <PhotoModal
+                    photoUrl={selectedPhotoData.photo_url}
+                    teacherName={selectedPhotoData.name}
+                    date={selectedPhotoData.date}
+                    time={selectedPhotoData.time}
+                    status={selectedPhotoData.status}
+                    onClose={() => setShowPhoto(false)}
                 />
             )}
         </>

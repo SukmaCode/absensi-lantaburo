@@ -24,6 +24,7 @@ class LoginResponse implements LoginResponseContract
             'guru' => route('guru.dashboard'),
             'siswa' => route('siswa.dashboard'),
             'calon_siswa' => route('calon-siswa.dashboard'),
+            'orang_tua' => route('orangtua.dashboard'),
             default => route('landingpage'),
         };
 

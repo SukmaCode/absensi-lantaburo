@@ -144,14 +144,6 @@ class MidtransService
                     'status' => 'active',
                 ]);
             }
-
-            Student::firstOrCreate(
-                ['user_id' => $payment->user_id],
-                [
-                    'nis' => '421'.date('Y').str_pad((string) $payment->user_id, 4, '0', STR_PAD_LEFT),
-                    'gender' => 'L',
-                ]
-            );
         }
 
         $payment->save();
@@ -216,7 +208,7 @@ class MidtransService
                 Student::firstOrCreate(
                     ['user_id' => $payment->user_id],
                     [
-                        'nis' => 'S-'.date('Y').str_pad((string) $payment->user_id, 4, '0', STR_PAD_LEFT),
+                        'nis' => '421'.date('Y').str_pad((string) $payment->user_id, 4, '0', STR_PAD_LEFT),
                         'gender' => 'L',
                     ]
                 );

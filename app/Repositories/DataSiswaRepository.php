@@ -13,7 +13,7 @@ class DataSiswaRepository
     {
         return Student::query()
             ->with([
-                'user:id,name,status,phone',
+                'user:id,name,email,status,phone',
                 'user.latestPayment' => fn ($q) => $q->select('payments.id', 'payments.user_id', 'payments.status', 'payments.payment_type'),
                 'schoolClass:id,name',
             ])

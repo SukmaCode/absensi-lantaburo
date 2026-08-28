@@ -17,7 +17,13 @@ class UserSeeder extends Seeder
             'email' => 'admin@example.com',
         ]);
 
+        User::factory()->asOrangTua()->create([
+            'name' => 'Orang Tua Demo',
+            'email' => 'orangtua@example.com',
+        ]);
+
         User::factory()->asGuru()->count(5)->create();
         User::factory()->asSiswa()->count(20)->create();
+        User::factory()->asOrangTua()->count(19)->create();
     }
 }

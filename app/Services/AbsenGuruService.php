@@ -9,6 +9,7 @@ use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+use Illuminate\Validation\ValidationException;
 
 class AbsenGuruService
 {
@@ -20,8 +21,16 @@ class AbsenGuruService
     public function getAttendancePageData(Teacher $teacher): array
     {
         $todayAttendance = $this->repository->todayTeacherAttendance($teacher->id);
+        $homeroomClass = $this->repository->getHomeroomClass($teacher->id);
 
         return [
+            'hasHomeroomClass' => $homeroomClass !== null,
+            'homeroomClass' => $homeroomClass ? [
+                'id' => $homeroomClass->id,
+                'name' => $homeroomClass->name,
+                'gradeLevel' => $homeroomClass->grade_level,
+                'totalStudents' => $homeroomClass->students_count ?? 0,
+            ] : null,
             'todayAttendance' => $todayAttendance ? [
                 'hasAttended' => true,
                 'checkInTime' => $this->formatTime($todayAttendance->check_in_time),
@@ -45,11 +54,25 @@ class AbsenGuruService
      */
     public function storeAttendance(Teacher $teacher, array $data): AttendanceTeacher
     {
+        $homeroomClass = $this->repository->getHomeroomClass($teacher->id);
+        if (! $homeroomClass) {
+            throw ValidationException::withMessages([
+                'homeroom_class' => 'Anda belum mendapatkan penugasan kelas sehingga tidak dapat melakukan absensi.',
+            ]);
+        }
+
         $photoPath = $this->handleSelfiePhoto($data['photo_selfie']);
 
         $now = Carbon::now();
-        // Determine status based on time (e.g. after 07:30 is terlambat, or default 'hadir')
-        $status = $data['status'] ?? ($now->format('H:i') > '07:30' ? 'terlambat' : 'hadir');
+        $currentTime = $now->format('H:i:s');
+        if ($currentTime < '08:00:00' || $currentTime > '09:00:00') {
+            throw ValidationException::withMessages([
+                'attendance_time' => 'Presensi guru hanya dapat dilakukan pada jam 08:00 - 09:00 pagi.',
+            ]);
+        }
+
+        // Determine status based on time (e.g. after 08:15 is terlambat, or default 'hadir')
+        $status = $data['status'] ?? ($now->format('H:i') > '08:15' ? 'terlambat' : 'hadir');
 
         return $this->repository->saveTeacherAttendance($teacher, [
             'photo_selfie' => $photoPath,

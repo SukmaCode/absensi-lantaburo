@@ -49,6 +49,8 @@ export interface GuruDashboardProps {
 }
 
 export interface AbsenGuruPageProps {
+    hasHomeroomClass: boolean;
+    homeroomClass?: HomeroomClassInfo | null;
     todayAttendance: SelfAttendanceStatus;
     currentTime: string;
     currentDate: string;
@@ -71,6 +73,7 @@ export interface AbsenMuridPageProps {
     students: StudentAttendanceRow[];
     date: string;
     formattedDate: string;
+    currentTime?: string;
 }
 
 export interface DayColumn {

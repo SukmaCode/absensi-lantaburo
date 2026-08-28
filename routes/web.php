@@ -4,6 +4,7 @@ use App\Http\Controllers\Admin\AbsensiController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\DataGuruController;
 use App\Http\Controllers\Admin\DataKelasController;
+use App\Http\Controllers\Admin\DataOrangTuaController;
 use App\Http\Controllers\Admin\DataSiswaController;
 use App\Http\Controllers\Admin\EventController;
 use App\Http\Controllers\Admin\PengaturanAkunController as AdminPengaturanAkunController;
@@ -12,10 +13,13 @@ use App\Http\Controllers\Admin\SchoolProfileController;
 use App\Http\Controllers\CalonSiswa\PaymentController;
 use App\Http\Controllers\Guru\AbsenGuruController;
 use App\Http\Controllers\Guru\AbsenMuridController;
+use App\Http\Controllers\Guru\AttendanceStudentExportController;
 use App\Http\Controllers\Guru\PengaturanAkunController as GuruPengaturanAkunController;
 use App\Http\Controllers\Guru\RekapMuridController;
 use App\Http\Controllers\LandingController;
 use App\Http\Controllers\MidtransWebhookController;
+use App\Http\Controllers\OrangTua\AbsenAnakController;
+use App\Http\Controllers\OrangTua\PengaturanAkunController;
 use App\Http\Controllers\Siswa\AbsenSiswaController;
 use App\Http\Controllers\Siswa\PaymentController as SiswaPaymentController;
 use App\Http\Controllers\Siswa\PengaturanAkunController as SiswaPengaturanAkunController;
@@ -43,6 +47,11 @@ Route::middleware(['auth', 'verified', 'admin'])->prefix('admin')->group(functio
     Route::post('data-guru', [DataGuruController::class, 'create'])->name('admin.data-guru.create');
     Route::put('data-guru/{id}', [DataGuruController::class, 'update'])->name('admin.data-guru.update');
     Route::delete('data-guru/{id}', [DataGuruController::class, 'destroy'])->name('admin.data-guru.destroy');
+
+    Route::get('data-orangtua', DataOrangTuaController::class)->name('admin.data-orangtua');
+    Route::post('data-orangtua', [DataOrangTuaController::class, 'store'])->name('admin.data-orangtua.store');
+    Route::put('data-orangtua/{id}', [DataOrangTuaController::class, 'update'])->name('admin.data-orangtua.update');
+    Route::delete('data-orangtua/{id}', [DataOrangTuaController::class, 'destroy'])->name('admin.data-orangtua.destroy');
 
     Route::get('pengumuman', PengumumanController::class)->name('admin.pengumuman');
     Route::post('pengumuman', [PengumumanController::class, 'store'])->name('admin.pengumuman.store');
@@ -72,6 +81,7 @@ Route::middleware(['auth', 'verified', 'teacher'])->prefix('guru')->group(functi
     Route::post('absen-murid', [AbsenMuridController::class, 'store'])->name('guru.absen-murid.store');
 
     Route::get('rekap-murid', RekapMuridController::class)->name('guru.rekap-murid');
+    Route::get('rekap-murid/export', [AttendanceStudentExportController::class, 'export'])->name('guru.rekap-murid.export');
 
     Route::get('pengaturan', [GuruPengaturanAkunController::class, 'edit'])->name('guru.pengaturan');
     Route::post('pengaturan', [GuruPengaturanAkunController::class, 'update'])->name('guru.pengaturan.update');
@@ -97,6 +107,16 @@ Route::middleware(['auth', 'verified'])->prefix('calon-siswa')->group(function (
     Route::get('dashboard', App\Http\Controllers\CalonSiswa\DashboardController::class)->name('calon-siswa.dashboard');
     Route::post('payment/snap-token', [PaymentController::class, 'getSnapToken'])->name('calon-siswa.payment.snap-token');
     Route::post('payment/check-status', [PaymentController::class, 'checkStatus'])->name('calon-siswa.payment.check-status');
+});
+
+Route::middleware(['auth', 'verified', 'parent'])->prefix('orangtua')->group(function () {
+    Route::get('dashboard', App\Http\Controllers\OrangTua\DashboardController::class)->name('orangtua.dashboard');
+
+    Route::get('absen-anak', AbsenAnakController::class)->name('orangtua.absen-anak');
+
+    Route::get('pengaturan', [PengaturanAkunController::class, 'edit'])->name('orangtua.pengaturan');
+    Route::post('pengaturan', [PengaturanAkunController::class, 'update'])->name('orangtua.pengaturan.update');
+    Route::put('pengaturan/password', [PengaturanAkunController::class, 'updatePassword'])->name('orangtua.pengaturan.password');
 });
 
 require __DIR__.'/settings.php';

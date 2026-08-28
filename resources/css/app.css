@@ -250,19 +250,3 @@
         background: #555;
     }
 }
-
-.bgImageHero {
-    position: relative;
-}
-
-.bgImageHero::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background-image: url('../images/bg-hero.webp');
-    background-size: cover;
-    background-position: bottom;
-    background-repeat: no-repeat;
-    filter: brightness(0.5);
-    z-index: -1;
-}

@@ -77,6 +77,11 @@ class User extends Authenticatable implements PasskeyUser
         return $this->hasOne(Student::class);
     }
 
+    public function parentProfile(): HasOne
+    {
+        return $this->hasOne(ParentProfile::class);
+    }
+
     public function notificationSetting(): HasOne
     {
         return $this->hasOne(NotificationSetting::class);

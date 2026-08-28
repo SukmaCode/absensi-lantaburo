@@ -7,7 +7,20 @@ use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-#[Fillable(['name', 'logo', 'description_heading', 'description_body', 'address', 'phone', 'email'])]
+#[Fillable([
+    'name',
+    'logo',
+    'hero_image',
+    'about_image',
+    'activities_image_1',
+    'activities_image_2',
+    'activities_image_3',
+    'description_heading',
+    'description_body',
+    'address',
+    'phone',
+    'email',
+])]
 class SchoolProfile extends Model
 {
     /** @use HasFactory<SchoolProfileFactory> */

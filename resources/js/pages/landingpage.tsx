@@ -25,11 +25,11 @@ export default function LandingPage({ school, events }: Props) {
                 <SiteNav loggedIn={auth.user !== null} />
                 <main>
                     <SmoothScroll />
-                    <Hero />
-                    <About />
+                    <Hero school={school} />
+                    <About school={school}/>
                     <Programs />
                     <Approach />
-                    <Activities />
+                    <Activities school={school} />
                     <Agenda events={events} />
                     <Testimonials />
                     <CallToAction />

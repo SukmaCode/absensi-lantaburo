@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
-#[Fillable(['user_id', 'nis', 'class_id', 'gender', 'birth_date', 'address', 'parent_name', 'parent_phone'])]
+#[Fillable(['user_id', 'parent_id', 'nis', 'class_id', 'gender', 'birth_date', 'address', 'parent_name', 'parent_phone'])]
 class Student extends Model
 {
     /** @use HasFactory<StudentFactory> */
@@ -28,5 +28,10 @@ class Student extends Model
     public function attendanceRecords(): HasMany
     {
         return $this->hasMany(AttendanceStudent::class);
+    }
+
+    public function parentProfile(): BelongsTo
+    {
+        return $this->belongsTo(ParentProfile::class, 'parent_id');
     }
 }

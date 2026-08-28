@@ -52,6 +52,11 @@ class HandleInertiaRequests extends Middleware
             'phone' => $schoolProfile?->phone,
             'email' => $schoolProfile?->email,
             'logo' => $schoolProfile?->logo,
+            'hero_image' => $schoolProfile?->hero_image,
+            'about_image' => $schoolProfile?->about_image,
+            'activities_image_1' => $schoolProfile?->activities_image_1,
+            'activities_image_2' => $schoolProfile?->activities_image_2,
+            'activities_image_3' => $schoolProfile?->activities_image_3,
         ];
     }
 }

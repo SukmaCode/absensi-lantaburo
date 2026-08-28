@@ -1,4 +1,5 @@
 import aboutImage from '../../../images/thumbnail2.jpeg';
+import type { SchoolProfile } from '@/types/landing';
 
 const stats = [
     { value: '1:8', label: 'Rasio pendampingan belajar' },
@@ -6,7 +7,12 @@ const stats = [
     { value: 'SD–SMA', label: 'Jenjang yang didampingi' },
 ];
 
-export default function About() {
+interface AboutProps {
+    school: SchoolProfile | null;
+}
+
+export default function About({ school }: AboutProps) {
+    const previewAboutImage = school?.about_image ? `/storage/${school.about_image}` : aboutImage;
     return (
         // <section id="tentang" className="bg-linear-to-r from-brand-dark to-brand">
         <section id="tentang" className="bg-brand-dark">
@@ -35,11 +41,19 @@ export default function About() {
                     <div className="relative">
                         <div className="absolute -top-5 -left-5 size-24 rounded-full border-10 border-brand-soft/20" />
                         <div className="relative overflow-hidden rounded-2xl">
-                            <img
-                                src={aboutImage}
-                                alt="Suasana kegiatan belajar di Homeschooling Lantaburo"
-                                className="aspect-5/4 w-full object-cover"
-                            />
+                            {!school?.about_image ? (
+                                <img
+                                    src={aboutImage}
+                                    alt="Suasana kegiatan belajar di Homeschooling Lantaburo"
+                                    className="aspect-5/4 w-full object-cover"
+                                />
+                            ) : (
+                                <img
+                                    src={previewAboutImage}
+                                    alt="Suasana kegiatan belajar di Homeschooling Lantaburo"
+                                    className="aspect-5/4 w-full object-cover"
+                                />
+                            )}
                         </div>
                     </div>
                 </div>

@@ -36,7 +36,7 @@ class UpdateTeacherRequest extends FormRequest
                 'max:30',
                 Rule::unique('teachers', 'nip')->ignore($teacherId),
             ],
-            'subject' => ['required', 'string', 'max:100'],
+            'subject' => ['nullable', 'string', 'max:100'],
             'status' => ['required', 'in:active,inactive'],
         ];
     }

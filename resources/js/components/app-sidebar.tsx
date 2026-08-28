@@ -15,6 +15,7 @@ import { FaClipboardList, FaCamera, FaCalendarAlt } from "react-icons/fa";
 import { PiStudentFill } from "react-icons/pi";
 import { GiTeacher, GiMegaphone } from "react-icons/gi";
 import { SiGoogleclassroom } from "react-icons/si";
+import { RiParentFill } from "react-icons/ri";
 import AppLogo from '@/components/app-logo';
 import { NavMain } from '@/components/nav-main';
 import { NavUser } from '@/components/nav-user';
@@ -52,6 +53,11 @@ import {
     pengaturan as siswaPengaturan,
     riwayat as siswaRiwayat,
 } from '@/routes/siswa';
+import {
+    absenAnak as orangtuaAbsenAnak,
+    dashboard as orangtuaDashboard,
+    pengaturan as orangtuaPengaturan,
+} from '@/routes/orangtua';
 import { dashboard as calonSiswaDashboard } from '@/routes/calon-siswa';
 import type { Auth, NavItem } from '@/types';
 
@@ -60,6 +66,24 @@ const calonSiswaNavItems: NavItem[] = [
         title: 'Status Pendaftaran',
         href: calonSiswaDashboard(),
         icon: MdDashboard,
+    },
+];
+
+const orangTuaNavItems: NavItem[] = [
+    {
+        title: 'Dashboard',
+        href: orangtuaDashboard(),
+        icon: MdDashboard,
+    },
+    {
+        title: 'Rekap Absen Anak',
+        href: orangtuaAbsenAnak(),
+        icon: FaCalendarAlt,
+    },
+    {
+        title: 'Pengaturan Akun',
+        href: orangtuaPengaturan(),
+        icon: MdSettings,
     },
 ];
 
@@ -83,6 +107,11 @@ const adminNavItems: NavItem[] = [
         title: 'Data Guru',
         href: dataGuru(),
         icon: GiTeacher,
+    },
+    {
+        title: 'Data Orang Tua',
+        href: '/admin/data-orangtua',
+        icon: RiParentFill,
     },
     {
         title: 'Data Kelas',
@@ -167,30 +196,37 @@ export function AppSidebar() {
     const { isMobile, setOpenMobile } = useSidebar();
     const role = auth.user?.role;
     const isCalonSiswa = role === 'calon_siswa';
+    const isOrangTua = role === 'orang_tua' || role === 'parent';
     const isSiswa = role === 'siswa' || role === 'student';
     const isGuru = role === 'guru' || role === 'teacher';
 
     const mainNavItems = isCalonSiswa
         ? calonSiswaNavItems
-        : isSiswa
-          ? siswaNavItems
-          : isGuru
-            ? guruNavItems
-            : adminNavItems;
+        : isOrangTua
+          ? orangTuaNavItems
+          : isSiswa
+            ? siswaNavItems
+            : isGuru
+              ? guruNavItems
+              : adminNavItems;
     const homeUrl = isCalonSiswa
         ? calonSiswaDashboard()
-        : isSiswa
-          ? siswaDashboard()
-          : isGuru
-            ? guruDashboard()
-            : adminDashboard();
+        : isOrangTua
+          ? orangtuaDashboard()
+          : isSiswa
+            ? siswaDashboard()
+            : isGuru
+              ? guruDashboard()
+              : adminDashboard();
     const panelLabel = isCalonSiswa
         ? 'Calon Siswa'
-        : isSiswa
-          ? 'Panel Siswa'
-          : isGuru
-            ? 'Panel Guru'
-            : 'Admin Panel';
+        : isOrangTua
+          ? 'Panel Orang Tua'
+          : isSiswa
+            ? 'Panel Siswa'
+            : isGuru
+              ? 'Panel Guru'
+              : 'Admin Panel';
 
     return (
         <Sidebar collapsible="icon" variant="sidebar">

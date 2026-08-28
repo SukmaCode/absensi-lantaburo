@@ -7,6 +7,7 @@ use App\Models\Student;
 use App\Models\Teacher;
 use App\Models\User;
 use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Storage;
 use Inertia\Testing\AssertableInertia as Assert;
 
@@ -15,6 +16,7 @@ test('guests are redirected from guru routes', function () {
     $this->get(route('guru.absen'))->assertRedirect(route('login'));
     $this->get(route('guru.absen-murid'))->assertRedirect(route('login'));
     $this->get(route('guru.rekap-murid'))->assertRedirect(route('login'));
+    $this->get(route('guru.rekap-murid.export'))->assertRedirect(route('login'));
     $this->get(route('guru.pengaturan'))->assertRedirect(route('login'));
 });
 
@@ -70,7 +72,7 @@ test('guru dashboard displays homeroom class student attendance statistics', fun
         ->where('studentSummary.attendanceRate', 67));
 });
 
-test('guru can visit self attendance page', function () {
+test('guru can visit self attendance page and see homeroom status', function () {
     $teacher = Teacher::factory()->create();
 
     $response = $this->actingAs($teacher->user)->get(route('guru.absen'));
@@ -78,14 +80,26 @@ test('guru can visit self attendance page', function () {
     $response->assertOk();
     $response->assertInertia(fn (Assert $page) => $page
         ->component('guru/absen')
+        ->where('hasHomeroomClass', false)
         ->has('todayAttendance')
         ->has('currentTime')
         ->has('currentDate'));
+
+    $class = SchoolClass::factory()->create(['homeroom_teacher_id' => $teacher->id]);
+
+    $responseWithClass = $this->actingAs($teacher->user)->get(route('guru.absen'));
+    $responseWithClass->assertOk();
+    $responseWithClass->assertInertia(fn (Assert $page) => $page
+        ->component('guru/absen')
+        ->where('hasHomeroomClass', true)
+        ->where('homeroomClass.id', $class->id));
 });
 
-test('guru can submit self attendance with selfie and GPS', function () {
+test('guru with homeroom class can submit self attendance with selfie and GPS within 08:00 - 09:00', function () {
+    Carbon::setTestNow('2026-08-27 08:30:00');
     Storage::fake('public');
     $teacher = Teacher::factory()->create();
+    SchoolClass::factory()->create(['homeroom_teacher_id' => $teacher->id]);
 
     $file = UploadedFile::fake()->image('selfie.jpg');
 
@@ -105,6 +119,59 @@ test('guru can submit self attendance with selfie and GPS', function () {
         ->and((float) $record->longitude)->toBe(106.8456)
         ->and($record->notes)->toBe('Presensi pagi')
         ->and($record->photo_selfie)->not->toBeNull();
+
+    Carbon::setTestNow();
+});
+
+test('guru cannot submit self attendance outside 08:00 to 09:00 window', function () {
+    Storage::fake('public');
+    $teacher = Teacher::factory()->create();
+    SchoolClass::factory()->create(['homeroom_teacher_id' => $teacher->id]);
+
+    $file = UploadedFile::fake()->image('selfie.jpg');
+
+    // Before 08:00
+    Carbon::setTestNow('2026-08-27 07:59:59');
+    $responseEarly = $this->actingAs($teacher->user)->post(route('guru.absen.store'), [
+        'photo_selfie' => $file,
+        'latitude' => -6.2088,
+        'longitude' => 106.8456,
+        'notes' => 'Terlalu pagi',
+    ]);
+    $responseEarly->assertSessionHasErrors('attendance_time');
+
+    // After 09:00
+    Carbon::setTestNow('2026-08-27 09:00:01');
+    $responseLate = $this->actingAs($teacher->user)->post(route('guru.absen.store'), [
+        'photo_selfie' => $file,
+        'latitude' => -6.2088,
+        'longitude' => 106.8456,
+        'notes' => 'Lewat jam absen',
+    ]);
+    $responseLate->assertSessionHasErrors('attendance_time');
+
+    Carbon::setTestNow();
+    expect(AttendanceTeacher::where('teacher_id', $teacher->id)->count())->toBe(0);
+});
+
+test('guru without homeroom class cannot submit self attendance', function () {
+    Carbon::setTestNow('2026-08-27 08:30:00');
+    Storage::fake('public');
+    $teacher = Teacher::factory()->create();
+
+    $file = UploadedFile::fake()->image('selfie.jpg');
+
+    $response = $this->actingAs($teacher->user)->post(route('guru.absen.store'), [
+        'photo_selfie' => $file,
+        'latitude' => -6.2088,
+        'longitude' => 106.8456,
+        'notes' => 'Presensi pagi',
+    ]);
+
+    $response->assertSessionHasErrors('homeroom_class');
+    expect(AttendanceTeacher::where('teacher_id', $teacher->id)->count())->toBe(0);
+
+    Carbon::setTestNow();
 });
 
 test('guru can view homeroom students on student attendance page', function () {
@@ -122,7 +189,8 @@ test('guru can view homeroom students on student attendance page', function () {
         ->where('classInfo.name', $class->name));
 });
 
-test('guru can save batch student attendance for homeroom class', function () {
+test('guru can save batch student attendance for homeroom class within 08:00 - 09:00', function () {
+    Carbon::setTestNow('2026-08-27 08:30:00');
     $teacher = Teacher::factory()->create();
     $class = SchoolClass::factory()->create(['homeroom_teacher_id' => $teacher->id]);
     $students = Student::factory()->count(2)->create(['class_id' => $class->id]);
@@ -153,9 +221,49 @@ test('guru can save batch student attendance for homeroom class', function () {
     expect($att1)->not->toBeNull()
         ->and($att1->status)->toBe('izin')
         ->and($att1->notes)->toBe('Ada acara keluarga');
+
+    Carbon::setTestNow();
+});
+
+test('guru cannot save batch student attendance outside 08:00 to 09:00 window', function () {
+    $teacher = Teacher::factory()->create();
+    $class = SchoolClass::factory()->create(['homeroom_teacher_id' => $teacher->id]);
+    $students = Student::factory()->count(2)->create(['class_id' => $class->id]);
+
+    // Before 08:00
+    Carbon::setTestNow('2026-08-27 07:59:59');
+    $responseEarly = $this->actingAs($teacher->user)->post(route('guru.absen-murid.store'), [
+        'date' => today()->toDateString(),
+        'attendances' => [
+            [
+                'student_id' => $students[0]->id,
+                'status' => 'hadir',
+                'notes' => null,
+            ],
+        ],
+    ]);
+    $responseEarly->assertSessionHasErrors('attendance_time');
+
+    // After 09:00
+    Carbon::setTestNow('2026-08-27 09:00:01');
+    $responseLate = $this->actingAs($teacher->user)->post(route('guru.absen-murid.store'), [
+        'date' => today()->toDateString(),
+        'attendances' => [
+            [
+                'student_id' => $students[0]->id,
+                'status' => 'hadir',
+                'notes' => null,
+            ],
+        ],
+    ]);
+    $responseLate->assertSessionHasErrors('attendance_time');
+
+    Carbon::setTestNow();
+    expect(AttendanceStudent::where('student_id', $students[0]->id)->count())->toBe(0);
 });
 
 test('guru cannot submit attendance for students from another class', function () {
+    Carbon::setTestNow('2026-08-27 08:30:00');
     $teacher = Teacher::factory()->create();
     $myClass = SchoolClass::factory()->create(['homeroom_teacher_id' => $teacher->id]);
     $otherClass = SchoolClass::factory()->create();
@@ -174,6 +282,7 @@ test('guru cannot submit attendance for students from another class', function (
     ]);
 
     $response->assertSessionHasErrors('attendances.0.student_id');
+    Carbon::setTestNow();
 });
 
 test('guru can view monthly recap for homeroom class', function () {
@@ -196,4 +305,40 @@ test('guru can view monthly recap for homeroom class', function () {
         ->has('students', 2)
         ->has('daysInMonth')
         ->has('summary'));
+});
+
+test('guru without homeroom class is redirected when exporting student attendance recap', function () {
+    $teacher = Teacher::factory()->create();
+
+    $response = $this->actingAs($teacher->user)->get(route('guru.rekap-murid.export'));
+
+    $response->assertRedirect(route('guru.rekap-murid'));
+    $response->assertSessionHas('error');
+});
+
+test('guru with homeroom class can export student attendance recap to excel', function () {
+    $teacher = Teacher::factory()->create();
+    $class = SchoolClass::factory()->create([
+        'name' => 'X-A',
+        'homeroom_teacher_id' => $teacher->id,
+    ]);
+    $students = Student::factory()->count(3)->create(['class_id' => $class->id]);
+
+    AttendanceStudent::factory()->create([
+        'student_id' => $students[0]->id,
+        'date' => '2026-08-05',
+        'status' => 'hadir',
+    ]);
+
+    AttendanceStudent::factory()->create([
+        'student_id' => $students[1]->id,
+        'date' => '2026-08-05',
+        'status' => 'izin',
+    ]);
+
+    $response = $this->actingAs($teacher->user)->get(route('guru.rekap-murid.export', ['month' => '2026-08']));
+
+    $response->assertOk();
+    $response->assertHeader('content-disposition');
+    expect($response->headers->get('content-disposition'))->toContain('.xlsx');
 });
