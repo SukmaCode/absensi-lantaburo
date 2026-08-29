@@ -161,7 +161,7 @@ export default function DataOrangTua({
                     </Button>
                 </div>
 
-                <div className="mt-4 overflow-x-auto">
+                <div className="mt-4 overflow-x-auto custom-scrollbar">
                     <table className="w-full min-w-160 text-left text-sm">
                         <thead>
                             <tr className="border-b border-neutral-100 text-xs text-brand-muted">
@@ -395,12 +395,12 @@ export default function DataOrangTua({
                                 ? Akun pengguna dan relasi siswa ke orang tua ini akan dihapus.
                             </DialogDescription>
                         </DialogHeader>
-                        <DialogFooter className="gap-2 sm:gap-0">
+                        <DialogFooter className="gap-2">
                             <Button
                                 variant="outline"
                                 onClick={() => setDeleteTarget(null)}
                                 disabled={isDeleting}
-                                className="border-neutral-200"
+                                className="bg-white text-black border-neutral-200 hover:bg-brand-soft hover:text-black"
                             >
                                 Batal
                             </Button>

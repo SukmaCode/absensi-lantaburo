@@ -20,11 +20,18 @@ import type { AvailableStudentOption } from '@/types/admin';
 type FormAddParentProps = {
     availableStudents: AvailableStudentOption[];
     onSuccess: () => void;
+    initialValues?: {
+        name?: string;
+        email?: string;
+        phone?: string;
+        password?: string;
+    };
 };
 
 export default function FormAddParent({
     availableStudents,
     onSuccess,
+    initialValues,
 }: FormAddParentProps) {
     const [studentSearch, setStudentSearch] = useState('');
 
@@ -37,10 +44,10 @@ export default function FormAddParent({
             status: string;
             student_ids: number[];
         }>({
-            name: '',
-            email: '',
-            password: '',
-            phone: '',
+            name: initialValues?.name ?? '',
+            email: initialValues?.email ?? '',
+            password: initialValues?.password ?? '',
+            phone: initialValues?.phone ?? '',
             status: 'active',
             student_ids: [],
         });

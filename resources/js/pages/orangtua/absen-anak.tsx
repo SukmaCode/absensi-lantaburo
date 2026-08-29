@@ -93,10 +93,6 @@ export default function AbsenAnakPage({
         handleMonthChange(nextMonthStr);
     };
 
-    const handlePrint = () => {
-        window.print();
-    };
-
     // Filter daily records
     const filteredDailySummary = useMemo(() => {
         if (statusFilter === 'all') return dailySummary;
@@ -155,16 +151,6 @@ export default function AbsenAnakPage({
                                 <ChevronRight className="size-4" />
                             </Button>
                         </div>
-
-                        <Button
-                            variant="outline"
-                            size="sm"
-                            onClick={handlePrint}
-                            className="rounded-xl border-neutral-200 bg-white text-xs font-medium text-brand-text hover:bg-brand-soft shadow-xs"
-                        >
-                            <Printer className="mr-1.5 size-3.5 text-brand" />
-                            Cetak Rekap
-                        </Button>
                     </div>
                 </div>
 
@@ -347,8 +333,8 @@ export default function AbsenAnakPage({
                                                             day.isWeekend
                                                                 ? 'bg-neutral-100 text-neutral-400'
                                                                 : day.isToday
-                                                                  ? 'bg-brand text-white'
-                                                                  : 'bg-neutral-50 text-brand-text border border-neutral-200'
+                                                                    ? 'bg-brand text-white'
+                                                                    : 'bg-neutral-50 text-brand-text border border-neutral-200'
                                                         )}
                                                     >
                                                         <span className="text-sm leading-none">{day.dayNumber}</span>
@@ -440,7 +426,7 @@ export default function AbsenAnakPage({
 
                         {/* Content: View Mode 2 - Matrix Grid (Matriks Kalender Bulanan) */}
                         {viewMode === 'matrix' && (
-                            <div className="rounded-2xl border border-neutral-100 bg-white p-6 shadow-xs print:border-0 print:p-0 print:shadow-none">
+                            <div className="rounded-2xl border border-neutral-100 bg-white p-6 shadow-xs custom-scrollbar print:border-0 print:p-0 print:shadow-none">
                                 <div className="mb-4 flex items-center justify-between border-b border-neutral-100 pb-3 print:hidden">
                                     <h2 className="font-semibold text-base text-brand-text">
                                         Matriks Kehadiran: {monthLabel}

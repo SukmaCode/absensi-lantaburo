@@ -256,3 +256,48 @@ test('non-admin cannot update or delete a parent', function () {
         ->delete(route('admin.data-orangtua.destroy', $parent->id))
         ->assertForbidden();
 });
+
+test('available students endpoint returns unassigned students by default', function () {
+    $admin = User::factory()->asAdmin()->create();
+
+    $parentUser = User::factory()->asOrangTua()->create();
+    $parent = ParentProfile::factory()->create(['user_id' => $parentUser->id]);
+
+    $studentUser1 = User::factory()->asSiswa()->create(['name' => 'Siswa Bebas']);
+    $student1 = Student::factory()->create(['user_id' => $studentUser1->id, 'parent_id' => null]);
+
+    $studentUser2 = User::factory()->asSiswa()->create(['name' => 'Siswa Punya Ortu']);
+    $student2 = Student::factory()->create(['user_id' => $studentUser2->id, 'parent_id' => $parent->id]);
+
+    $response = $this->actingAs($admin)->getJson(route('admin.available-students'));
+
+    $response->assertOk()
+        ->assertJsonFragment(['id' => $student1->id, 'name' => 'Siswa Bebas'])
+        ->assertJsonMissing(['id' => $student2->id, 'name' => 'Siswa Punya Ortu']);
+});
+
+test('available students endpoint includes students belonging to the specified parent_id', function () {
+    $admin = User::factory()->asAdmin()->create();
+
+    $parentUserA = User::factory()->asOrangTua()->create();
+    $parentA = ParentProfile::factory()->create(['user_id' => $parentUserA->id]);
+
+    $parentUserB = User::factory()->asOrangTua()->create();
+    $parentB = ParentProfile::factory()->create(['user_id' => $parentUserB->id]);
+
+    $studentUser1 = User::factory()->asSiswa()->create(['name' => 'Siswa Bebas']);
+    $student1 = Student::factory()->create(['user_id' => $studentUser1->id, 'parent_id' => null]);
+
+    $studentUser2 = User::factory()->asSiswa()->create(['name' => 'Siswa Ortu A']);
+    $student2 = Student::factory()->create(['user_id' => $studentUser2->id, 'parent_id' => $parentA->id]);
+
+    $studentUser3 = User::factory()->asSiswa()->create(['name' => 'Siswa Ortu B']);
+    $student3 = Student::factory()->create(['user_id' => $studentUser3->id, 'parent_id' => $parentB->id]);
+
+    $response = $this->actingAs($admin)->getJson(route('admin.available-students', ['parent_id' => $parentA->id]));
+
+    $response->assertOk()
+        ->assertJsonFragment(['id' => $student1->id, 'name' => 'Siswa Bebas'])
+        ->assertJsonFragment(['id' => $student2->id, 'name' => 'Siswa Ortu A'])
+        ->assertJsonMissing(['id' => $student3->id, 'name' => 'Siswa Ortu B']);
+});

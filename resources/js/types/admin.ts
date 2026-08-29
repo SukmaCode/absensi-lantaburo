@@ -72,3 +72,35 @@ export interface AdminFlash {
     success?: string | null;
     parent_credentials?: ParentCredentials | null;
 }
+
+export interface AdminNotificationPayment {
+    order_id: string;
+    amount: number;
+    formatted_amount: string;
+    payment_type: string | null;
+    status: string;
+    settlement_time: string | null;
+    created_at: string | null;
+}
+
+export interface AdminNotificationItem {
+    student_id: number | null;
+    user_id: number | null;
+    name: string;
+    email: string;
+    phone: string | null;
+    nis: string;
+    class: string | null;
+    gender: string | null;
+    birth_date: string | null;
+    address: string | null;
+    parent_name: string | null;
+    parent_phone: string | null;
+    payment: AdminNotificationPayment;
+}
+
+export interface AdminNotificationsResponse {
+    notifications: AdminNotificationItem[];
+    count: number;
+}
+

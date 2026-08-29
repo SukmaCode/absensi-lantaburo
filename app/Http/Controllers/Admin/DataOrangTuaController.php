@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\StoreParentRequest;
 use App\Http\Requests\Admin\UpdateParentRequest;
 use App\Services\DataOrangTuaService;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -21,6 +22,13 @@ class DataOrangTuaController extends Controller
             $service->allParents(is_string($search) ? $search : null),
             ['availableStudents' => $service->availableStudents()],
         ));
+    }
+
+    public function availableStudents(Request $request, DataOrangTuaService $service): JsonResponse
+    {
+        $parentId = $request->query('parent_id');
+
+        return response()->json($service->availableStudents(is_numeric($parentId) ? (int) $parentId : null));
     }
 
     public function store(StoreParentRequest $request, DataOrangTuaService $service): RedirectResponse

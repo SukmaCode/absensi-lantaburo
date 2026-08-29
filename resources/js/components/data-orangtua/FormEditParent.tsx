@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useForm } from '@inertiajs/react';
 import { Check, LoaderCircle, Search, Users, X } from 'lucide-react';
 import InputError from '@/components/input-error';
@@ -25,10 +25,54 @@ type FormEditParentProps = {
 
 export default function FormEditParent({
     parent,
-    availableStudents,
+    availableStudents: initialAvailableStudents,
     onSuccess,
 }: FormEditParentProps) {
     const [studentSearch, setStudentSearch] = useState('');
+    const [students, setStudents] = useState<AvailableStudentOption[]>(() => {
+        const parentStudents: AvailableStudentOption[] = (parent.students ?? []).map((s) => ({
+            id: s.id,
+            name: s.name,
+            nis: s.nis,
+            class: s.class,
+            parent_id: parent.id,
+        }));
+
+        const combined = [...initialAvailableStudents];
+        for (const ps of parentStudents) {
+            if (!combined.some((s) => s.id === ps.id)) {
+                combined.push(ps);
+            }
+        }
+        return combined.sort((a, b) => a.name.localeCompare(b.name));
+    });
+
+    useEffect(() => {
+        let isMounted = true;
+        fetch(`/admin/available-students?parent_id=${parent.id}`, {
+            headers: {
+                Accept: 'application/json',
+                'X-Requested-With': 'XMLHttpRequest',
+            },
+            credentials: 'same-origin',
+        })
+            .then((res) => {
+                if (!res.ok) throw new Error('Gagal memuat daftar siswa');
+                return res.json() as Promise<AvailableStudentOption[]>;
+            })
+            .then((data) => {
+                if (isMounted) {
+                    setStudents(data);
+                }
+            })
+            .catch(() => {
+                // Gunakan daftar gabungan awal jika fetch gagal
+            });
+
+        return () => {
+            isMounted = false;
+        };
+    }, [parent.id]);
 
     const { data, setData, put, processing, errors, clearErrors } = useForm<{
         name: string;
@@ -64,7 +108,7 @@ export default function FormEditParent({
         );
     }
 
-    const filteredStudents = availableStudents.filter((s) => {
+    const filteredStudents = students.filter((s) => {
         if (!studentSearch.trim()) return true;
         const q = studentSearch.toLowerCase();
         return (
@@ -74,7 +118,7 @@ export default function FormEditParent({
         );
     });
 
-    const selectedStudentsList = availableStudents.filter((s) =>
+    const selectedStudentsList = students.filter((s) =>
         data.student_ids.includes(s.id),
     );
 

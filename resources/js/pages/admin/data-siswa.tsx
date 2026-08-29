@@ -141,18 +141,19 @@ export default function DataSiswa({
                     </Button>
                 </div>
 
-                <div className="mt-4 overflow-x-auto">
+                <div className="mt-4 max-h-[60vh] overflow-auto custom-scrollbar">
                     <table className="w-full min-w-130 text-left text-sm">
-                        <thead>
+                        <thead className="sticky top-0 z-10 bg-white shadow-xs">
                             <tr className="border-b border-neutral-100 text-xs text-brand-muted">
-                                <th className="pb-3 min-w-12 font-medium">No</th>
-                                <th className="pb-3 min-w-36 font-medium">Nama</th>
-                                <th className="pb-3 min-w-36 font-medium">NIS</th>
-                                <th className="pb-3 min-w-24 font-medium">Kelas</th>
-                                <th className="pb-3 min-w-24 font-medium">Status</th>
-                                <th className="pb-3 min-w-24 font-medium">Status Pembayaran</th>
-                                <th className="pb-3 min-w-36 font-medium">Tipe Pembayaran</th>
-                                <th className="pb-3 min-w-24 font-medium">Aksi</th>
+                                <th className="pb-3 min-w-12 font-medium bg-white">No</th>
+                                <th className="pb-3 min-w-36 font-medium bg-white">Nama</th>
+                                <th className="pb-3 min-w-36 font-medium bg-white">NIS</th>
+                                <th className="pb-3 min-w-36 font-medium bg-white">Orang tua</th>
+                                <th className="pb-3 min-w-36 font-medium bg-white">Kelas</th>
+                                <th className="pb-3 min-w-36 font-medium bg-white">Status</th>
+                                <th className="pb-3 min-w-36 font-medium bg-white">Status Pembayaran</th>
+                                <th className="pb-3 min-w-36 font-medium bg-white">Tipe Pembayaran</th>
+                                <th className="pb-3 min-w-36 font-medium bg-white">Aksi</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -162,6 +163,7 @@ export default function DataSiswa({
                                         id,
                                         name,
                                         nis,
+                                        parent_name: parentName,
                                         class: classLabel,
                                         status,
                                         payment_status: paymentStatus,
@@ -188,6 +190,11 @@ export default function DataSiswa({
                                             </td>
                                             <td className="py-3 text-brand-muted tabular-nums">
                                                 {nis}
+                                            </td>
+                                            <td className="py-3">
+                                                <span className="rounded-md bg-brand-soft px-2 py-0.5 font-medium text-xs text-brand-dark">
+                                                    {parentName ?? '—'}
+                                                </span>
                                             </td>
                                             <td className="py-3">
                                                 <span className="rounded-md bg-brand-soft px-2 py-0.5 font-medium text-xs text-brand-dark">

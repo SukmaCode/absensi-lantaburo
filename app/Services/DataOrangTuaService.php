@@ -57,9 +57,9 @@ class DataOrangTuaService
     /**
      * @return array<int, array{id: int, name: string, nis: string, class: ?string, parent_id: ?int}>
      */
-    public function availableStudents(): array
+    public function availableStudents(?int $parentId = null): array
     {
-        return $this->dataOrangTuaRepository->allStudents()->map(fn (Student $student) => [
+        return $this->dataOrangTuaRepository->availableStudent($parentId)->map(fn (Student $student) => [
             'id' => $student->id,
             'name' => $student->user?->name ?? 'Siswa #'.$student->id,
             'nis' => $student->nis,

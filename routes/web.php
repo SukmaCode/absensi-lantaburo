@@ -7,6 +7,7 @@ use App\Http\Controllers\Admin\DataKelasController;
 use App\Http\Controllers\Admin\DataOrangTuaController;
 use App\Http\Controllers\Admin\DataSiswaController;
 use App\Http\Controllers\Admin\EventController;
+use App\Http\Controllers\Admin\NotificationController;
 use App\Http\Controllers\Admin\PengaturanAkunController as AdminPengaturanAkunController;
 use App\Http\Controllers\Admin\PengumumanController;
 use App\Http\Controllers\Admin\SchoolProfileController;
@@ -52,6 +53,7 @@ Route::middleware(['auth', 'verified', 'admin'])->prefix('admin')->group(functio
     Route::post('data-orangtua', [DataOrangTuaController::class, 'store'])->name('admin.data-orangtua.store');
     Route::put('data-orangtua/{id}', [DataOrangTuaController::class, 'update'])->name('admin.data-orangtua.update');
     Route::delete('data-orangtua/{id}', [DataOrangTuaController::class, 'destroy'])->name('admin.data-orangtua.destroy');
+    Route::get('available-students', [DataOrangTuaController::class, 'availableStudents'])->name('admin.available-students');
 
     Route::get('pengumuman', PengumumanController::class)->name('admin.pengumuman');
     Route::post('pengumuman', [PengumumanController::class, 'store'])->name('admin.pengumuman.store');
@@ -65,6 +67,8 @@ Route::middleware(['auth', 'verified', 'admin'])->prefix('admin')->group(functio
     Route::post('event', [EventController::class, 'store'])->name('admin.event.store');
     Route::put('event/{id}', [EventController::class, 'update'])->name('admin.event.update');
     Route::delete('event/{id}', [EventController::class, 'destroy'])->name('admin.event.destroy');
+
+    Route::get('notifications', [NotificationController::class, 'index'])->name('admin.notifications');
 
     Route::get('pengaturan', [AdminPengaturanAkunController::class, 'edit'])->name('admin.pengaturan');
     Route::post('pengaturan', [AdminPengaturanAkunController::class, 'update'])->name('admin.pengaturan.update');

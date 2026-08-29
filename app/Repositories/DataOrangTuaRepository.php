@@ -55,4 +55,24 @@ class DataOrangTuaRepository
             ->sortBy(fn (Student $student) => $student->user->name ?? '')
             ->values();
     }
+
+    /**
+     * @return Collection<int, Student>
+     */
+    public function availableStudent(?int $parentId = null): Collection
+    {
+        return Student::query()
+            ->with('user:id,name', 'schoolClass:id,name')
+            ->where(function ($query) use ($parentId) {
+                $query->whereNull('parent_id');
+
+                if ($parentId !== null) {
+                    $query->orWhere('parent_id', $parentId);
+                }
+            })
+            ->whereHas('user')
+            ->get()
+            ->sortBy(fn (Student $student) => $student->user->name ?? '')
+            ->values();
+    }
 }
