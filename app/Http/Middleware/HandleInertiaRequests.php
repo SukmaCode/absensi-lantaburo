@@ -57,6 +57,10 @@ class HandleInertiaRequests extends Middleware
             'activities_image_1' => $schoolProfile?->activities_image_1,
             'activities_image_2' => $schoolProfile?->activities_image_2,
             'activities_image_3' => $schoolProfile?->activities_image_3,
+            'flash' => [
+                'success' => fn () => $request->session()->get('success'),
+                'parent_credentials' => fn () => $request->session()->get('parent_credentials'),
+            ],
         ];
     }
 }

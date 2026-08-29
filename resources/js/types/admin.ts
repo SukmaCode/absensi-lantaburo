@@ -61,3 +61,14 @@ export interface AvailableStudentOption {
     class?: string | null;
     parent_id?: number | null;
 }
+
+export interface ParentCredentials {
+    name: string;
+    email: string;
+    password: string;
+}
+
+export interface AdminFlash {
+    success?: string | null;
+    parent_credentials?: ParentCredentials | null;
+}

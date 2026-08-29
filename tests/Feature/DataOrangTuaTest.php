@@ -131,6 +131,29 @@ test('admin can create a new parent with assigned students', function () {
         ->and($student->parent_phone)->toBe('08987654321');
 });
 
+test('admin create parent flashes the generated credentials', function () {
+    $admin = User::factory()->asAdmin()->create();
+    $studentUser = User::factory()->asSiswa()->create();
+    $student = Student::factory()->create([
+        'user_id' => $studentUser->id,
+        'parent_id' => null,
+    ]);
+
+    $this->actingAs($admin)
+        ->post(route('admin.data-orangtua.store'), [
+            'name' => 'Credential Parent',
+            'email' => 'credential.parent@example.com',
+            'password' => 'secret12345',
+            'phone' => '08987654321',
+            'status' => 'active',
+            'student_ids' => [$student->id],
+        ])
+        ->assertRedirect(route('admin.data-orangtua'))
+        ->assertSessionHas('parent_credentials')
+        ->assertSessionHas('parent_credentials.email', 'credential.parent@example.com')
+        ->assertSessionHas('parent_credentials.password', 'secret12345');
+});
+
 test('admin can update a parent and sync assigned students', function () {
     $admin = User::factory()->asAdmin()->create();
     $parentUser = User::factory()->asOrangTua()->create([

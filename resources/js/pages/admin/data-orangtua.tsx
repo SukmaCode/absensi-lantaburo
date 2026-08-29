@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { Head, router } from '@inertiajs/react';
+import { Head, router, usePage } from '@inertiajs/react';
 import {
     ChevronLeft,
     ChevronRight,
@@ -24,9 +24,12 @@ import {
     DialogTitle,
 } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
 import { cn } from '@/lib/utils';
 import type {
+    AdminFlash,
     AvailableStudentOption,
+    ParentCredentials,
     ParentPagination,
     ParentPreviewRow,
 } from '@/types/admin';
@@ -49,7 +52,18 @@ export default function DataOrangTua({
     const [editTarget, setEditTarget] = useState<ParentPreviewRow | null>(null);
     const [deleteTarget, setDeleteTarget] = useState<ParentPreviewRow | null>(null);
     const [isDeleting, setIsDeleting] = useState(false);
+    const [credential, setCredential] = useState<ParentCredentials | null>(null);
+    const [copied, setCopied] = useState(false);
     const isFirstRender = useRef(true);
+
+    const { props } = usePage<{ flash?: AdminFlash }>();
+    const flash = props.flash;
+
+    useEffect(() => {
+        if (flash?.parent_credentials) {
+            setCredential(flash.parent_credentials);
+        }
+    }, [flash?.parent_credentials]);
 
     useEffect(() => {
         if (isFirstRender.current) {
@@ -397,6 +411,69 @@ export default function DataOrangTua({
                                 className="bg-red-600 text-white hover:bg-red-700"
                             >
                                 {isDeleting ? 'Menghapus...' : 'Hapus'}
+                            </Button>
+                        </DialogFooter>
+                    </DialogContent>
+                </Dialog>
+
+                {/* Dialog Kredensial Orang Tua */}
+                <Dialog
+                    open={credential !== null}
+                    onOpenChange={(isOpen) => !isOpen && setCredential(null)}
+                >
+                    <DialogContent className="sm:max-w-md bg-white text-black">
+                        <DialogHeader>
+                            <DialogTitle className="text-black">
+                                Akun Orang Tua Berhasil Dibuat
+                            </DialogTitle>
+                            <DialogDescription>
+                                Salin kredensial di bawah ini dan kirimkan ke
+                                orang tua (mis. melalui WhatsApp).
+                            </DialogDescription>
+                        </DialogHeader>
+                        <div className="space-y-3">
+                            <div className="space-y-1">
+                                <Label className="text-brand-muted">Nama</Label>
+                                <p className="text-sm font-medium text-black">
+                                    {credential?.name}
+                                </p>
+                            </div>
+                            <div className="space-y-1">
+                                <Label className="text-brand-muted">
+                                    Email / Username
+                                </Label>
+                                <p className="text-sm font-medium text-black">
+                                    {credential?.email}
+                                </p>
+                            </div>
+                            <div className="space-y-1">
+                                <Label className="text-brand-muted">
+                                    Password
+                                </Label>
+                                <p className="text-sm font-medium text-black">
+                                    {credential?.password}
+                                </p>
+                            </div>
+                        </div>
+                        <DialogFooter className="flex gap-2">
+                            <Button
+                                variant="outline"
+                                onClick={() => {
+                                    if (!credential) return;
+                                    const text = `Nama: ${credential.name}\nEmail: ${credential.email}\nPassword: ${credential.password}`;
+                                    void navigator.clipboard.writeText(text);
+                                    setCopied(true);
+                                    setTimeout(() => setCopied(false), 2000);
+                                }}
+                                className="bg-white text-black hover:bg-brand-soft hover:text-black cursor-pointer border-neutral-200"
+                            >
+                                {copied ? 'Tersalin!' : 'Salin Kredensial'}
+                            </Button>
+                            <Button
+                                onClick={() => setCredential(null)}
+                                className="bg-brand text-white hover:bg-brand-dark cursor-pointer"
+                            >
+                                Selesai
                             </Button>
                         </DialogFooter>
                     </DialogContent>

@@ -25,9 +25,16 @@ class DataOrangTuaController extends Controller
 
     public function store(StoreParentRequest $request, DataOrangTuaService $service): RedirectResponse
     {
-        $service->createParent($request->validated());
+        $data = $request->validated();
+        $service->createParent($data);
 
-        return redirect()->route('admin.data-orangtua')->with('success', 'Data orang tua berhasil ditambahkan.');
+        return redirect()->route('admin.data-orangtua')
+            ->with('success', 'Data orang tua berhasil ditambahkan.')
+            ->with('parent_credentials', [
+                'name' => $data['name'],
+                'email' => $data['email'],
+                'password' => $data['password'],
+            ]);
     }
 
     public function update(UpdateParentRequest $request, int $id, DataOrangTuaService $service): RedirectResponse
