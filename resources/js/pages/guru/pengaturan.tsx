@@ -1,20 +1,16 @@
 import { Head, useForm } from '@inertiajs/react';
 import {
-    BookOpen,
-    Camera,
-    CheckCircle2,
-    GraduationCap,
-    Info,
-    KeyRound,
-    Lock,
-    Mail,
-    Phone,
-    Save,
-    School,
-    ShieldCheck,
-    Trash2,
-    User as UserIcon,
-} from 'lucide-react';
+    FaCamera,
+    FaCircleCheck,
+    FaCircleInfo,
+    FaFloppyDisk,
+    FaGraduationCap,
+    FaKey,
+    FaSchool,
+    FaTrash,
+    FaUser,
+} from 'react-icons/fa6';
+import { BsShieldCheck } from 'react-icons/bs';
 import { type ChangeEvent, useRef, useState } from 'react';
 import InputError from '@/components/input-error';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
@@ -136,7 +132,7 @@ export default function GuruPengaturan({
                                     className="absolute -right-1 -bottom-1 flex size-8 items-center justify-center rounded-sm border border-white bg-brand text-white shadow-md transition-transform hover:scale-110 cursor-pointer"
                                     title="Ubah Foto Profil"
                                 >
-                                    <Camera className="size-4" />
+                                    <FaCamera className="size-4" />
                                 </button>
                             </div>
 
@@ -146,7 +142,7 @@ export default function GuruPengaturan({
                                         {user.name || 'Profil Guru'}
                                     </h1>
                                     <span className="inline-flex items-center gap-1 rounded-full border border-emerald-200 bg-emerald-50 px-2.5 py-0.5 font-medium text-emerald-700 text-xs">
-                                        <GraduationCap className="size-3.5" />
+                                        <FaGraduationCap className="size-3.5" />
                                         Tenaga Pendidik
                                     </span>
                                 </div>
@@ -172,7 +168,7 @@ export default function GuruPengaturan({
                         <div className="flex flex-col gap-2 rounded-2xl border border-neutral-200/80 bg-white/90 p-4 shadow-xs backdrop-blur-xs sm:min-w-[260px]">
                             <div className="flex items-center justify-between text-xs">
                                 <span className="flex items-center gap-1.5 font-semibold text-brand-text">
-                                    <School className="size-4 text-brand" />
+                                    <FaSchool className="size-4 text-brand" />
                                     Penugasan Kelas
                                 </span>
                                 {teacher.homeroomClass ? (
@@ -209,7 +205,7 @@ export default function GuruPengaturan({
                 {/* Status Alerts */}
                 {status === 'profile-updated' && (
                     <div className="flex items-center gap-3 rounded-2xl border border-emerald-200 bg-emerald-50/90 p-4 text-emerald-800 shadow-xs">
-                        <CheckCircle2 className="size-5 shrink-0 text-emerald-600" />
+                        <FaCircleCheck className="size-5 shrink-0 text-emerald-600" />
                         <p className="font-medium text-sm">
                             Profil dan informasi data guru Anda berhasil diperbarui.
                         </p>
@@ -218,7 +214,7 @@ export default function GuruPengaturan({
 
                 {status === 'password-updated' && (
                     <div className="flex items-center gap-3 rounded-2xl border border-emerald-200 bg-emerald-50/90 p-4 text-emerald-800 shadow-xs">
-                        <CheckCircle2 className="size-5 shrink-0 text-emerald-600" />
+                        <FaCircleCheck className="size-5 shrink-0 text-emerald-600" />
                         <p className="font-medium text-sm">Kata sandi akun Anda berhasil diperbarui.</p>
                     </div>
                 )}
@@ -235,7 +231,7 @@ export default function GuruPengaturan({
                                 : 'bg-white text-neutral-600 hover:bg-neutral-100 hover:text-brand-text',
                         )}
                     >
-                        <UserIcon className="size-4" />
+                        <FaUser className="size-4" />
                         Data Diri & Pengajar
                     </button>
                     <button
@@ -248,7 +244,7 @@ export default function GuruPengaturan({
                                 : 'bg-white text-neutral-600 hover:bg-neutral-100 hover:text-brand-text',
                         )}
                     >
-                        <ShieldCheck className="size-4" />
+                        <BsShieldCheck className="size-4" />
                         Keamanan & Akun
                     </button>
                 </div>
@@ -297,7 +293,7 @@ export default function GuruPengaturan({
                                                 onClick={() => fileInputRef.current?.click()}
                                                 className="rounded-sm bg-brand text-xs text-white cursor-pointer hover:bg-brand-dark"
                                             >
-                                                <Camera className="mr-1.5 size-3.5 text-white" />
+                                                <FaCamera className="mr-1.5 size-3.5 text-white" />
                                                 Pilih Foto Baru
                                             </Button>
                                             {photoPreview && (
@@ -308,7 +304,7 @@ export default function GuruPengaturan({
                                                     onClick={handleRemovePhoto}
                                                     className="rounded-sm text-rose-600 text-xs hover:bg-rose-50 hover:text-rose-700 cursor-pointer"
                                                 >
-                                                    <Trash2 className="mr-1.5 size-3.5" />
+                                                    <FaTrash className="mr-1.5 size-3.5" />
                                                     Hapus Foto
                                                 </Button>
                                             )}
@@ -396,7 +392,7 @@ export default function GuruPengaturan({
                                 {/* Informational Banner for Homeroom */}
                                 <div className="sm:col-span-2 rounded-lg border border-emerald-100 bg-emerald-50/60 p-4 text-emerald-900 text-xs">
                                     <div className="flex items-start gap-2.5">
-                                        <Info className="size-4 shrink-0 text-emerald-600 mt-0.5" />
+                                        <FaCircleInfo className="size-4 shrink-0 text-emerald-600 mt-0.5" />
                                         <div>
                                             <p className="font-semibold">Informasi Penugasan Wali Kelas</p>
                                             <p className="mt-0.5 text-emerald-800">
@@ -421,7 +417,7 @@ export default function GuruPengaturan({
                                     disabled={profileForm.processing}
                                     className="gap-2 rounded-sm bg-brand px-6 font-semibold text-white shadow-xs hover:bg-brand-dark cursor-pointer"
                                 >
-                                    <Save className="size-4" />
+                                    <FaFloppyDisk className="size-4" />
                                     {profileForm.processing ? 'Menyimpan...' : 'Simpan Data Guru'}
                                 </Button>
                             </div>
@@ -470,7 +466,7 @@ export default function GuruPengaturan({
                                         disabled={profileForm.processing}
                                         className="gap-2 rounded-sm bg-brand px-5 font-semibold text-white shadow-xs hover:bg-brand-dark cursor-pointer"
                                     >
-                                        <Save className="size-4" />
+                                        <FaFloppyDisk className="size-4" />
                                         {profileForm.processing ? 'Menyimpan...' : 'Perbarui Email'}
                                     </Button>
                                 </div>
@@ -569,7 +565,7 @@ export default function GuruPengaturan({
                                         disabled={passwordForm.processing}
                                         className="gap-2 rounded-sm bg-brand px-5 font-semibold text-white shadow-xs hover:bg-brand-dark cursor-pointer"
                                     >
-                                        <KeyRound className="size-4" />
+                                        <FaKey className="size-4" />
                                         {passwordForm.processing ? 'Menyimpan...' : 'Perbarui Kata Sandi'}
                                     </Button>
                                 </div>

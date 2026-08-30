@@ -1,17 +1,14 @@
 import { Head, useForm } from '@inertiajs/react';
 import {
-    Camera,
-    CheckCircle2,
-    KeyRound,
-    Lock,
-    Mail,
-    Phone,
-    Save,
-    ShieldCheck,
-    Trash2,
-    User as UserIcon,
-    Users,
-} from 'lucide-react';
+    FaCamera,
+    FaCircleCheck,
+    FaFloppyDisk,
+    FaKey,
+    FaTrash,
+    FaUser,
+    FaUsers,
+} from 'react-icons/fa6';
+import { BsShieldCheck } from 'react-icons/bs';
 import { type ChangeEvent, useRef, useState } from 'react';
 import InputError from '@/components/input-error';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
@@ -125,10 +122,10 @@ export default function OrangTuaPengaturan({
                                 <button
                                     type="button"
                                     onClick={() => fileInputRef.current?.click()}
-                                    className="absolute -right-1 -bottom-1 flex size-8 items-center justify-center rounded-xl border border-white bg-brand text-white shadow-md transition-transform hover:scale-110 cursor-pointer"
+                                    className="absolute -right-1 -bottom-1 flex size-8 items-center justify-center rounded-sm border border-white bg-brand text-white shadow-md transition-transform hover:scale-110 cursor-pointer"
                                     title="Ubah Foto Profil"
                                 >
-                                    <Camera className="size-4" />
+                                    <FaCamera className="size-4" />
                                 </button>
                             </div>
 
@@ -138,7 +135,7 @@ export default function OrangTuaPengaturan({
                                         {user.name || 'Akun Orang Tua'}
                                     </h1>
                                     <span className="inline-flex items-center gap-1 rounded-full border border-emerald-200 bg-emerald-50 px-2.5 py-0.5 font-medium text-emerald-700 text-xs">
-                                        <Users className="size-3.5" />
+                                        <FaUsers className="size-3.5" />
                                         Orang Tua / Wali
                                     </span>
                                 </div>
@@ -153,7 +150,7 @@ export default function OrangTuaPengaturan({
                 {/* Status Alerts */}
                 {status === 'profile-updated' && (
                     <div className="flex items-center gap-3 rounded-2xl border border-emerald-200 bg-emerald-50/90 p-4 text-emerald-800 shadow-xs">
-                        <CheckCircle2 className="size-5 shrink-0 text-emerald-600" />
+                        <FaCircleCheck className="size-5 shrink-0 text-emerald-600" />
                         <p className="font-medium text-sm">
                             Profil dan informasi akun Anda berhasil diperbarui.
                         </p>
@@ -162,7 +159,7 @@ export default function OrangTuaPengaturan({
 
                 {status === 'password-updated' && (
                     <div className="flex items-center gap-3 rounded-2xl border border-emerald-200 bg-emerald-50/90 p-4 text-emerald-800 shadow-xs">
-                        <CheckCircle2 className="size-5 shrink-0 text-emerald-600" />
+                        <FaCircleCheck className="size-5 shrink-0 text-emerald-600" />
                         <p className="font-medium text-sm">Kata sandi akun Anda berhasil diperbarui.</p>
                     </div>
                 )}
@@ -173,26 +170,26 @@ export default function OrangTuaPengaturan({
                         type="button"
                         onClick={() => setActiveTab('profile')}
                         className={cn(
-                            'flex items-center gap-2 cursor-pointer rounded-xl px-4 py-2.5 font-semibold text-sm transition-all',
+                            'flex items-center gap-2 cursor-pointer rounded-sm px-4 py-2.5 font-semibold text-sm transition-all',
                             activeTab === 'profile'
                                 ? 'bg-brand text-white shadow-xs'
                                 : 'bg-white text-neutral-600 hover:bg-neutral-100 hover:text-brand-text',
                         )}
                     >
-                        <UserIcon className="size-4" />
+                        <FaUser className="size-4" />
                         Data Profil
                     </button>
                     <button
                         type="button"
                         onClick={() => setActiveTab('security')}
                         className={cn(
-                            'flex items-center gap-2 cursor-pointer rounded-xl px-4 py-2.5 font-semibold text-sm transition-all',
+                            'flex items-center gap-2 cursor-pointer rounded-sm px-4 py-2.5 font-semibold text-sm transition-all',
                             activeTab === 'security'
                                 ? 'bg-brand text-white shadow-xs'
                                 : 'bg-white text-neutral-600 hover:bg-neutral-100 hover:text-brand-text',
                         )}
                     >
-                        <ShieldCheck className="size-4" />
+                        <BsShieldCheck className="size-4" />
                         Keamanan Kata Sandi
                     </button>
                 </div>
@@ -224,13 +221,13 @@ export default function OrangTuaPengaturan({
                                 <div className="sm:col-span-2">
                                     <Label className="font-semibold text-brand-text text-sm">Foto Profil</Label>
                                     <div className="mt-2 flex flex-col gap-4 sm:flex-row sm:items-center">
-                                        <Avatar className="size-16 rounded-xl border border-neutral-200 shadow-xs">
+                                        <Avatar className="size-16 rounded-sm border border-neutral-200 shadow-xs">
                                             <AvatarImage
                                                 src={photoPreview || undefined}
                                                 alt={user.name}
                                                 className="object-cover"
                                             />
-                                            <AvatarFallback className="rounded-xl bg-brand-soft font-semibold text-brand-dark">
+                                            <AvatarFallback className="rounded-sm bg-brand-soft font-semibold text-brand-dark">
                                                 {getInitials(profileForm.data.name || 'Orang Tua')}
                                             </AvatarFallback>
                                         </Avatar>
@@ -239,9 +236,9 @@ export default function OrangTuaPengaturan({
                                                 type="button"
                                                 size="sm"
                                                 onClick={() => fileInputRef.current?.click()}
-                                                className="rounded-xl bg-brand text-xs text-white cursor-pointer hover:bg-brand-dark"
+                                                className="rounded-sm bg-brand text-xs text-white cursor-pointer hover:bg-brand-dark"
                                             >
-                                                <Camera className="mr-1.5 size-3.5 text-white" />
+                                                <FaCamera className="mr-1.5 size-3.5 text-white" />
                                                 Pilih Foto Baru
                                             </Button>
                                             {photoPreview && (
@@ -250,9 +247,9 @@ export default function OrangTuaPengaturan({
                                                     variant="ghost"
                                                     size="sm"
                                                     onClick={handleRemovePhoto}
-                                                    className="rounded-xl text-rose-600 text-xs hover:bg-rose-50 hover:text-rose-700 cursor-pointer"
+                                                    className="rounded-sm text-rose-600 text-xs hover:bg-rose-50 hover:text-rose-700 cursor-pointer"
                                                 >
-                                                    <Trash2 className="mr-1.5 size-3.5" />
+                                                    <FaTrash className="mr-1.5 size-3.5" />
                                                     Hapus Foto
                                                 </Button>
                                             )}
@@ -276,7 +273,7 @@ export default function OrangTuaPengaturan({
                                             value={profileForm.data.name}
                                             onChange={(e) => profileForm.setData('name', e.target.value)}
                                             placeholder="Nama lengkap orang tua / wali"
-                                            className="rounded-xl border-neutral-200 focus:border-brand"
+                                            className="rounded-sm border-neutral-200 focus:border-brand"
                                             required
                                         />
                                     </div>
@@ -295,7 +292,7 @@ export default function OrangTuaPengaturan({
                                             value={profileForm.data.email}
                                             onChange={(e) => profileForm.setData('email', e.target.value)}
                                             placeholder="email@example.com"
-                                            className="rounded-xl border-neutral-200 focus:border-brand"
+                                            className="rounded-sm border-neutral-200 focus:border-brand"
                                             required
                                         />
                                     </div>
@@ -314,7 +311,7 @@ export default function OrangTuaPengaturan({
                                             value={profileForm.data.phone}
                                             onChange={(e) => profileForm.setData('phone', e.target.value)}
                                             placeholder="Contoh: 081234567890"
-                                            className="rounded-xl border-neutral-200 focus:border-brand"
+                                            className="rounded-sm border-neutral-200 focus:border-brand"
                                         />
                                     </div>
                                     <InputError message={profileForm.errors.phone} className="mt-1" />
@@ -325,9 +322,9 @@ export default function OrangTuaPengaturan({
                                 <Button
                                     type="submit"
                                     disabled={profileForm.processing}
-                                    className="gap-2 rounded-xl bg-brand px-6 font-semibold text-white shadow-xs hover:bg-brand-dark cursor-pointer"
+                                    className="gap-2 rounded-sm bg-brand px-6 font-semibold text-white shadow-xs hover:bg-brand-dark cursor-pointer"
                                 >
-                                    <Save className="size-4" />
+                                    <FaFloppyDisk className="size-4" />
                                     {profileForm.processing ? 'Menyimpan...' : 'Simpan Profil'}
                                 </Button>
                             </div>
@@ -363,7 +360,7 @@ export default function OrangTuaPengaturan({
                                                 passwordForm.setData('current_password', e.target.value)
                                             }
                                             placeholder="••••••••"
-                                            className="rounded-xl border-neutral-200 focus:border-brand"
+                                            className="rounded-sm border-neutral-200 focus:border-brand"
                                             autoComplete="current-password"
                                         />
                                     </div>
@@ -386,7 +383,7 @@ export default function OrangTuaPengaturan({
                                                 passwordForm.setData('password', e.target.value)
                                             }
                                             placeholder="••••••••"
-                                            className="rounded-xl border-neutral-200 focus:border-brand"
+                                            className="rounded-sm border-neutral-200 focus:border-brand"
                                             autoComplete="new-password"
                                         />
                                     </div>
@@ -409,7 +406,7 @@ export default function OrangTuaPengaturan({
                                                 passwordForm.setData('password_confirmation', e.target.value)
                                             }
                                             placeholder="••••••••"
-                                            className="rounded-xl border-neutral-200 focus:border-brand"
+                                            className="rounded-sm border-neutral-200 focus:border-brand"
                                             autoComplete="new-password"
                                         />
                                     </div>
@@ -424,9 +421,9 @@ export default function OrangTuaPengaturan({
                                 <Button
                                     type="submit"
                                     disabled={passwordForm.processing}
-                                    className="gap-2 rounded-xl bg-brand px-5 font-semibold text-white shadow-xs hover:bg-brand-dark cursor-pointer"
+                                    className="gap-2 rounded-sm bg-brand px-5 font-semibold text-white shadow-xs hover:bg-brand-dark cursor-pointer"
                                 >
-                                    <KeyRound className="size-4" />
+                                    <FaKey className="size-4" />
                                     {passwordForm.processing ? 'Menyimpan...' : 'Perbarui Kata Sandi'}
                                 </Button>
                             </div>

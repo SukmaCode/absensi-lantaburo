@@ -32,17 +32,19 @@ export function AppSidebarHeader() {
                 <span className="hidden text-sm text-black md:inline-flex">
                     {today}
                 </span>
-                <Button
-                    variant="ghost"
-                    size="icon"
-                    className="relative rounded-full text-black hover:bg-brand-soft hover:text-brand-dark"
-                    aria-label="Notifikasi"
-                    onClick={isAdmin ? () => setOpenNotif(true) : undefined}
-                    disabled={!isAdmin}
-                >
-                    <FaBell className="size-5 text-brand-dark" />
-                    {/* <span className="absolute top-1.5 right-2 size-2 rounded-full bg-red-500" /> */}
-                </Button>
+                {isAdmin && (
+                    <Button
+                        variant="ghost"
+                        size="icon"
+                        className="relative rounded-full text-black hover:bg-brand-soft hover:text-brand-dark"
+                        aria-label="Notifikasi"
+                        onClick={isAdmin ? () => setOpenNotif(true) : undefined}
+                        disabled={!isAdmin}
+                    >
+                        <FaBell className="size-5 text-brand-dark" />
+                        {/* <span className="absolute top-1.5 right-2 size-2 rounded-full bg-red-500" /> */}
+                    </Button>
+                )}
 
                 {auth.user && (
                     <Avatar className="size-8 overflow-hidden rounded-full">

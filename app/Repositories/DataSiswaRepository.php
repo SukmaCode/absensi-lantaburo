@@ -16,6 +16,7 @@ class DataSiswaRepository
                 'user:id,name,email,status,phone',
                 'user.latestPayment' => fn ($q) => $q->select('payments.id', 'payments.user_id', 'payments.status', 'payments.payment_type'),
                 'schoolClass:id,name',
+                'sppSetting:id,student_id,amount,notes',
             ])
             ->when($search, function ($query) use ($search) {
                 $query->where('nis', 'like', "%{$search}%")

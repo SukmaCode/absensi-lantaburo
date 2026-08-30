@@ -117,18 +117,6 @@ export default function Login({ status, canResetPassword }: Props) {
                                     {processing ? 'Masuk...' : 'Masuk'}
                                 </Button>
                             </div>
-                            <div className="relative">
-                                <div className="absolute inset-0 flex items-center">
-                                    <Separator className="w-full" />
-                                </div>
-                                <div className="relative flex justify-center text-xs uppercase">
-                                    <span className="bg-white px-2 text-muted-foreground">
-                                        {'Atau lanjutkan dengan'}
-                                    </span>
-                                </div>
-                            </div>
-
-                            <PasskeyVerify />
 
                             <div className="text-center font-regular text-sm text-brand-muted">
                                 Belum punya akun?{' '}

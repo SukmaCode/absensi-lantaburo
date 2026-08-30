@@ -1,7 +1,14 @@
 import { useEffect, useRef, useState } from 'react';
 import { Head, router } from '@inertiajs/react';
-import { ChevronLeft, ChevronRight, Filter, Plus, Search, Trash2, UserRoundCheck } from 'lucide-react';
-import { FaTrash } from "react-icons/fa";
+import {
+    FaChevronLeft,
+    FaChevronRight,
+    FaFilter,
+    FaMagnifyingGlass,
+    FaPlus,
+    FaTrash,
+    FaUserCheck,
+} from 'react-icons/fa6';
 import { MdModeEdit } from "react-icons/md";
 import DataGuruController from '@/actions/App/Http/Controllers/Admin/DataGuruController';
 import FormAddTeacher from '@/components/data-guru/FormAddTeacher';
@@ -125,14 +132,14 @@ export default function DataGuru({
                         onClick={() => setOpen(true)}
                         className="h-10 bg-brand px-5 text-white hover:bg-brand-dark cursor-pointer"
                     >
-                        <Plus className="size-4" />
+                        <FaPlus className="size-4" />
                         Tambah Guru
                     </Button>
                 </div>
 
                 <div className="mt-5 flex flex-col gap-3 sm:flex-row sm:items-center">
                     <div className="relative flex-1">
-                        <Search className="absolute top-1/2 left-3 size-4 -translate-y-1/2 text-brand-muted" />
+                        <FaMagnifyingGlass className="absolute top-1/2 left-3 size-4 -translate-y-1/2 text-brand-muted" />
                         <Input
                             type="search"
                             value={searchQuery}
@@ -145,7 +152,7 @@ export default function DataGuru({
                         variant="outline"
                         className="h-10 border-neutral-200 bg-white text-brand-text hover:bg-brand-soft"
                     >
-                        <Filter className="size-4 text-brand-muted" />
+                        <FaFilter className="size-4 text-brand-muted" />
                         Filter
                     </Button>
                 </div>
@@ -223,7 +230,7 @@ export default function DataGuru({
                                                                 : 'bg-neutral-100 text-brand-muted',
                                                         )}
                                                     >
-                                                        <UserRoundCheck className="size-3" />
+                                                        <FaUserCheck className="size-3" />
                                                         {status}
                                                     </span>
                                                 </td>
@@ -284,7 +291,7 @@ export default function DataGuru({
                                 disabled={pagination.current_page === 1}
                                 className="border-neutral-200 bg-white text-brand-text hover:bg-brand-soft"
                             >
-                                <ChevronLeft className="size-4" />
+                                <FaChevronLeft className="size-4" />
                             </Button>
                             {pages.map((pageNumber) => (
                                 <Button
@@ -313,7 +320,7 @@ export default function DataGuru({
                                 }
                                 className="border-neutral-200 bg-white text-brand-text hover:bg-brand-soft"
                             >
-                                <ChevronRight className="size-4" />
+                                <FaChevronRight className="size-4" />
                             </Button>
                         </div>
                     )}
@@ -366,7 +373,7 @@ export default function DataGuru({
                         <DialogHeader>
                             <div className="flex flex-col items-center justify-center gap-3 text-center">
                                 <div className="flex size-14 items-center justify-center rounded-full bg-red-100">
-                                    <Trash2 className="size-7 text-red-600" />
+                                    <FaTrash className="size-7 text-red-600" />
                                 </div>
                                 <DialogTitle className="text-brand-text font-semibold text-lg">
                                     Hapus Data Guru?

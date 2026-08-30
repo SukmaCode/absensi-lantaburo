@@ -2,14 +2,14 @@ import { useRef, useState } from 'react';
 import { Head } from '@inertiajs/react';
 import { useForm } from '@inertiajs/react';
 import {
-    Building2,
-    LoaderCircle,
-    Mail,
-    MapPin,
-    Phone,
-    School,
-    Upload,
-} from 'lucide-react';
+    FaBuilding,
+    FaEnvelope,
+    FaLocationDot,
+    FaPhone,
+    FaSchool,
+    FaSpinner,
+    FaUpload,
+} from 'react-icons/fa6';
 import InputError from '@/components/input-error';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -165,7 +165,7 @@ export default function PengaturanSekolah({ schoolProfile: profile }: { schoolPr
                                             className="size-full object-contain p-1"
                                         />
                                     ) : (
-                                        <School className="size-8 text-neutral-300" />
+                                        <FaSchool className="size-8 text-neutral-300" />
                                     )}
                                 </div>
                                 <div className="flex flex-col gap-2">
@@ -176,7 +176,7 @@ export default function PengaturanSekolah({ schoolProfile: profile }: { schoolPr
                                         className="h-9 border-neutral-200 bg-white text-brand-text hover:bg-brand-soft"
                                         onClick={() => logoInputRef.current?.click()}
                                     >
-                                        <Upload className="size-4" />
+                                        <FaUpload className="size-4" />
                                         Pilih Logo
                                     </Button>
                                     <p className="text-xs text-brand-muted">
@@ -207,7 +207,7 @@ export default function PengaturanSekolah({ schoolProfile: profile }: { schoolPr
                                             className="size-full object-contain p-1"
                                         />
                                     ) : (
-                                        <School className="size-8 text-neutral-300" />
+                                        <FaSchool className="size-8 text-neutral-300" />
                                     )}
                                 </div>
                                 <div className="flex flex-col gap-2">
@@ -218,7 +218,7 @@ export default function PengaturanSekolah({ schoolProfile: profile }: { schoolPr
                                         className="h-9 border-neutral-200 bg-white text-brand-text hover:bg-brand-soft"
                                         onClick={() => heroInputRef.current?.click()}
                                     >
-                                        <Upload className="size-4" />
+                                        <FaUpload className="size-4" />
                                         Pilih Hero Image
                                     </Button>
                                     <p className="text-xs text-brand-muted">
@@ -249,7 +249,7 @@ export default function PengaturanSekolah({ schoolProfile: profile }: { schoolPr
                                             className="size-full object-contain p-1"
                                         />
                                     ) : (
-                                        <School className="size-8 text-neutral-300" />
+                                        <FaSchool className="size-8 text-neutral-300" />
                                     )}
                                 </div>
                                 <div className="flex flex-col gap-2">
@@ -260,7 +260,7 @@ export default function PengaturanSekolah({ schoolProfile: profile }: { schoolPr
                                         className="h-9 border-neutral-200 bg-white text-brand-text hover:bg-brand-soft"
                                         onClick={() => aboutInputRef.current?.click()}
                                     >
-                                        <Upload className="size-4" />
+                                        <FaUpload className="size-4" />
                                         Pilih About Image
                                     </Button>
                                     <p className="text-xs text-brand-muted">
@@ -291,7 +291,7 @@ export default function PengaturanSekolah({ schoolProfile: profile }: { schoolPr
                                             className="size-full object-contain p-1"
                                         />
                                     ) : (
-                                        <School className="size-8 text-neutral-300" />
+                                        <FaSchool className="size-8 text-neutral-300" />
                                     )}
                                 </div>
                                 <div className="flex flex-col gap-2">
@@ -302,7 +302,7 @@ export default function PengaturanSekolah({ schoolProfile: profile }: { schoolPr
                                         className="h-9 border-neutral-200 bg-white text-brand-text hover:bg-brand-soft"
                                         onClick={() => activities1InputRef.current?.click()}
                                     >
-                                        <Upload className="size-4" />
+                                        <FaUpload className="size-4" />
                                         Pilih Activity Image 1
                                     </Button>
                                     <p className="text-xs text-brand-muted">
@@ -333,7 +333,7 @@ export default function PengaturanSekolah({ schoolProfile: profile }: { schoolPr
                                             className="size-full object-contain p-1"
                                         />
                                     ) : (
-                                        <School className="size-8 text-neutral-300" />
+                                        <FaSchool className="size-8 text-neutral-300" />
                                     )}
                                 </div>
                                 <div className="flex flex-col gap-2">
@@ -344,7 +344,7 @@ export default function PengaturanSekolah({ schoolProfile: profile }: { schoolPr
                                         className="h-9 border-neutral-200 bg-white text-brand-text hover:bg-brand-soft"
                                         onClick={() => activities2InputRef.current?.click()}
                                     >
-                                        <Upload className="size-4" />
+                                        <FaUpload className="size-4" />
                                         Pilih Activity Image 2
                                     </Button>
                                     <p className="text-xs text-brand-muted">
@@ -375,7 +375,7 @@ export default function PengaturanSekolah({ schoolProfile: profile }: { schoolPr
                                             className="size-full object-contain p-1"
                                         />
                                     ) : (
-                                        <School className="size-8 text-neutral-300" />
+                                        <FaSchool className="size-8 text-neutral-300" />
                                     )}
                                 </div>
                                 <div className="flex flex-col gap-2">
@@ -386,7 +386,7 @@ export default function PengaturanSekolah({ schoolProfile: profile }: { schoolPr
                                         className="h-9 border-neutral-200 bg-white text-brand-text hover:bg-brand-soft"
                                         onClick={() => activities3InputRef.current?.click()}
                                     >
-                                        <Upload className="size-4" />
+                                        <FaUpload className="size-4" />
                                         Pilih Activity Image 3
                                     </Button>
                                     <p className="text-xs text-brand-muted">
@@ -414,7 +414,7 @@ export default function PengaturanSekolah({ schoolProfile: profile }: { schoolPr
                             Nama Sekolah
                         </Label>
                         <div className="relative">
-                            <Building2 className="absolute top-1/2 left-3 size-4 -translate-y-1/2 text-brand-muted" />
+                            <FaBuilding className="absolute top-1/2 left-3 size-4 -translate-y-1/2 text-brand-muted" />
                             <Input
                                 id="name"
                                 name="name"
@@ -449,7 +449,7 @@ export default function PengaturanSekolah({ schoolProfile: profile }: { schoolPr
                                 Email
                             </Label>
                             <div className="relative">
-                                <Mail className="absolute top-1/2 left-3 size-4 -translate-y-1/2 text-brand-muted" />
+                                <FaEnvelope className="absolute top-1/2 left-3 size-4 -translate-y-1/2 text-brand-muted" />
                                 <Input
                                     id="email"
                                     name="email"
@@ -487,7 +487,7 @@ export default function PengaturanSekolah({ schoolProfile: profile }: { schoolPr
                                 Nomor Telepon
                             </Label>
                             <div className="relative">
-                                <Phone className="absolute top-1/2 left-3 size-4 -translate-y-1/2 text-brand-muted" />
+                                <FaPhone className="absolute top-1/2 left-3 size-4 -translate-y-1/2 text-brand-muted" />
                                 <Input
                                     id="phone"
                                     name="phone"
@@ -506,7 +506,7 @@ export default function PengaturanSekolah({ schoolProfile: profile }: { schoolPr
                                 Alamat
                             </Label>
                             <div className="relative">
-                                <MapPin className="absolute top-3 left-3 size-4 text-brand-muted" />
+                                <FaLocationDot className="absolute top-3 left-3 size-4 text-brand-muted" />
                                 <Textarea
                                     id="address"
                                     name="address"
@@ -528,7 +528,7 @@ export default function PengaturanSekolah({ schoolProfile: profile }: { schoolPr
                             className="bg-brand px-6 text-white hover:bg-brand-dark"
                             disabled={processing}
                         >
-                            {processing && <LoaderCircle className="size-4 animate-spin" />}
+                            {processing && <FaSpinner className="size-4 animate-spin" />}
                             Simpan Perubahan
                         </Button>
                     </div>

@@ -1,6 +1,13 @@
 import { useEffect, useRef, useState } from 'react';
 import { Head, router } from '@inertiajs/react';
-import { ChevronLeft, ChevronRight, Filter, Plus, Search, UserRoundCheck } from 'lucide-react';
+import {
+    FaChevronLeft,
+    FaChevronRight,
+    FaFilter,
+    FaMagnifyingGlass,
+    FaPlus,
+    FaUserCheck,
+} from 'react-icons/fa6';
 import { MdModeEdit } from 'react-icons/md';
 import FormAddStudent from '@/components/data-siswa/FormAddStudent';
 import FormEditStudent from '@/components/data-siswa/FormEditStudent';
@@ -36,6 +43,7 @@ export interface StudentPreviewRow {
     photo?: string | null;
     payment_status: string | null;
     payment_type: string | null;
+    spp_amount?: number | null;
 }
 
 export default function DataSiswa({
@@ -116,14 +124,14 @@ export default function DataSiswa({
                         onClick={() => setOpenAdd(true)}
                         className="h-10 bg-brand px-5 text-white hover:bg-brand-dark cursor-pointer"
                     >
-                        <Plus className="size-4" />
+                        <FaPlus className="size-4" />
                         Tambah Siswa
                     </Button>
                 </div>
 
                 <div className="mt-5 flex flex-col gap-3 sm:flex-row sm:items-center">
                     <div className="relative flex-1">
-                        <Search className="absolute top-1/2 left-3 size-4 -translate-y-1/2 text-brand-muted" />
+                        <FaMagnifyingGlass className="absolute top-1/2 left-3 size-4 -translate-y-1/2 text-brand-muted" />
                         <Input
                             type="search"
                             value={searchQuery}
@@ -136,7 +144,7 @@ export default function DataSiswa({
                         variant="outline"
                         className="h-10 border-neutral-200 bg-white text-brand-text hover:bg-brand-soft"
                     >
-                        <Filter className="size-4 text-brand-muted" />
+                        <FaFilter className="size-4 text-brand-muted" />
                         Filter
                     </Button>
                 </div>
@@ -151,6 +159,7 @@ export default function DataSiswa({
                                 <th className="pb-3 min-w-36 font-medium bg-white">Orang tua</th>
                                 <th className="pb-3 min-w-36 font-medium bg-white">Kelas</th>
                                 <th className="pb-3 min-w-36 font-medium bg-white">Status</th>
+                                <th className="pb-3 min-w-36 font-medium bg-white">SPP / Bulan</th>
                                 <th className="pb-3 min-w-36 font-medium bg-white">Status Pembayaran</th>
                                 <th className="pb-3 min-w-36 font-medium bg-white">Tipe Pembayaran</th>
                                 <th className="pb-3 min-w-36 font-medium bg-white">Aksi</th>
@@ -168,6 +177,7 @@ export default function DataSiswa({
                                         status,
                                         payment_status: paymentStatus,
                                         payment_type: paymentType,
+                                        spp_amount: sppAmount,
                                     } = student;
 
                                     return (
@@ -210,9 +220,24 @@ export default function DataSiswa({
                                                             : 'bg-neutral-100 text-brand-muted',
                                                     )}
                                                 >
-                                                    <UserRoundCheck className="size-3" />
+                                                    <FaUserCheck className="size-3" />
                                                     {status}
                                                 </span>
+                                            </td>
+                                            <td className="py-3">
+                                                {sppAmount ? (
+                                                    <span className="font-semibold text-xs text-brand">
+                                                        {new Intl.NumberFormat('id-ID', {
+                                                            style: 'currency',
+                                                            currency: 'IDR',
+                                                            maximumFractionDigits: 0,
+                                                        }).format(sppAmount)}
+                                                    </span>
+                                                ) : (
+                                                    <span className="rounded-md bg-amber-50 px-2 py-0.5 font-medium text-xs text-amber-700">
+                                                        Belum Diatur
+                                                    </span>
+                                                )}
                                             </td>
                                             <td className="py-3">
                                                 {paymentStatus ? (
@@ -257,7 +282,7 @@ export default function DataSiswa({
                             ) : (
                                 <tr>
                                     <td
-                                        colSpan={8}
+                                        colSpan={10}
                                         className="py-8 text-center text-sm text-brand-muted"
                                     >
                                         Tidak ada data siswa ditemukan.
@@ -283,7 +308,7 @@ export default function DataSiswa({
                                 disabled={pagination.current_page === 1}
                                 className="border-neutral-200 bg-white text-brand-text hover:bg-brand-soft"
                             >
-                                <ChevronLeft className="size-4" />
+                                <FaChevronLeft className="size-4" />
                             </Button>
                             {pages.map((pageNumber) => (
                                 <Button
@@ -312,7 +337,7 @@ export default function DataSiswa({
                                 }
                                 className="border-neutral-200 bg-white text-brand-text hover:bg-brand-soft"
                             >
-                                <ChevronRight className="size-4" />
+                                <FaChevronRight className="size-4" />
                             </Button>
                         </div>
                     )}

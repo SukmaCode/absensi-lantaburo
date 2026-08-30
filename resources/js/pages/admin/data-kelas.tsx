@@ -1,7 +1,15 @@
 import { Fragment, useEffect, useRef, useState } from 'react';
 import { Head, router } from '@inertiajs/react';
-import { ChevronLeft, ChevronRight, Filter, Plus, Search, Users, School } from 'lucide-react';
-import { FaTrash } from 'react-icons/fa';
+import {
+    FaChevronLeft,
+    FaChevronRight,
+    FaFilter,
+    FaMagnifyingGlass,
+    FaPlus,
+    FaSchool,
+    FaTrash,
+    FaUsers,
+} from 'react-icons/fa6';
 import FormAddClass from '@/components/data-kelas/FormAddClass';
 import { Button } from '@/components/ui/button';
 import {
@@ -121,14 +129,14 @@ export default function DataKelas({
                         onClick={() => setOpen(true)}
                         className="h-10 bg-brand px-5 text-white hover:bg-brand-dark cursor-pointer"
                     >
-                        <Plus className="size-4" />
+                        <FaPlus className="size-4" />
                         Tambah Kelas
                     </Button>
                 </div>
 
                 <div className="mt-5 flex flex-col gap-3 sm:flex-row sm:items-center">
                     <div className="relative flex-1">
-                        <Search className="absolute top-1/2 left-3 size-4 -translate-y-1/2 text-brand-muted" />
+                        <FaMagnifyingGlass className="absolute top-1/2 left-3 size-4 -translate-y-1/2 text-brand-muted" />
                         <Input
                             type="search"
                             value={searchQuery}
@@ -141,7 +149,7 @@ export default function DataKelas({
                         variant="outline"
                         className="h-10 border-neutral-200 bg-white text-brand-text hover:bg-brand-soft"
                     >
-                        <Filter className="size-4 text-brand-muted" />
+                        <FaFilter className="size-4 text-brand-muted" />
                         Filter
                     </Button>
                 </div>
@@ -188,7 +196,7 @@ export default function DataKelas({
                                                 <td className="py-3">
                                                     <div className="flex items-center gap-2.5">
                                                         <div className="flex size-8 items-center justify-center rounded-lg bg-brand-soft/80 text-brand">
-                                                            <School className="size-4" />
+                                                            <FaSchool className="size-4" />
                                                         </div>
                                                         <span className="font-medium text-brand-text">
                                                             {name}
@@ -231,7 +239,7 @@ export default function DataKelas({
                                                 </td>
                                                 <td className="py-3">
                                                     <span className="inline-flex items-center gap-1.5 rounded-md bg-neutral-100 px-2.5 py-0.5 font-medium text-xs text-brand-text">
-                                                        <Users className="size-3 text-brand-muted" />
+                                                        <FaUsers className="size-3 text-brand-muted" />
                                                         {students_count} Siswa
                                                     </span>
                                                 </td>
@@ -297,7 +305,7 @@ export default function DataKelas({
                                 disabled={pagination.current_page === 1}
                                 className="border-neutral-200 bg-white text-brand-text hover:bg-brand-soft"
                             >
-                                <ChevronLeft className="size-4" />
+                                <FaChevronLeft className="size-4" />
                             </Button>
                             {pages.map((pageNumber) => (
                                 <Button
@@ -326,7 +334,7 @@ export default function DataKelas({
                                 }
                                 className="border-neutral-200 bg-white text-brand-text hover:bg-brand-soft"
                             >
-                                <ChevronRight className="size-4" />
+                                <FaChevronRight className="size-4" />
                             </Button>
                         </div>
                     )}

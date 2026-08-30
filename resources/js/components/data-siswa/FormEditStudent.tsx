@@ -29,6 +29,7 @@ export type StudentEditData = {
     parent_phone?: string | null;
     status: 'Aktif' | 'Nonaktif' | string;
     raw_status?: string;
+    spp_amount?: number | null;
 };
 
 type FormEditStudentProps = {
@@ -69,6 +70,7 @@ export default function FormEditStudent({
         address: student.address ?? '',
         parent_name: student.parent_name ?? '',
         parent_phone: student.parent_phone ?? '',
+        spp_amount: student.spp_amount ? String(student.spp_amount) : '',
     });
 
     function submit(e: React.FormEvent) {
@@ -286,6 +288,23 @@ export default function FormEditStudent({
                         placeholder="08xxxxxxxxxx"
                     />
                     <InputError message={errors.parent_phone} />
+                </div>
+
+                <div className="grid gap-2 sm:col-span-2">
+                    <Label htmlFor="edit-spp_amount">
+                        Nominal SPP / Bulan (Rp)
+                    </Label>
+                    <Input
+                        id="edit-spp_amount"
+                        name="spp_amount"
+                        type="number"
+                        min="0"
+                        step="1000"
+                        value={data.spp_amount}
+                        onChange={(e) => setData('spp_amount', e.target.value)}
+                        placeholder="Contoh: 150000 (Kosongkan jika belum ada)"
+                    />
+                    <InputError message={errors.spp_amount} />
                 </div>
             </div>
 

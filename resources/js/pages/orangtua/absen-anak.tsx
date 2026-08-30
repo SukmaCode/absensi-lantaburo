@@ -1,20 +1,18 @@
 import { Head, router } from '@inertiajs/react';
 import {
-    AlertCircle,
-    Calendar,
-    Camera,
-    CheckCircle2,
-    ChevronLeft,
-    ChevronRight,
-    Clock,
-    FileText,
-    Filter,
-    GraduationCap,
-    LayoutGrid,
-    List,
-    Printer,
-    Users,
-} from 'lucide-react';
+    FaCalendarDays,
+    FaCamera,
+    FaChevronLeft,
+    FaChevronRight,
+    FaCircleExclamation,
+    FaClock,
+    FaFileLines,
+    FaFilter,
+    FaGraduationCap,
+    FaList,
+    FaTableCells,
+    FaUsers,
+} from 'react-icons/fa6';
 import { useMemo, useState } from 'react';
 import { PhotoModal } from '@/components/absensi/PhotoModal';
 import { Button } from '@/components/ui/button';
@@ -108,7 +106,7 @@ export default function AbsenAnakPage({
                 <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between print:hidden">
                     <div>
                         <div className="flex items-center gap-2">
-                            <FileText className="size-6 text-brand" />
+                            <FaFileLines className="size-6 text-brand" />
                             <h1 className="font-bold text-2xl text-brand-text sm:text-3xl">
                                 Rekap Kehadiran Anak
                             </h1>
@@ -122,18 +120,18 @@ export default function AbsenAnakPage({
 
                     {/* Month Picker & Navigation */}
                     <div className="flex flex-wrap items-center gap-2">
-                        <div className="flex items-center justify-center rounded-xl border border-neutral-200 bg-white p-1 shadow-xs">
+                        <div className="flex items-center justify-center rounded-sm border border-neutral-200 bg-white p-1 shadow-xs">
                             <Button
                                 variant="ghost"
                                 size="sm"
                                 onClick={() => navigateMonth(-1)}
                                 className="size-8 p-0 text-brand-muted hover:text-brand-text"
                             >
-                                <ChevronLeft className="size-4" />
+                                <FaChevronLeft className="size-4" />
                             </Button>
 
                             <div className="flex items-center justify-center gap-1.5 px-2">
-                                <Calendar className="size-4 text-brand" />
+                                <FaCalendarDays className="size-4 text-brand" />
                                 <input
                                     type="month"
                                     value={selectedMonth}
@@ -148,7 +146,7 @@ export default function AbsenAnakPage({
                                 onClick={() => navigateMonth(1)}
                                 className="size-8 p-0 text-brand-muted hover:text-brand-text"
                             >
-                                <ChevronRight className="size-4" />
+                                <FaChevronRight className="size-4" />
                             </Button>
                         </div>
                     </div>
@@ -157,7 +155,7 @@ export default function AbsenAnakPage({
                 {!hasChildren || !selectedStudent ? (
                     <div className="flex flex-col items-center justify-center gap-4 rounded-2xl border border-dashed border-neutral-200 bg-white p-12 text-center shadow-xs">
                         <div className="flex size-16 items-center justify-center rounded-2xl bg-amber-50 text-amber-600">
-                            <Users className="size-8" />
+                            <FaUsers className="size-8" />
                         </div>
                         <div>
                             <h2 className="font-semibold text-lg text-brand-text">Belum Ada Data Anak Terhubung</h2>
@@ -178,13 +176,13 @@ export default function AbsenAnakPage({
                                         type="button"
                                         onClick={() => handleChildChange(child.id)}
                                         className={cn(
-                                            'inline-flex items-center gap-2 rounded-xl px-4 py-2 text-xs font-semibold transition-all',
+                                            'inline-flex items-center gap-2 rounded-sm px-4 py-2 text-xs font-semibold transition-all',
                                             selectedStudent.id === child.id
                                                 ? 'bg-brand text-white shadow-xs'
                                                 : 'bg-neutral-50 text-brand-muted hover:bg-neutral-100 hover:text-brand-text'
                                         )}
                                     >
-                                        <GraduationCap className="size-4" />
+                                        <FaGraduationCap className="size-4" />
                                         <span>{child.name}</span>
                                     </button>
                                 ))}
@@ -236,7 +234,7 @@ export default function AbsenAnakPage({
                         {/* View Switcher & Filter Bar */}
                         <div className="flex flex-col gap-3 rounded-2xl border border-neutral-100 bg-white p-4 shadow-xs sm:flex-row sm:items-center sm:justify-between print:hidden">
                             {/* View Mode Toggle */}
-                            <div className="flex items-center gap-1 rounded-xl bg-neutral-100 p-1">
+                            <div className="flex items-center gap-1 rounded-sm bg-neutral-100 p-1">
                                 <button
                                     type="button"
                                     onClick={() => setViewMode('daily')}
@@ -247,7 +245,7 @@ export default function AbsenAnakPage({
                                             : 'text-brand-muted hover:text-brand-text'
                                     )}
                                 >
-                                    <List className="size-3.5" />
+                                    <FaList className="size-3.5" />
                                     Daftar Harian
                                 </button>
                                 <button
@@ -260,7 +258,7 @@ export default function AbsenAnakPage({
                                             : 'text-brand-muted hover:text-brand-text'
                                     )}
                                 >
-                                    <LayoutGrid className="size-3.5" />
+                                    <FaTableCells className="size-3.5" />
                                     Matriks Kalender
                                 </button>
                             </div>
@@ -269,7 +267,7 @@ export default function AbsenAnakPage({
                             {viewMode === 'daily' && (
                                 <div className="flex flex-wrap items-center gap-1.5">
                                     <span className="flex items-center gap-1 text-xs text-brand-muted">
-                                        <Filter className="size-3.5" /> Filter:
+                                        <FaFilter className="size-3.5" /> Filter:
                                     </span>
                                     {[
                                         { id: 'all', label: 'Semua Hari' },
@@ -313,7 +311,7 @@ export default function AbsenAnakPage({
                                 <div className="flex flex-col divide-y divide-neutral-100">
                                     {filteredDailySummary.length === 0 ? (
                                         <div className="flex flex-col items-center justify-center gap-2 py-12 text-center text-brand-muted">
-                                            <AlertCircle className="size-6 text-neutral-300" />
+                                            <FaCircleExclamation className="size-6 text-neutral-300" />
                                             <p className="text-sm">Tidak ada catatan presensi untuk filter ini.</p>
                                         </div>
                                     ) : (
@@ -322,14 +320,14 @@ export default function AbsenAnakPage({
                                                 key={day.date}
                                                 className={cn(
                                                     'flex flex-col gap-3 py-3.5 transition-colors sm:flex-row sm:items-center sm:justify-between first:pt-0 last:pb-0',
-                                                    day.isToday && 'bg-brand-soft/20 -mx-3 px-3 rounded-xl'
+                                                    day.isToday && 'bg-brand-soft/20 -mx-3 px-3 rounded-sm'
                                                 )}
                                             >
                                                 {/* Left: Date & Status */}
                                                 <div className="flex items-start gap-3.5">
                                                     <div
                                                         className={cn(
-                                                            'flex size-11 shrink-0 flex-col items-center justify-center rounded-xl font-bold text-xs shadow-2xs',
+                                                            'flex size-11 shrink-0 flex-col items-center justify-center rounded-sm font-bold text-xs shadow-2xs',
                                                             day.isWeekend
                                                                 ? 'bg-neutral-100 text-neutral-400'
                                                                 : day.isToday
@@ -361,7 +359,7 @@ export default function AbsenAnakPage({
                                                         <div className="mt-1 flex flex-wrap items-center gap-3 text-xs text-brand-muted">
                                                             {day.checkInTime ? (
                                                                 <span className="flex items-center gap-1 font-medium text-brand-text">
-                                                                    <Clock className="size-3.5 text-brand" />
+                                                                    <FaClock className="size-3.5 text-brand" />
                                                                     Masuk: {day.checkInTime} WIB
                                                                 </span>
                                                             ) : day.status ? (
@@ -397,7 +395,7 @@ export default function AbsenAnakPage({
                                                             className="flex items-center gap-1.5 rounded-lg border border-neutral-200 bg-white px-2.5 py-1 text-xs font-medium text-brand hover:bg-brand-soft transition-colors shadow-2xs"
                                                             title="Lihat foto selfie kehadiran"
                                                         >
-                                                            <Camera className="size-3.5" />
+                                                            <FaCamera className="size-3.5" />
                                                             <span className="hidden sm:inline">Foto Selfie</span>
                                                         </button>
                                                     )}
@@ -436,7 +434,7 @@ export default function AbsenAnakPage({
                                     </span>
                                 </div>
 
-                                <div className="overflow-x-auto rounded-xl border border-neutral-100">
+                                <div className="overflow-x-auto rounded-sm border border-neutral-100">
                                     <table className="w-full text-center text-xs border-collapse">
                                         <thead>
                                             <tr className="bg-neutral-50/80 text-brand-muted border-b border-neutral-100">

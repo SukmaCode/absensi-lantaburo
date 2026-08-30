@@ -1,27 +1,26 @@
 import { Head, Link, router, usePage } from '@inertiajs/react';
 import {
-    AlertCircle,
-    ArrowRight,
-    Building2,
-    Calendar,
-    Check,
-    CheckCircle2,
-    Clock,
-    Copy,
-    CreditCard,
-    ExternalLink,
-    GraduationCap,
-    HelpCircle,
-    Loader2,
-    Mail,
-    Phone,
-    QrCode,
-    RefreshCw,
-    ShieldCheck,
-    Sparkles,
-    User,
-    Wallet,
-} from 'lucide-react';
+    FaArrowRight,
+    FaArrowUpRightFromSquare,
+    FaArrowsRotate,
+    FaBuildingColumns,
+    FaCalendarDays,
+    FaCheck,
+    FaCircleCheck,
+    FaCircleExclamation,
+    FaCircleQuestion,
+    FaClock,
+    FaCreditCard,
+    FaGraduationCap,
+    FaPhone,
+    FaQrcode,
+    FaRegCopy,
+    FaSpinner,
+    FaUser,
+    FaWallet,
+} from 'react-icons/fa6';
+import { BsShieldCheck, BsStars } from 'react-icons/bs';
+import { MdEmail } from 'react-icons/md';
 import { useEffect, useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
@@ -29,22 +28,6 @@ import { dashboard as calonSiswaDashboard } from '@/routes/calon-siswa';
 import { dashboard as siswaDashboard } from '@/routes/siswa';
 import type { Auth } from '@/types';
 import type { CalonSiswaDashboardProps } from '@/types/calon-siswa';
-
-declare global {
-    interface Window {
-        snap?: {
-            pay: (
-                token: string,
-                callbacks?: {
-                    onSuccess?: (result: unknown) => void;
-                    onPending?: (result: unknown) => void;
-                    onError?: (result: unknown) => void;
-                    onClose?: () => void;
-                }
-            ) => void;
-        };
-    }
-}
 
 export default function CalonSiswaDashboard({
     user,
@@ -203,17 +186,16 @@ export default function CalonSiswaDashboard({
                     <div>
                         <div className="flex items-center gap-2">
                             <span className="inline-flex items-center gap-1.5 rounded-full bg-brand-soft px-3 py-1 font-semibold text-xs text-brand-dark">
-                                <Sparkles className="size-3.5 text-brand" />
                                 Panel Pendaftaran Siswa
                             </span>
                             {isPaid ? (
                                 <span className="inline-flex items-center gap-1 rounded-full border border-[#c5eec2] bg-[#e7f6e0] px-2.5 py-0.5 font-semibold text-xs text-brand">
-                                    <CheckCircle2 className="size-3" />
+                                    <FaCircleCheck className="size-3" />
                                     Akun Aktif
                                 </span>
                             ) : (
                                 <span className="inline-flex items-center gap-1 rounded-full border border-[#fae1af] bg-[#fdf0d5] px-2.5 py-0.5 font-semibold text-xs text-[#b9770e]">
-                                    <Clock className="size-3" />
+                                    <FaClock className="size-3" />
                                     Menunggu Pembayaran
                                 </span>
                             )}
@@ -226,8 +208,8 @@ export default function CalonSiswaDashboard({
                         </p>
                     </div>
 
-                    <div className="inline-flex items-center gap-2 self-start rounded-xl border border-neutral-200/80 bg-white px-3.5 py-2 text-xs font-medium text-brand-muted shadow-xs sm:self-center">
-                        <Calendar className="size-4 text-brand" />
+                    <div className="inline-flex items-center gap-2 self-start rounded-sm border border-neutral-200/80 bg-white px-3.5 py-2 text-xs font-medium text-brand-muted shadow-xs sm:self-center">
+                        <FaCalendarDays className="size-4 text-brand" />
                         <span>{today}</span>
                     </div>
                 </div>
@@ -239,9 +221,9 @@ export default function CalonSiswaDashboard({
                     </h3>
                     <div className="mt-4 grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4">
                         {/* Step 1 */}
-                        <div className="flex items-center gap-3 rounded-xl border border-[#c5eec2] bg-[#e7f6e0]/70 p-3">
+                        <div className="flex items-center gap-3 rounded-sm border border-[#c5eec2] bg-[#e7f6e0]/70 p-3">
                             <div className="flex size-9 shrink-0 items-center justify-center rounded-lg bg-brand font-bold text-white shadow-xs">
-                                <Check className="size-5" />
+                                <FaCheck className="size-5" />
                             </div>
                             <div>
                                 <p className="font-semibold text-xs text-brand-dark">1. Daftar Akun</p>
@@ -252,7 +234,7 @@ export default function CalonSiswaDashboard({
                         {/* Step 2 */}
                         <div
                             className={cn(
-                                'flex items-center gap-3 rounded-xl border p-3 transition-colors',
+                                'flex items-center gap-3 rounded-sm border p-3 transition-colors',
                                 isPaid
                                     ? 'border-[#c5eec2] bg-[#e7f6e0]/70'
                                     : 'border-[#fae1af] bg-[#fdf0d5]/80'
@@ -266,7 +248,7 @@ export default function CalonSiswaDashboard({
                                         : 'bg-[#b9770e] text-white'
                                 )}
                             >
-                                {isPaid ? <Check className="size-5" /> : <CreditCard className="size-4.5" />}
+                                {isPaid ? <FaCheck className="size-5" /> : <FaCreditCard className="size-4" />}
                             </div>
                             <div>
                                 <p
@@ -291,7 +273,7 @@ export default function CalonSiswaDashboard({
                         {/* Step 3 */}
                         <div
                             className={cn(
-                                'flex items-center gap-3 rounded-xl border p-3 transition-colors',
+                                'flex items-center gap-3 rounded-sm border p-3 transition-colors',
                                 isPaid
                                     ? 'border-[#c5eec2] bg-[#e7f6e0]/70'
                                     : 'border-neutral-200/70 bg-neutral-50/70'
@@ -305,7 +287,7 @@ export default function CalonSiswaDashboard({
                                         : 'bg-neutral-200 text-neutral-500'
                                 )}
                             >
-                                {isPaid ? <Check className="size-5" /> : <ShieldCheck className="size-4.5" />}
+                                {isPaid ? <FaCheck className="size-5" /> : <BsShieldCheck className="size-4" />}
                             </div>
                             <div>
                                 <p
@@ -330,7 +312,7 @@ export default function CalonSiswaDashboard({
                         {/* Step 4 */}
                         <div
                             className={cn(
-                                'flex items-center gap-3 rounded-xl border p-3 transition-colors',
+                                'flex items-center gap-3 rounded-sm border p-3 transition-colors',
                                 isPaid
                                     ? 'border-[#c5eec2] bg-[#e7f6e0]/70'
                                     : 'border-neutral-200/70 bg-neutral-50/70'
@@ -344,7 +326,7 @@ export default function CalonSiswaDashboard({
                                         : 'bg-neutral-200 text-neutral-500'
                                 )}
                             >
-                                {isPaid ? <Check className="size-5" /> : <GraduationCap className="size-4.5" />}
+                                {isPaid ? <FaCheck className="size-5" /> : <FaGraduationCap className="size-4" />}
                             </div>
                             <div>
                                 <p
@@ -374,11 +356,11 @@ export default function CalonSiswaDashboard({
                         <div className="flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between">
                             <div className="flex items-start gap-4">
                                 <div className="flex size-14 shrink-0 items-center justify-center rounded-2xl bg-[#e7f6e0] text-brand ring-1 ring-[#c5eec2]">
-                                    <CheckCircle2 className="size-8 text-brand" />
+                                    <FaCircleCheck className="size-8 text-brand" />
                                 </div>
                                 <div className="space-y-1">
                                     <span className="inline-flex items-center gap-1 rounded-full border border-[#c5eec2] bg-[#e7f6e0] px-3 py-0.5 font-semibold text-xs text-brand">
-                                        <Sparkles className="size-3.5" />
+                                        <BsStars className="size-3.5" />
                                         Pembayaran Lunas & Terverifikasi
                                     </span>
                                     <h2 className="font-bold text-xl text-brand-text sm:text-2xl">
@@ -396,11 +378,11 @@ export default function CalonSiswaDashboard({
                             <Button
                                 asChild
                                 size="lg"
-                                className="h-11 shrink-0 rounded-xl bg-brand px-6 font-semibold text-white shadow-xs transition-transform hover:bg-brand-dark"
+                                className="h-11 shrink-0 rounded-sm bg-brand px-6 font-semibold text-white shadow-xs transition-transform hover:bg-brand-dark"
                             >
                                 <Link href={siswaDashboard()}>
                                     Masuk Dashboard Siswa
-                                    <ArrowRight className="ml-2 size-4.5" />
+                                    <FaArrowRight className="ml-2 size-4" />
                                 </Link>
                             </Button>
                         </div>
@@ -411,7 +393,7 @@ export default function CalonSiswaDashboard({
                         <div className="flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
                             <div className="flex items-start gap-4 sm:gap-5">
                                 <div className="flex size-14 shrink-0 items-center justify-center rounded-2xl bg-amber-100 text-[#b9770e] shadow-xs ring-1 ring-amber-200">
-                                    <QrCode className="size-7" />
+                                    <FaQrcode className="size-7" />
                                 </div>
 
                                 <div className="space-y-1.5">
@@ -420,7 +402,7 @@ export default function CalonSiswaDashboard({
                                             Tagihan Biaya Pendaftaran Siswa
                                         </h2>
                                         <span className="inline-flex items-center gap-1 rounded-full border border-[#fae1af] bg-[#fdf0d5] px-3 py-0.5 font-semibold text-xs text-[#b9770e]">
-                                            <Clock className="size-3.5" />
+                                            <FaClock className="size-3.5" />
                                             Menunggu Pembayaran
                                         </span>
                                     </div>
@@ -451,9 +433,9 @@ export default function CalonSiswaDashboard({
                                                 title="Salin Order ID"
                                             >
                                                 {copiedOrderId ? (
-                                                    <Check className="size-3.5 text-brand" />
+                                                    <FaCheck className="size-3.5 text-brand" />
                                                 ) : (
-                                                    <Copy className="size-3.5" />
+                                                    <FaRegCopy className="size-3.5" />
                                                 )}
                                                 <span className="text-[11px]">{copiedOrderId ? 'Tersalin!' : 'Salin'}</span>
                                             </button>
@@ -469,15 +451,15 @@ export default function CalonSiswaDashboard({
                                     onClick={handlePay}
                                     disabled={isRequestingToken}
                                     size="lg"
-                                    className="h-11 rounded-xl bg-brand font-semibold text-white shadow-xs hover:bg-brand-dark"
+                                    className="h-11 rounded-sm bg-brand font-semibold text-white shadow-xs hover:bg-brand-dark"
                                 >
                                     {isRequestingToken ? (
-                                        <Loader2 className="mr-2 size-4.5 animate-spin" />
+                                        <FaSpinner className="mr-2 size-4 animate-spin" />
                                     ) : (
-                                        <CreditCard className="mr-2 size-4.5" />
+                                        <FaCreditCard className="mr-2 size-4" />
                                     )}
                                     Bayar Sekarang / Buka QRIS
-                                    <ExternalLink className="ml-1.5 size-4 opacity-80" />
+                                    <FaArrowUpRightFromSquare className="ml-1.5 size-3.5 opacity-80" />
                                 </Button>
 
                                 <Button
@@ -486,12 +468,12 @@ export default function CalonSiswaDashboard({
                                     disabled={isChecking}
                                     variant="outline"
                                     size="lg"
-                                    className="h-11 rounded-xl border-neutral-200 bg-white font-medium text-brand-text hover:bg-neutral-50 shadow-xs"
+                                    className="h-11 rounded-sm border-neutral-200 bg-white font-medium text-brand-text hover:bg-neutral-50 shadow-xs"
                                 >
                                     {isChecking ? (
-                                        <Loader2 className="mr-2 size-4 animate-spin" />
+                                        <FaSpinner className="mr-2 size-4 animate-spin" />
                                     ) : (
-                                        <RefreshCw className="mr-2 size-4 text-brand" />
+                                        <FaArrowsRotate className="mr-2 size-4 text-brand" />
                                     )}
                                     Cek Status Pembayaran
                                 </Button>
@@ -502,20 +484,20 @@ export default function CalonSiswaDashboard({
                         {statusMessage && (
                             <div
                                 className={cn(
-                                    'mt-5 flex items-center gap-2.5 rounded-xl border p-3.5 text-xs font-medium transition-all',
+                                    'mt-5 flex items-center gap-2.5 rounded-sm border p-3.5 text-xs font-medium transition-all',
                                     messageType === 'success'
                                         ? 'border-[#c5eec2] bg-[#e7f6e0] text-brand-dark'
                                         : messageType === 'error'
-                                          ? 'border-rose-200 bg-rose-50 text-rose-800'
-                                          : 'border-[#fae1af] bg-[#fdf0d5] text-[#b9770e]'
+                                            ? 'border-rose-200 bg-rose-50 text-rose-800'
+                                            : 'border-[#fae1af] bg-[#fdf0d5] text-[#b9770e]'
                                 )}
                             >
                                 {messageType === 'success' ? (
-                                    <CheckCircle2 className="size-4.5 shrink-0 text-brand" />
+                                    <FaCircleCheck className="size-4 shrink-0 text-brand" />
                                 ) : messageType === 'error' ? (
-                                    <AlertCircle className="size-4.5 shrink-0 text-rose-600" />
+                                    <FaCircleExclamation className="size-4 shrink-0 text-rose-600" />
                                 ) : (
-                                    <Clock className="size-4.5 shrink-0 text-[#b9770e]" />
+                                    <FaClock className="size-4 shrink-0 text-[#b9770e]" />
                                 )}
                                 <span className="flex-1">{statusMessage}</span>
                             </div>
@@ -528,8 +510,8 @@ export default function CalonSiswaDashboard({
                     {/* Left 1: Data Calon Siswa */}
                     <div className="rounded-2xl border border-neutral-100 bg-white p-6 shadow-xs">
                         <div className="flex items-center gap-3 border-b border-neutral-100 pb-4">
-                            <div className="flex size-10 items-center justify-center rounded-xl bg-brand-soft text-brand-dark">
-                                <User className="size-5" />
+                            <div className="flex size-10 items-center justify-center rounded-sm bg-brand-soft text-brand-dark">
+                                <FaUser className="size-5" />
                             </div>
                             <div>
                                 <h3 className="font-bold text-base text-brand-text">
@@ -597,8 +579,8 @@ export default function CalonSiswaDashboard({
                     <div className="space-y-6 lg:col-span-2">
                         <div className="rounded-2xl border border-neutral-100 bg-white p-6 shadow-xs">
                             <div className="flex items-center gap-3 border-b border-neutral-100 pb-4">
-                                <div className="flex size-10 items-center justify-center rounded-xl bg-brand-soft text-brand-dark">
-                                    <Wallet className="size-5" />
+                                <div className="flex size-10 items-center justify-center rounded-sm bg-brand-soft text-brand-dark">
+                                    <FaWallet className="size-5" />
                                 </div>
                                 <div>
                                     <h3 className="font-bold text-base text-brand-text">
@@ -612,9 +594,9 @@ export default function CalonSiswaDashboard({
 
                             {/* Payment Methods Cards */}
                             <div className="mt-4 grid grid-cols-1 gap-3 sm:grid-cols-3">
-                                <div className="rounded-xl border border-neutral-100 bg-neutral-50/80 p-3.5">
+                                <div className="rounded-sm border border-neutral-100 bg-neutral-50/80 p-3.5">
                                     <div className="flex items-center gap-2">
-                                        <QrCode className="size-4 text-brand" />
+                                        <FaQrcode className="size-4 text-brand" />
                                         <span className="font-bold text-xs text-brand-text">
                                             QRIS (Instan)
                                         </span>
@@ -624,9 +606,9 @@ export default function CalonSiswaDashboard({
                                     </p>
                                 </div>
 
-                                <div className="rounded-xl border border-neutral-100 bg-neutral-50/80 p-3.5">
+                                <div className="rounded-sm border border-neutral-100 bg-neutral-50/80 p-3.5">
                                     <div className="flex items-center gap-2">
-                                        <Building2 className="size-4 text-blue-600" />
+                                        <FaBuildingColumns className="size-4 text-blue-600" />
                                         <span className="font-bold text-xs text-brand-text">
                                             Virtual Account
                                         </span>
@@ -636,9 +618,9 @@ export default function CalonSiswaDashboard({
                                     </p>
                                 </div>
 
-                                <div className="rounded-xl border border-neutral-100 bg-neutral-50/80 p-3.5">
+                                <div className="rounded-sm border border-neutral-100 bg-neutral-50/80 p-3.5">
                                     <div className="flex items-center gap-2">
-                                        <CreditCard className="size-4 text-purple-600" />
+                                        <FaCreditCard className="size-4 text-purple-600" />
                                         <span className="font-bold text-xs text-brand-text">
                                             E-Wallet & Minimarket
                                         </span>
@@ -652,12 +634,12 @@ export default function CalonSiswaDashboard({
                             {/* FAQ Collapsible */}
                             <div className="mt-5 space-y-2 border-t border-neutral-100 pt-4">
                                 <div
-                                    className="cursor-pointer rounded-xl border border-neutral-100 bg-neutral-50/50 p-3 text-xs transition-colors hover:bg-neutral-100/60"
+                                    className="cursor-pointer rounded-sm border border-neutral-100 bg-neutral-50/50 p-3 text-xs transition-colors hover:bg-neutral-100/60"
                                     onClick={() => setActiveFaq(activeFaq === 1 ? null : 1)}
                                 >
                                     <div className="flex items-center justify-between font-semibold text-brand-text">
                                         <span className="flex items-center gap-2">
-                                            <HelpCircle className="size-3.5 text-brand" />
+                                            <FaCircleQuestion className="size-3.5 text-brand" />
                                             Bagaimana jika saya menutup popup sebelum bayar?
                                         </span>
                                         <span className="font-bold text-brand-muted">{activeFaq === 1 ? '−' : '+'}</span>
@@ -670,19 +652,19 @@ export default function CalonSiswaDashboard({
                                 </div>
 
                                 <div
-                                    className="cursor-pointer rounded-xl border border-neutral-100 bg-neutral-50/50 p-3 text-xs transition-colors hover:bg-neutral-100/60"
+                                    className="cursor-pointer rounded-sm border border-neutral-100 bg-neutral-50/50 p-3 text-xs transition-colors hover:bg-neutral-100/60"
                                     onClick={() => setActiveFaq(activeFaq === 2 ? null : 2)}
                                 >
                                     <div className="flex items-center justify-between font-semibold text-brand-text">
                                         <span className="flex items-center gap-2">
-                                            <HelpCircle className="size-3.5 text-brand" />
+                                            <FaCircleQuestion className="size-3.5 text-brand" />
                                             Kapan akun saya resmi menjadi Siswa?
                                         </span>
                                         <span className="font-bold text-brand-muted">{activeFaq === 2 ? '−' : '+'}</span>
                                     </div>
                                     {activeFaq === 2 && (
                                         <p className="mt-2 text-xs leading-relaxed text-brand-muted">
-                                            Segera setelah transaksi berhasil dikonfirmasi oleh sistem Midtrans (dalam hitungan detik), role akun Anda otomatis diperbarui menjadi <strong>'siswa'</strong> dan status akun menjadi <strong>'active'</strong>. Anda dapat langsung membuka dashboard siswa dan absen.
+                                            Segera setelah transaksi berhasil dikonfirmasi oleh sistem Midtrans (dalam hitungan detik), akun Anda otomatis diperbarui menjadi <strong>'siswa'</strong> dan status akun menjadi <strong>'aktif'</strong>. Anda dapat langsung membuka dashboard siswa dan absen.
                                         </p>
                                     )}
                                 </div>
@@ -704,14 +686,14 @@ export default function CalonSiswaDashboard({
                                     <Button
                                         asChild
                                         size="sm"
-                                        className="gap-1.5 rounded-xl bg-brand font-semibold text-white shadow-xs hover:bg-brand-dark"
+                                        className="gap-1.5 rounded-sm bg-brand font-semibold text-white shadow-xs hover:bg-brand-dark"
                                     >
                                         <a
-                                            href={`https://wa.me/${schoolContact.phone.replace(/\D/g, '')}`}
-                                            target="_blank"
-                                            rel="noopener noreferrer"
+                                             href={`https://wa.me/${schoolContact.phone.replace(/\D/g, '')}`}
+                                             target="_blank"
+                                             rel="noopener noreferrer"
                                         >
-                                            <Phone className="size-3.5" />
+                                            <FaPhone className="size-3.5" />
                                             WhatsApp Admin
                                         </a>
                                     </Button>
@@ -721,10 +703,10 @@ export default function CalonSiswaDashboard({
                                         asChild
                                         variant="outline"
                                         size="sm"
-                                        className="gap-1.5 rounded-xl border-brand/30 bg-white text-brand-dark hover:bg-brand-soft"
+                                        className="gap-1.5 rounded-sm border-brand/30 bg-white text-brand-dark hover:bg-brand-soft"
                                     >
                                         <a href={`mailto:${schoolContact.email}`}>
-                                            <Mail className="size-3.5" />
+                                            <MdEmail className="size-3.5" />
                                             Email
                                         </a>
                                     </Button>

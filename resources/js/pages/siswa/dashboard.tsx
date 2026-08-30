@@ -1,16 +1,16 @@
 import { Head, Link, router, usePage } from '@inertiajs/react';
 import {
-    AlertCircle,
-    BookOpen,
-    Calendar,
-    Camera,
-    CheckCircle2,
-    Clock,
-    History,
-    Megaphone,
-    TrendingUp,
-    UserCheck,
-} from 'lucide-react';
+    FaArrowTrendUp,
+    FaBookOpen,
+    FaBullhorn,
+    FaCalendarDays,
+    FaCamera,
+    FaCircleCheck,
+    FaCircleExclamation,
+    FaClock,
+    FaClockRotateLeft,
+    FaUserCheck,
+} from 'react-icons/fa6';
 import { useEffect } from 'react';
 import RegistrationPaymentCard from '@/components/registration-payment-card';
 import { Button } from '@/components/ui/button';
@@ -94,7 +94,7 @@ export default function SiswaDashboard({
                         </p>
                     </div>
                     <div className="inline-flex items-center gap-2 rounded-xl border border-neutral-200/80 bg-white px-3.5 py-2 text-xs font-medium text-brand-muted shadow-xs">
-                        <Calendar className="size-4 text-brand" />
+                        <FaCalendarDays className="size-4 text-brand" />
                         <span>{today}</span>
                     </div>
                 </div>
@@ -122,9 +122,9 @@ export default function SiswaDashboard({
                                 )}
                             >
                                 {todaySelfie.hasUploaded ? (
-                                    <CheckCircle2 className="size-7" />
+                                    <FaCircleCheck className="size-7" />
                                 ) : (
-                                    <Clock className="size-7" />
+                                    <FaClock className="size-7" />
                                 )}
                             </div>
                             <div>
@@ -175,7 +175,7 @@ export default function SiswaDashboard({
                                 )}
                             >
                                 <Link href={absen()}>
-                                    <Camera className="size-4" />
+                                    <FaCamera className="size-4" />
                                     {todaySelfie.hasUploaded ? 'Lihat Absen' : 'Upload Selfie Sekarang'}
                                 </Link>
                             </Button>
@@ -186,7 +186,7 @@ export default function SiswaDashboard({
                 {/* Monthly Stats Grid */}
                 <div>
                     <div className="mb-3 flex items-center gap-2">
-                        <TrendingUp className="size-4.5 text-brand" />
+                        <FaArrowTrendUp className="size-4.5 text-brand" />
                         <h2 className="font-bold text-base text-brand-text">
                             Statistik Kehadiran &mdash; {monthlyStats.month}
                         </h2>
@@ -232,7 +232,7 @@ export default function SiswaDashboard({
                         <div className="flex items-center justify-between border-b border-neutral-100 pb-4">
                             <div className="flex items-center gap-2">
                                 <div className="flex size-9 items-center justify-center rounded-xl bg-brand-soft text-brand-dark">
-                                    <History className="size-4.5" />
+                                    <FaClockRotateLeft className="size-4.5" />
                                 </div>
                                 <div>
                                     <h3 className="font-semibold text-base text-brand-text">Riwayat Terkini</h3>
@@ -241,7 +241,7 @@ export default function SiswaDashboard({
                             </div>
                             <Button asChild variant="outline" size="sm" className="rounded-sm border-neutral-200 bg-white text-xs text-brand hover:bg-black/10">
                                 <Link href={riwayat()}>
-                                    <UserCheck className="mr-1.5 size-3.5" />
+                                    <FaUserCheck className="mr-1.5 size-3.5" />
                                     Lihat Semua
                                 </Link>
                             </Button>
@@ -250,7 +250,7 @@ export default function SiswaDashboard({
                         <div className="mt-4 flex flex-col divide-y divide-neutral-50">
                             {recentHistory.length === 0 ? (
                                 <div className="flex items-center gap-3 py-6 text-brand-muted">
-                                    <AlertCircle className="size-5 text-neutral-300" />
+                                    <FaCircleExclamation className="size-5 text-neutral-300" />
                                     <p className="text-sm">Belum ada riwayat kehadiran yang dikonfirmasi.</p>
                                 </div>
                             ) : (
@@ -265,7 +265,7 @@ export default function SiswaDashboard({
                                                 />
                                             ) : (
                                                 <div className="flex size-9 shrink-0 items-center justify-center rounded-lg bg-neutral-100">
-                                                    <BookOpen className="size-4 text-neutral-400" />
+                                                    <FaBookOpen className="size-4 text-neutral-400" />
                                                 </div>
                                             )}
                                             <div>
@@ -292,7 +292,7 @@ export default function SiswaDashboard({
                         <div className="flex items-center justify-between border-b border-neutral-100 pb-4">
                             <div className="flex items-center gap-2">
                                 <div className="flex size-9 items-center justify-center rounded-xl bg-brand-soft text-brand-dark">
-                                    <Megaphone className="size-4.5" />
+                                    <FaBullhorn className="size-4.5" />
                                 </div>
                                 <div>
                                     <h3 className="font-semibold text-base text-brand-text">Pengumuman Sekolah</h3>

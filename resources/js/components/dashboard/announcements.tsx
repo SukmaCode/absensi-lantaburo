@@ -1,4 +1,4 @@
-import { CalendarDays } from 'lucide-react';
+import { FaCalendarDays } from 'react-icons/fa6';
 import { cn } from '@/lib/utils';
 import type { AnnouncementItem } from '@/types/dashboard';
 
@@ -34,7 +34,7 @@ export function Announcements({ items }: { items: AnnouncementItem[] }) {
                                 {category}
                             </span>
                             <span className="inline-flex items-center gap-1 text-xs text-brand-muted">
-                                <CalendarDays className="size-3.5" />
+                                <FaCalendarDays className="size-3.5" />
                                 {date}
                             </span>
                         </div>

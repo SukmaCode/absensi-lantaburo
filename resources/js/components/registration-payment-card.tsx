@@ -1,35 +1,19 @@
 import { router } from '@inertiajs/react';
 import {
-    AlertCircle,
-    CheckCircle2,
-    Clock,
-    CreditCard,
-    ExternalLink,
-    Loader2,
-    QrCode,
-    RefreshCw,
-    ShieldCheck,
-} from 'lucide-react';
+    FaArrowUpRightFromSquare,
+    FaArrowsRotate,
+    FaCircleCheck,
+    FaCircleExclamation,
+    FaClock,
+    FaCreditCard,
+    FaQrcode,
+    FaSpinner,
+} from 'react-icons/fa6';
+import { BsShieldCheck } from 'react-icons/bs';
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import type { RegistrationPaymentInfo } from '@/types/siswa';
-
-declare global {
-    interface Window {
-        snap?: {
-            pay: (
-                token: string,
-                callbacks?: {
-                    onSuccess?: (result: unknown) => void;
-                    onPending?: (result: unknown) => void;
-                    onError?: (result: unknown) => void;
-                    onClose?: () => void;
-                }
-            ) => void;
-        };
-    }
-}
 
 interface Props {
     payment: RegistrationPaymentInfo;
@@ -150,7 +134,7 @@ export default function RegistrationPaymentCard({
             <div className="flex items-center justify-between rounded-sm border border-emerald-200 bg-emerald-400 p-4 text-white shadow-xs dark:border-emerald-500 dark:bg-emerald-500">
                 <div className="flex items-center gap-3">
                     <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-emerald-100 text-emerald-700 dark:bg-emerald-900/50 dark:text-emerald-400">
-                        <CheckCircle2 className="h-5 w-5" />
+                        <FaCircleCheck className="h-5 w-5" />
                     </div>
                     <div>
                         <p className="font-semibold text-sm">Biaya Pendaftaran Lunas</p>
@@ -160,7 +144,7 @@ export default function RegistrationPaymentCard({
                     </div>
                 </div>
                 <div className="inline-flex items-center gap-1.5 rounded-full bg-emerald-100 px-3 py-1 font-medium text-xs text-emerald-800 dark:bg-white">
-                    <ShieldCheck className="h-3.5 w-3.5" />
+                    <BsShieldCheck className="h-3.5 w-3.5" />
                     <span>Terverifikasi</span>
                 </div>
             </div>
@@ -175,7 +159,7 @@ export default function RegistrationPaymentCard({
             <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
                 <div className="flex items-start gap-4">
                     <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-amber-100 text-amber-800 ring-1 ring-amber-300/60 dark:bg-amber-900/40 dark:text-amber-300 dark:ring-amber-800">
-                        <QrCode className="h-6 w-6" />
+                        <FaQrcode className="h-6 w-6" />
                     </div>
 
                     <div className="space-y-1">
@@ -184,7 +168,7 @@ export default function RegistrationPaymentCard({
                                 Pembayaran Pendaftaran Akun
                             </h3>
                             <span className="inline-flex items-center gap-1 rounded-full bg-amber-100 px-2.5 py-0.5 font-semibold text-xs text-amber-800 dark:bg-amber-900/60 dark:text-amber-300">
-                                <Clock className="h-3 w-3" />
+                                <FaClock className="h-3 w-3" />
                                 Menunggu Pembayaran
                             </span>
                         </div>
@@ -214,9 +198,9 @@ export default function RegistrationPaymentCard({
                         className="h-10 border-amber-300 bg-white/80 text-amber-900 hover:bg-amber-100/80 dark:border-neutral-700 dark:bg-neutral-800 dark:text-neutral-200 dark:hover:bg-neutral-700"
                     >
                         {isChecking ? (
-                            <Loader2 className="mr-1.5 h-4 w-4 animate-spin" />
+                            <FaSpinner className="mr-1.5 h-4 w-4 animate-spin" />
                         ) : (
-                            <RefreshCw className="mr-1.5 h-4 w-4" />
+                            <FaArrowsRotate className="mr-1.5 h-4 w-4" />
                         )}
                         Cek Status
                     </Button>
@@ -227,9 +211,9 @@ export default function RegistrationPaymentCard({
                         size="sm"
                         className="h-10 bg-gradient-to-r from-amber-600 to-amber-700 font-semibold text-white shadow-xs hover:from-amber-700 hover:to-amber-800 dark:from-amber-600 dark:to-amber-700"
                     >
-                        <CreditCard className="mr-1.5 h-4 w-4" />
+                        <FaCreditCard className="mr-1.5 h-4 w-4" />
                         Bayar Sekarang / Buka QR
-                        <ExternalLink className="ml-1 h-3.5 w-3.5 opacity-70" />
+                        <FaArrowUpRightFromSquare className="ml-1 h-3.5 w-3.5 opacity-70" />
                     </Button>
                 </div>
             </div>
@@ -244,9 +228,9 @@ export default function RegistrationPaymentCard({
                     )}
                 >
                     {isError ? (
-                        <AlertCircle className="h-4 w-4 shrink-0 text-rose-600 dark:text-rose-400" />
+                        <FaCircleExclamation className="h-4 w-4 shrink-0 text-rose-600 dark:text-rose-400" />
                     ) : (
-                        <Clock className="h-4 w-4 shrink-0 text-amber-600 dark:text-amber-400" />
+                        <FaClock className="h-4 w-4 shrink-0 text-amber-600 dark:text-amber-400" />
                     )}
                     <span>{statusMessage}</span>
                 </div>

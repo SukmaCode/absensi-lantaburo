@@ -3,9 +3,12 @@
 namespace App\Services;
 
 use App\Models\Payment;
+use App\Models\PaymentSpp;
+use App\Models\SppSetting;
 use App\Models\Student;
 use App\Models\User;
 use Exception;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Log;
 use Midtrans\Config;
 use Midtrans\Snap;
@@ -74,6 +77,53 @@ class MidtransService
     }
 
     /**
+     * Create Snap Token for SPP payment.
+     */
+    public function createSppSnapToken(
+        User $parentUser,
+        Student $student,
+        int $amount,
+        string $orderId,
+        string $month
+    ): ?string {
+        $this->configure();
+
+        $monthLabel = Carbon::createFromFormat('Y-m', $month)->translatedFormat('F Y');
+
+        $params = [
+            'transaction_details' => [
+                'order_id' => $orderId,
+                'gross_amount' => $amount,
+            ],
+            'item_details' => [
+                [
+                    'id' => 'SPP-'.$month,
+                    'price' => $amount,
+                    'quantity' => 1,
+                    'name' => mb_substr('SPP '.$monthLabel.' - '.($student->user->name ?? 'Siswa'), 0, 50),
+                ],
+            ],
+            'customer_details' => [
+                'first_name' => $parentUser->name,
+                'email' => $parentUser->email,
+                'phone' => $parentUser->phone ?? '081234567890',
+            ],
+        ];
+
+        try {
+            return Snap::getSnapToken($params);
+        } catch (Exception $e) {
+            Log::error('Midtrans SPP Snap Token error: '.$e->getMessage(), [
+                'student_id' => $student->id,
+                'order_id' => $orderId,
+                'month' => $month,
+            ]);
+
+            return null;
+        }
+    }
+
+    /**
      * Verify Midtrans notification signature key.
      */
     public function verifySignature(
@@ -110,9 +160,14 @@ class MidtransService
             return null;
         }
 
+        // Route SPP payments to payment_spp table (tidak mengubah role user)
+        if (str_starts_with($orderId, 'SPP-')) {
+            $this->handleSppWebhook($orderId, $transactionStatus, $fraudStatus, $paymentType, $payload);
+
+            return null; // Webhook tetap return null; MidtransWebhookController hanya perlu tahu sukses
+        }
+
         $payment = Payment::where('order_id', $orderId)->first();
-        // $student = Student::where('user_id', $payment->user_id)->first();
-        // $user = User::find($payment->user_id);
 
         if (! $payment) {
             Log::warning('Midtrans Webhook: Payment not found', ['order_id' => $orderId]);
@@ -135,20 +190,90 @@ class MidtransService
         $payment->raw_response = $payload;
 
         if ($paymentStatus === 'success') {
-            if (! $payment->settlement_time) {
-                $payment->settlement_time = now();
-            }
-            if ($payment->user) {
-                $payment->user->update([
-                    'role' => 'siswa',
-                    'status' => 'active',
-                ]);
-            }
+            $this->fulfillRegistrationSuccess($payment);
         }
 
         $payment->save();
 
         return $payment;
+    }
+
+    /**
+     * Fulfill registration payment: activate user, create student record & default SPP setting.
+     */
+    private function fulfillRegistrationSuccess(Payment $payment): void
+    {
+        if (! $payment->settlement_time) {
+            $payment->settlement_time = now();
+        }
+
+        if ($payment->user) {
+            $payment->user->update([
+                'role' => 'siswa',
+                'status' => 'active',
+            ]);
+        }
+
+        $student = Student::firstOrCreate(
+            ['user_id' => $payment->user_id],
+            [
+                'nis' => '421'.date('Y').str_pad((string) $payment->user_id, 4, '0', STR_PAD_LEFT),
+                'gender' => 'L',
+            ]
+        );
+
+        if ($student) {
+            SppSetting::firstOrCreate(
+                ['student_id' => $student->id],
+                ['amount' => 100000]
+            );
+        }
+    }
+
+    /**
+     * Handle SPP-specific webhook notification (tidak mengubah role user).
+     *
+     * @param  array<string, mixed>  $payload
+     */
+    private function handleSppWebhook(
+        string $orderId,
+        string $transactionStatus,
+        string $fraudStatus,
+        string $paymentType,
+        array $payload
+    ): void {
+        $sppPayment = PaymentSpp::where('order_id', $orderId)->first();
+
+        if (! $sppPayment) {
+            Log::warning('Midtrans Webhook: SPP Payment not found', ['order_id' => $orderId]);
+
+            return;
+        }
+
+        $paymentStatus = match ($transactionStatus) {
+            'capture' => ($fraudStatus === 'challenge') ? 'challenge' : 'success',
+            'settlement' => 'success',
+            'pending' => 'pending',
+            'deny' => 'failed',
+            'expire' => 'expired',
+            'cancel' => 'cancelled',
+            default => $sppPayment->status,
+        };
+
+        $sppPayment->status = $paymentStatus;
+        $sppPayment->payment_type = $paymentType ?: $sppPayment->payment_type;
+        $sppPayment->raw_response = $payload;
+
+        if ($paymentStatus === 'success' && ! $sppPayment->settlement_time) {
+            $sppPayment->settlement_time = now();
+        }
+
+        $sppPayment->save();
+
+        Log::info('SPP Payment webhook processed', [
+            'order_id' => $orderId,
+            'status' => $paymentStatus,
+        ]);
     }
 
     /**
@@ -195,23 +320,7 @@ class MidtransService
             $payment->raw_response = $responseArray;
 
             if ($paymentStatus === 'success') {
-                if (! $payment->settlement_time) {
-                    $payment->settlement_time = now();
-                }
-                if ($payment->user) {
-                    $payment->user->update([
-                        'role' => 'siswa',
-                        'status' => 'active',
-                    ]);
-                }
-
-                Student::firstOrCreate(
-                    ['user_id' => $payment->user_id],
-                    [
-                        'nis' => '421'.date('Y').str_pad((string) $payment->user_id, 4, '0', STR_PAD_LEFT),
-                        'gender' => 'L',
-                    ]
-                );
+                $this->fulfillRegistrationSuccess($payment);
             }
 
             $payment->save();

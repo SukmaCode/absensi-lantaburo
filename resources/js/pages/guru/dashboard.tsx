@@ -1,16 +1,15 @@
 import { Head, Link, usePage } from '@inertiajs/react';
 import {
-    AlertCircle,
-    Calendar,
-    Camera,
-    CheckCircle2,
-    Clock,
-    GraduationCap,
-    MapPin,
-    Megaphone,
-    UserCheck,
-    Users,
-} from 'lucide-react';
+    FaBullhorn,
+    FaCalendarDays,
+    FaCamera,
+    FaCircleCheck,
+    FaCircleExclamation,
+    FaClock,
+    FaGraduationCap,
+    FaLocationDot,
+    FaUserCheck,
+} from 'react-icons/fa6';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import { absen, absenMurid, dashboard, rekapMurid } from '@/routes/guru';
@@ -56,7 +55,7 @@ export default function GuruDashboard({
                         </p>
                     </div>
                     <div className="inline-flex items-center gap-2 rounded-xl border border-neutral-200/80 bg-white px-3.5 py-2 text-xs font-medium text-brand-muted shadow-xs">
-                        <Calendar className="size-4 text-brand" />
+                        <FaCalendarDays className="size-4 text-brand" />
                         <span>{today}</span>
                     </div>
                 </div>
@@ -74,9 +73,9 @@ export default function GuruDashboard({
                                 )}
                             >
                                 {todaySelfAttendance.hasAttended ? (
-                                    <CheckCircle2 className="size-7" />
+                                    <FaCircleCheck className="size-7" />
                                 ) : (
-                                    <Clock className="size-7" />
+                                    <FaClock className="size-7" />
                                 )}
                             </div>
                             <div>
@@ -104,7 +103,7 @@ export default function GuruDashboard({
                                 </p>
                                 {todaySelfAttendance.hasAttended && todaySelfAttendance.latitude && (
                                     <div className="mt-2 flex items-center gap-1.5 text-xs text-brand-muted">
-                                        <MapPin className="size-3.5 text-brand" />
+                                        <FaLocationDot className="size-3.5 text-brand" />
                                         <a href={`https://www.google.com/maps?q=${todaySelfAttendance.latitude},${todaySelfAttendance.longitude}`} target="_blank" className="text-brand hover:text-brand-dark underline">
                                             GPS: {todaySelfAttendance.latitude.toFixed(6)}, {todaySelfAttendance.longitude?.toFixed(6)}
                                         </a>
@@ -131,7 +130,7 @@ export default function GuruDashboard({
                                 )}
                             >
                                 <Link href={absen()}>
-                                    <Camera className="size-4" />
+                                    <FaCamera className="size-4" />
                                     {todaySelfAttendance.hasAttended ? 'Lihat Detail Absen' : 'Ambil Absen Sekarang'}
                                 </Link>
                             </Button>
@@ -145,7 +144,7 @@ export default function GuruDashboard({
                         <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
                             <div>
                                 <div className="flex items-center gap-2">
-                                    <GraduationCap className="size-5 text-brand" />
+                                    <FaGraduationCap className="size-5 text-brand" />
                                     <h2 className="font-bold text-xl text-brand-text">
                                         Wali Kelas: {homeroomClass.name}
                                     </h2>
@@ -157,13 +156,13 @@ export default function GuruDashboard({
                             <div className="flex flex-wrap items-center gap-2">
                                 <Button asChild variant="outline" size="sm" className="rounded-sm border-neutral-200 bg-white hover:bg-black/10">
                                     <Link href={rekapMurid()}>
-                                        <Calendar className="mr-1.5 size-4 text-brand" />
+                                        <FaCalendarDays className="mr-1.5 size-4 text-brand" />
                                         <p className="text-xs text-brand">Rekap Bulanan</p>
                                     </Link>
                                 </Button>
                                 <Button asChild size="sm" className="rounded-sm bg-brand text-white hover:bg-brand-dark">
                                     <Link href={absenMurid()}>
-                                        <UserCheck className="mr-1.5 size-4" />
+                                        <FaUserCheck className="mr-1.5 size-4" />
                                         Input Absen Murid
                                     </Link>
                                 </Button>
@@ -208,7 +207,7 @@ export default function GuruDashboard({
                 ) : (
                     <div className="flex items-center gap-4 rounded-2xl border border-dashed border-neutral-200 bg-white p-6 text-brand-muted">
                         <div className="flex size-12 shrink-0 items-center justify-center rounded-xl bg-neutral-100">
-                            <AlertCircle className="size-6 text-neutral-400" />
+                            <FaCircleExclamation className="size-6 text-neutral-400" />
                         </div>
                         <div>
                             <h3 className="font-semibold text-sm text-brand-text">Bukan Wali Kelas</h3>
@@ -224,7 +223,7 @@ export default function GuruDashboard({
                     <div className="flex items-center justify-between border-b border-neutral-100 pb-4">
                         <div className="flex items-center gap-2">
                             <div className="flex size-9 items-center justify-center rounded-xl bg-brand-soft text-brand-dark">
-                                <Megaphone className="size-4.5" />
+                                <FaBullhorn className="size-4.5" />
                             </div>
                             <div>
                                 <h3 className="font-semibold text-base text-brand-text">Pengumuman Sekolah</h3>

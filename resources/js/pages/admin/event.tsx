@@ -1,16 +1,16 @@
 import { useEffect, useRef, useState } from 'react';
 import { Head, Link, router } from '@inertiajs/react';
 import {
-    CalendarDays,
-    Plus,
-    Search,
-    AlertTriangle,
-    MapPin,
-    Phone,
-    User,
-    ChevronLeft,
-    ChevronRight,
-} from 'lucide-react';
+    FaCalendarDays,
+    FaChevronLeft,
+    FaChevronRight,
+    FaLocationDot,
+    FaMagnifyingGlass,
+    FaPhone,
+    FaPlus,
+    FaTriangleExclamation,
+    FaUser,
+} from 'react-icons/fa6';
 import { MdModeEdit, MdDelete } from 'react-icons/md';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -129,7 +129,7 @@ export default function EventPage({
                         onClick={() => setOpenAdd(true)}
                         className="h-10 bg-brand px-5 text-white hover:bg-brand-dark cursor-pointer"
                     >
-                        <Plus className="size-4" />
+                        <FaPlus className="size-4" />
                         Tambah Agenda
                     </Button>
                 </div>
@@ -137,7 +137,7 @@ export default function EventPage({
                 {/* Search */}
                 <div className="mt-5 flex flex-col gap-3 sm:flex-row sm:items-center">
                     <div className="relative flex-1">
-                        <Search className="absolute top-1/2 left-3 size-4 -translate-y-1/2 text-brand-muted" />
+                        <FaMagnifyingGlass className="absolute top-1/2 left-3 size-4 -translate-y-1/2 text-brand-muted" />
                         <Input
                             type="search"
                             placeholder="Cari judul kegiatan, lokasi, atau penanggung jawab..."
@@ -153,7 +153,7 @@ export default function EventPage({
                     {events.length === 0 ? (
                         <div className="flex flex-col items-center justify-center gap-3 py-16 text-center">
                             <div className="flex size-14 items-center justify-center rounded-2xl bg-brand-soft">
-                                <CalendarDays className="size-7 text-brand-dark" />
+                                <FaCalendarDays className="size-7 text-brand-dark" />
                             </div>
                             <div>
                                 <p className="font-medium text-sm text-brand-text">
@@ -210,7 +210,7 @@ export default function EventPage({
                                             <td className="py-3 text-brand-muted">
                                                 {eventItem.location ? (
                                                     <span className="flex items-center gap-1.5">
-                                                        <MapPin className="size-3.5 shrink-0 text-brand-muted" />
+                                                        <FaLocationDot className="size-3.5 shrink-0 text-brand-muted" />
                                                         <span className="truncate">{eventItem.location}</span>
                                                     </span>
                                                 ) : (
@@ -222,13 +222,13 @@ export default function EventPage({
                                                     <div className="space-y-0.5 text-xs">
                                                         {eventItem.contact_person && (
                                                             <p className="flex items-center gap-1 text-brand-text">
-                                                                <User className="size-3 shrink-0" />
+                                                                <FaUser className="size-3 shrink-0" />
                                                                 <span>{eventItem.contact_person}</span>
                                                             </p>
                                                         )}
                                                         {eventItem.phone && (
                                                             <p className="flex items-center gap-1 text-brand-muted">
-                                                                <Phone className="size-3 shrink-0" />
+                                                                <FaPhone className="size-3 shrink-0" />
                                                                 <span>{eventItem.phone}</span>
                                                             </p>
                                                         )}
@@ -294,7 +294,7 @@ export default function EventPage({
                                     disabled={pagination.current_page === 1}
                                     className="border-neutral-200 bg-white text-brand-text hover:bg-brand-soft"
                                 >
-                                    <ChevronLeft className="size-4" />
+                                    <FaChevronLeft className="size-4" />
                                 </Button>
                                 {pagination.links.map((link, index) => {
                                     const label = link.label
@@ -340,7 +340,7 @@ export default function EventPage({
                                     disabled={pagination.current_page === pagination.last_page}
                                     className="border-neutral-200 bg-white text-brand-text hover:bg-brand-soft"
                                 >
-                                    <ChevronRight className="size-4" />
+                                    <FaChevronRight className="size-4" />
                                 </Button>
                             </div>
                         )}
@@ -388,7 +388,7 @@ export default function EventPage({
                     <DialogHeader>
                         <div className="flex items-center gap-3">
                             <div className="flex size-10 shrink-0 items-center justify-center rounded-full bg-red-100">
-                                <AlertTriangle className="size-5 text-red-500" />
+                                <FaTriangleExclamation className="size-5 text-red-500" />
                             </div>
                             <DialogTitle className="text-brand-text">Hapus Agenda Kegiatan?</DialogTitle>
                         </div>

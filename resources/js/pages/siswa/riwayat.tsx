@@ -1,13 +1,13 @@
 import { Head, Link, router } from '@inertiajs/react';
 import {
-    AlertCircle,
-    ArrowLeft,
-    BookOpen,
-    Calendar,
-    ChevronLeft,
-    ChevronRight,
-    TrendingUp,
-} from 'lucide-react';
+    FaArrowLeft,
+    FaArrowTrendUp,
+    FaBookOpen,
+    FaCalendarDays,
+    FaChevronLeft,
+    FaChevronRight,
+    FaCircleExclamation,
+} from 'react-icons/fa6';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import { dashboard, riwayat } from '@/routes/siswa';
@@ -53,7 +53,7 @@ export default function RiwayatSiswaPage({
                         <div className="flex items-center gap-2">
                             <Button asChild variant="ghost" size="sm" className="-ml-2 h-8 px-2 text-brand-muted hover:text-brand-text">
                                 <Link href={dashboard()}>
-                                    <ArrowLeft className="mr-1 size-4" />
+                                    <FaArrowLeft className="mr-1 size-4" />
                                     Kembali ke Dashboard
                                 </Link>
                             </Button>
@@ -70,10 +70,10 @@ export default function RiwayatSiswaPage({
                             onClick={() => navigateMonth(prevMonth)}
                             className="size-7 rounded-lg text-brand-muted hover:text-brand-text"
                         >
-                            <ChevronLeft className="size-4" />
+                            <FaChevronLeft className="size-4" />
                         </Button>
                         <div className="flex items-center gap-2 px-2">
-                            <Calendar className="size-4 text-brand" />
+                            <FaCalendarDays className="size-4 text-brand" />
                             <span className="min-w-32 text-center font-semibold text-sm text-brand-text">{selectedMonthLabel}</span>
                         </div>
                         <Button
@@ -83,7 +83,7 @@ export default function RiwayatSiswaPage({
                             disabled={isCurrentMonth}
                             className="size-7 rounded-lg text-brand-muted hover:text-brand-text disabled:opacity-30"
                         >
-                            <ChevronRight className="size-4" />
+                            <FaChevronRight className="size-4" />
                         </Button>
                     </div>
                 </div>
@@ -91,7 +91,7 @@ export default function RiwayatSiswaPage({
                 {/* Stats Grid */}
                 <div>
                     <div className="mb-3 flex items-center gap-2">
-                        <TrendingUp className="size-4.5 text-brand" />
+                        <FaArrowTrendUp className="size-4.5 text-brand" />
                         <h2 className="font-bold text-base text-brand-text">Ringkasan {selectedMonthLabel}</h2>
                         {stats.totalRecorded === 0 && (
                             <span className="rounded-md bg-neutral-100 px-2 py-0.5 text-[11px] font-medium text-neutral-500">
@@ -114,7 +114,7 @@ export default function RiwayatSiswaPage({
                 <div className="rounded-2xl border border-neutral-100 bg-white shadow-xs">
                     <div className="flex items-center gap-2 border-b border-neutral-100 p-5">
                         <div className="flex size-9 items-center justify-center rounded-xl bg-brand-soft text-brand-dark">
-                            <Calendar className="size-4.5" />
+                            <FaCalendarDays className="size-4.5" />
                         </div>
                         <div>
                             <h3 className="font-semibold text-base text-brand-text">Detail Absensi</h3>
@@ -125,7 +125,7 @@ export default function RiwayatSiswaPage({
                     <div className="divide-y divide-neutral-50">
                         {history.length === 0 ? (
                             <div className="flex flex-col items-center justify-center gap-3 py-16 text-center text-brand-muted">
-                                <AlertCircle className="size-10 text-neutral-200" />
+                                <FaCircleExclamation className="size-10 text-neutral-200" />
                                 <div>
                                     <p className="font-medium text-sm text-brand-text">Belum ada data untuk {selectedMonthLabel}</p>
                                     <p className="mt-1 text-xs">Data akan tampil setelah guru wali kelas mengisi status kehadiran Anda.</p>
@@ -143,7 +143,7 @@ export default function RiwayatSiswaPage({
                                         />
                                     ) : (
                                         <div className="flex size-12 shrink-0 items-center justify-center rounded-xl bg-neutral-100">
-                                            <BookOpen className="size-5 text-neutral-400" />
+                                            <FaBookOpen className="size-5 text-neutral-400" />
                                         </div>
                                     )}
 

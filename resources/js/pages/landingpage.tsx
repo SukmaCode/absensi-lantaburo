@@ -11,12 +11,13 @@ import SiteFooter from '@/components/landing/site-footer';
 import SiteNav from '@/components/landing/site-nav';
 import Testimonials from '@/components/landing/testimonials';
 import SmoothScroll from '@/components/smooth-scroll';
+import type { Auth } from '@/types/auth';
 import type { LandingPageProps } from '@/types/landing';
 
 type Props = LandingPageProps;
 
 export default function LandingPage({ school, events }: Props) {
-    const { auth } = usePage().props;
+    const { auth } = usePage<{ auth: Auth }>().props;
 
     return (
         <>

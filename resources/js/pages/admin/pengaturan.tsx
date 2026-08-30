@@ -1,25 +1,22 @@
 import { Head, Link, useForm } from '@inertiajs/react';
 import {
-    ArrowRight,
-    Building2,
-    Calendar,
-    Camera,
-    CheckCircle2,
-    GraduationCap,
-    Info,
-    KeyRound,
-    Lock,
-    Mail,
-    Phone,
-    Save,
-    School,
-    ShieldAlert,
-    ShieldCheck,
-    Sparkles,
-    Trash2,
-    User as UserIcon,
-    Users,
-} from 'lucide-react';
+    FaArrowRight,
+    FaBuilding,
+    FaCalendarDays,
+    FaCamera,
+    FaCircleCheck,
+    FaCircleInfo,
+    FaEnvelope,
+    FaFloppyDisk,
+    FaGraduationCap,
+    FaKey,
+    FaPhone,
+    FaSchool,
+    FaTrash,
+    FaUser,
+    FaUsers,
+} from 'react-icons/fa6';
+import { BsShieldCheck, BsShieldExclamation, BsStars } from 'react-icons/bs';
 import { type ChangeEvent, useRef, useState } from 'react';
 import InputError from '@/components/input-error';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
@@ -137,7 +134,7 @@ export default function AdminPengaturan({
                                     className="absolute -right-1 -bottom-1 flex size-8 items-center justify-center rounded-sm border border-white bg-brand text-white shadow-md transition-transform hover:scale-110 cursor-pointer"
                                     title="Ubah Foto Profil"
                                 >
-                                    <Camera className="size-4" />
+                                    <FaCamera className="size-4" />
                                 </button>
                             </div>
 
@@ -147,18 +144,18 @@ export default function AdminPengaturan({
                                         {user.name || 'Administrator'}
                                     </h1>
                                     <span className="inline-flex items-center gap-1 rounded-full border border-brand/30 bg-brand-soft px-2.5 py-0.5 font-semibold text-brand-dark text-xs">
-                                        <ShieldCheck className="size-3.5 text-brand" />
+                                        <BsShieldCheck className="size-3.5 text-brand" />
                                         Administrator Sistem
                                     </span>
                                 </div>
                                 <div className="mt-1.5 flex flex-wrap items-center gap-x-3 gap-y-1 text-sm text-brand-muted">
                                     <span className="flex items-center gap-1.5">
-                                        <Mail className="size-3.5 text-brand-muted" />
+                                        <FaEnvelope className="size-3.5 text-brand-muted" />
                                         <span className="font-medium text-brand-text">{user.email}</span>
                                     </span>
                                     <span>&bull;</span>
                                     <span className="flex items-center gap-1.5">
-                                        <Phone className="size-3.5 text-brand-muted" />
+                                        <FaPhone className="size-3.5 text-brand-muted" />
                                         <span className="font-medium text-brand-text">
                                             {user.phone || 'Belum diatur'}
                                         </span>
@@ -167,7 +164,7 @@ export default function AdminPengaturan({
                                         <>
                                             <span>&bull;</span>
                                             <span className="flex items-center gap-1.5">
-                                                <Calendar className="size-3.5 text-brand-muted" />
+                                                <FaCalendarDays className="size-3.5 text-brand-muted" />
                                                 <span>Bergabung sejak: {user.created_at}</span>
                                             </span>
                                         </>
@@ -180,7 +177,7 @@ export default function AdminPengaturan({
                         <div className="flex flex-col gap-2 rounded-2xl border border-neutral-200/80 bg-white/90 p-4 shadow-xs backdrop-blur-xs sm:min-w-[280px]">
                             <div className="flex items-center justify-between text-xs">
                                 <span className="flex items-center gap-1.5 font-semibold text-brand-text">
-                                    <Building2 className="size-4 text-brand" />
+                                    <FaBuilding className="size-4 text-brand" />
                                     Cakupan Kelola
                                 </span>
                                 <span className="rounded-full bg-emerald-50 border border-emerald-200 px-2 py-0.5 font-semibold text-[11px] text-emerald-700">
@@ -217,7 +214,7 @@ export default function AdminPengaturan({
                 {/* Status Alerts */}
                 {status === 'profile-updated' && (
                     <div className="flex items-center gap-3 rounded-2xl border border-emerald-200 bg-emerald-50/90 p-4 text-emerald-800 shadow-xs">
-                        <CheckCircle2 className="size-5 shrink-0 text-emerald-600" />
+                        <FaCircleCheck className="size-5 shrink-0 text-emerald-600" />
                         <p className="font-medium text-sm">
                             Profil dan informasi akun administrator Anda berhasil diperbarui.
                         </p>
@@ -226,7 +223,7 @@ export default function AdminPengaturan({
 
                 {status === 'password-updated' && (
                     <div className="flex items-center gap-3 rounded-2xl border border-emerald-200 bg-emerald-50/90 p-4 text-emerald-800 shadow-xs">
-                        <CheckCircle2 className="size-5 shrink-0 text-emerald-600" />
+                        <FaCircleCheck className="size-5 shrink-0 text-emerald-600" />
                         <p className="font-medium text-sm">Kata sandi akun administrator berhasil diperbarui.</p>
                     </div>
                 )}
@@ -243,7 +240,7 @@ export default function AdminPengaturan({
                                 : 'bg-white text-neutral-600 hover:bg-neutral-100 hover:text-brand-text',
                         )}
                     >
-                        <UserIcon className="size-4" />
+                        <FaUser className="size-4" />
                         Data Diri & Profil
                     </button>
                     <button
@@ -256,7 +253,7 @@ export default function AdminPengaturan({
                                 : 'bg-white text-neutral-600 hover:bg-neutral-100 hover:text-brand-text',
                         )}
                     >
-                        <ShieldCheck className="size-4" />
+                        <BsShieldCheck className="size-4" />
                         Keamanan & Kata Sandi
                     </button>
                     <button
@@ -269,7 +266,7 @@ export default function AdminPengaturan({
                                 : 'bg-white text-neutral-600 hover:bg-neutral-100 hover:text-brand-text',
                         )}
                     >
-                        <Building2 className="size-4" />
+                        <FaBuilding className="size-4" />
                         Informasi Hak Akses & Sistem
                     </button>
                 </div>
@@ -318,7 +315,7 @@ export default function AdminPengaturan({
                                                 onClick={() => fileInputRef.current?.click()}
                                                 className="rounded-sm bg-brand text-xs text-white cursor-pointer hover:bg-brand-dark"
                                             >
-                                                <Camera className="mr-1.5 size-3.5 text-white" />
+                                                <FaCamera className="mr-1.5 size-3.5 text-white" />
                                                 Pilih Foto Baru
                                             </Button>
                                             {photoPreview && (
@@ -329,7 +326,7 @@ export default function AdminPengaturan({
                                                     onClick={handleRemovePhoto}
                                                     className="rounded-sm text-rose-600 text-xs hover:bg-rose-50 hover:text-rose-700 cursor-pointer"
                                                 >
-                                                    <Trash2 className="mr-1.5 size-3.5" />
+                                                    <FaTrash className="mr-1.5 size-3.5" />
                                                     Hapus Foto
                                                 </Button>
                                             )}
@@ -406,7 +403,7 @@ export default function AdminPengaturan({
                                 {/* Informational Banner */}
                                 <div className="sm:col-span-2 rounded-lg border border-brand/20 bg-brand-soft/40 p-4 text-brand-dark text-xs">
                                     <div className="flex items-start gap-2.5">
-                                        <Info className="size-4 shrink-0 text-brand mt-0.5" />
+                                        <FaCircleInfo className="size-4 shrink-0 text-brand mt-0.5" />
                                         <div>
                                             <p className="font-semibold text-brand-text">Hak Otoritas Akun Administrator</p>
                                             <p className="mt-0.5 text-brand-muted leading-relaxed">
@@ -423,7 +420,7 @@ export default function AdminPengaturan({
                                     disabled={profileForm.processing}
                                     className="gap-2 rounded-sm bg-brand px-6 font-semibold text-white shadow-xs hover:bg-brand-dark cursor-pointer"
                                 >
-                                    <Save className="size-4" />
+                                    <FaFloppyDisk className="size-4" />
                                     {profileForm.processing ? 'Menyimpan...' : 'Simpan Profil Admin'}
                                 </Button>
                             </div>
@@ -529,7 +526,7 @@ export default function AdminPengaturan({
                                         disabled={passwordForm.processing}
                                         className="gap-2 rounded-sm bg-brand px-5 font-semibold text-white shadow-xs hover:bg-brand-dark cursor-pointer"
                                     >
-                                        <KeyRound className="size-4" />
+                                        <FaKey className="size-4" />
                                         {passwordForm.processing ? 'Menyimpan...' : 'Perbarui Kata Sandi'}
                                     </Button>
                                 </div>
@@ -541,7 +538,7 @@ export default function AdminPengaturan({
                             <div>
                                 <div className="border-neutral-100 border-b pb-4">
                                     <div className="flex items-center gap-2">
-                                        <ShieldAlert className="size-5 text-amber-500" />
+                                        <BsShieldExclamation className="size-5 text-amber-500" />
                                         <h2 className="font-bold text-brand-text text-lg">Panduan Keamanan Akun</h2>
                                     </div>
                                     <p className="mt-0.5 text-brand-muted text-xs">
@@ -575,7 +572,7 @@ export default function AdminPengaturan({
 
                             <div className="mt-8 rounded-lg border border-emerald-100 bg-emerald-50/60 p-3.5 text-emerald-900 text-xs">
                                 <div className="flex items-center gap-2 font-semibold">
-                                    <Sparkles className="size-4 text-emerald-600" />
+                                    <BsStars className="size-4 text-emerald-600" />
                                     <span>Status Keamanan Sistem: Normal & Terlindungi</span>
                                 </div>
                             </div>
@@ -601,7 +598,7 @@ export default function AdminPengaturan({
                                 <div className="rounded-lg border border-neutral-200/70 bg-white p-4 shadow-2xs">
                                     <div className="flex items-center gap-3">
                                         <div className="flex size-10 items-center justify-center rounded-lg bg-emerald-50 text-emerald-600">
-                                            <Users className="size-5" />
+                                            <FaUsers className="size-5" />
                                         </div>
                                         <div>
                                             <p className="font-semibold text-brand-text text-sm">Data Siswa</p>
@@ -615,7 +612,7 @@ export default function AdminPengaturan({
                                 <div className="rounded-lg border border-neutral-200/70 bg-white p-4 shadow-2xs">
                                     <div className="flex items-center gap-3">
                                         <div className="flex size-10 items-center justify-center rounded-lg bg-blue-50 text-blue-600">
-                                            <GraduationCap className="size-5" />
+                                            <FaGraduationCap className="size-5" />
                                         </div>
                                         <div>
                                             <p className="font-semibold text-brand-text text-sm">Data Guru & Tenaga Didik</p>
@@ -629,7 +626,7 @@ export default function AdminPengaturan({
                                 <div className="rounded-lg border border-neutral-200/70 bg-white p-4 shadow-2xs">
                                     <div className="flex items-center gap-3">
                                         <div className="flex size-10 items-center justify-center rounded-lg bg-amber-50 text-amber-600">
-                                            <School className="size-5" />
+                                            <FaSchool className="size-5" />
                                         </div>
                                         <div>
                                             <p className="font-semibold text-brand-text text-sm">Data Rombel & Kelas</p>
@@ -647,7 +644,7 @@ export default function AdminPengaturan({
                             <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
                                 <div className="flex items-start gap-4">
                                     <div className="flex size-12 shrink-0 items-center justify-center rounded-xl bg-brand text-white shadow-md">
-                                        <Building2 className="size-6" />
+                                        <FaBuilding className="size-6" />
                                     </div>
                                     <div>
                                         <h3 className="font-bold text-brand-text text-lg">
@@ -662,7 +659,7 @@ export default function AdminPengaturan({
                                 <Button asChild className="shrink-0 gap-2 bg-brand text-white hover:bg-brand-dark cursor-pointer">
                                     <Link href={adminSchoolProfile()}>
                                         Buka Pengaturan Sekolah
-                                        <ArrowRight className="size-4" />
+                                        <FaArrowRight className="size-4" />
                                     </Link>
                                 </Button>
                             </div>

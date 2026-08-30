@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Models\SppSetting;
 use App\Models\Student;
 use App\Models\User;
 use App\Repositories\DataSiswaRepository;
@@ -37,6 +38,7 @@ class DataSiswaService
                 'raw_status' => $student->user->status,
                 'payment_status' => $student->user->latestPayment?->status,
                 'payment_type' => $student->user->latestPayment?->payment_type,
+                'spp_amount' => $student->sppSetting?->amount,
                 // 'photo' => $student->user->photo,
             ])->all(),
             'filters' => [
@@ -78,7 +80,7 @@ class DataSiswaService
                 'status' => $data['status'] ?? 'active',
             ]);
 
-            return Student::query()->create([
+            $student = Student::query()->create([
                 'user_id' => $user->id,
                 'nis' => $data['nis'],
                 'class_id' => $data['class_id'] ?? null,
@@ -88,6 +90,15 @@ class DataSiswaService
                 'parent_name' => $data['parent_name'] ?? null,
                 'parent_phone' => $data['parent_phone'] ?? null,
             ]);
+
+            if (isset($data['spp_amount']) && $data['spp_amount'] !== null && $data['spp_amount'] !== '') {
+                SppSetting::query()->updateOrCreate(
+                    ['student_id' => $student->id],
+                    ['amount' => (int) $data['spp_amount']]
+                );
+            }
+
+            return $student;
         });
     }
 
@@ -118,6 +129,17 @@ class DataSiswaService
                 'parent_name' => $data['parent_name'] ?? null,
                 'parent_phone' => $data['parent_phone'] ?? null,
             ]);
+
+            if (array_key_exists('spp_amount', $data)) {
+                if ($data['spp_amount'] !== null && $data['spp_amount'] !== '') {
+                    SppSetting::query()->updateOrCreate(
+                        ['student_id' => $student->id],
+                        ['amount' => (int) $data['spp_amount']]
+                    );
+                } else {
+                    SppSetting::query()->where('student_id', $student->id)->delete();
+                }
+            }
 
             return $student;
         });

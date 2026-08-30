@@ -1,16 +1,16 @@
 import { Head, router, useForm } from '@inertiajs/react';
 import {
-    AlertCircle,
-    Calendar,
-    CheckCheck,
-    CheckCircle2,
-    Clock,
-    GraduationCap,
-    Loader2,
-    Save,
-    Search,
-    Users,
-} from 'lucide-react';
+    FaCalendarDays,
+    FaCheckDouble,
+    FaCircleCheck,
+    FaCircleExclamation,
+    FaClock,
+    FaFloppyDisk,
+    FaGraduationCap,
+    FaMagnifyingGlass,
+    FaSpinner,
+    FaUsers,
+} from 'react-icons/fa6';
 import { useMemo, useState } from 'react';
 import { toast } from 'sonner';
 import { Button } from '@/components/ui/button';
@@ -136,7 +136,7 @@ export default function AbsenMuridPage({
                 <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
                     <div>
                         <div className="flex items-center gap-2">
-                            <Users className="size-6 text-brand" />
+                            <FaUsers className="size-6 text-brand" />
                             <h1 className="font-bold text-2xl text-brand-text sm:text-3xl">
                                 Absensi Murid
                             </h1>
@@ -151,14 +151,14 @@ export default function AbsenMuridPage({
                     {/* Schedule Badge & Date Picker Filter */}
                     <div className="flex flex-wrap items-center gap-2.5">
                         <div className="inline-flex items-center gap-1.5 rounded-sm border border-neutral-200 bg-white px-3 py-1.5 text-xs text-brand-muted shadow-xs">
-                            <Clock className="size-3.5 text-brand shrink-0" />
+                            <FaClock className="size-3.5 text-brand shrink-0" />
                             <span>Jadwal Absen: <strong className="text-brand">08:00 - 09:00 WIB</strong></span>
                             {currentTime && (
                                 <span className="ml-1 text-neutral-400">({currentTime} WIB)</span>
                             )}
                         </div>
                         <div className="flex items-center gap-2 rounded-sm border border-neutral-200 bg-white px-3 py-1.5 shadow-xs">
-                            <Calendar className="size-4 text-brand shrink-0" />
+                            <FaCalendarDays className="size-4 text-brand shrink-0" />
                             <input
                                 type="date"
                                 value={selectedDate}
@@ -172,7 +172,7 @@ export default function AbsenMuridPage({
                 {!hasHomeroomClass ? (
                     <div className="flex flex-col items-center justify-center gap-3 rounded-2xl border border-dashed border-neutral-200 bg-white p-12 text-center shadow-xs">
                         <div className="flex size-14 items-center justify-center rounded-2xl bg-amber-50 text-amber-600">
-                            <AlertCircle className="size-8" />
+                            <FaCircleExclamation className="size-8" />
                         </div>
                         <h2 className="font-semibold text-lg text-brand-text">Anda Belum Ditugaskan Sebagai Wali Kelas</h2>
                         <p className="max-w-md text-xs text-brand-muted">
@@ -184,7 +184,7 @@ export default function AbsenMuridPage({
                         {/* Attendance Time Error Alert */}
                         {errors.attendance_time && (
                             <div className="flex items-start gap-2.5 rounded-xl border border-rose-200 bg-rose-50 p-4 text-xs text-rose-700 shadow-xs">
-                                <AlertCircle className="mt-0.5 size-4 shrink-0 text-rose-600" />
+                                <FaCircleExclamation className="mt-0.5 size-4 shrink-0 text-rose-600" />
                                 <div>
                                     <p className="font-semibold text-rose-800">Waktu Absensi Tidak Sesuai</p>
                                     <p className="mt-0.5 text-rose-600">{errors.attendance_time}</p>
@@ -220,7 +220,7 @@ export default function AbsenMuridPage({
                                     onClick={setAllHadir}
                                     className="rounded-sm bg-white border border-brand text-xs font-medium cursor-pointer text-brand hover:bg-brand/10 hover:text-brand"
                                 >
-                                    <CheckCheck className="mr-1.5 size-3.5" />
+                                    <FaCheckDouble className="mr-1.5 size-3.5" />
                                     Set Semua Hadir
                                 </Button>
                                 <Button
@@ -231,12 +231,12 @@ export default function AbsenMuridPage({
                                 >
                                     {processing ? (
                                         <>
-                                            <Loader2 className="size-3.5 animate-spin" />
+                                            <FaSpinner className="size-3.5 animate-spin" />
                                             Menyimpan...
                                         </>
                                     ) : (
                                         <>
-                                            <Save className="size-3.5" />
+                                            <FaFloppyDisk className="size-3.5" />
                                             Simpan Absensi
                                         </>
                                     )}
@@ -248,13 +248,13 @@ export default function AbsenMuridPage({
                         <div className="flex flex-col gap-3 rounded-2xl border border-neutral-100 bg-white p-6 shadow-xs">
                             <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
                                 <div className="flex items-center gap-2">
-                                    <GraduationCap className="size-5 text-brand" />
+                                    <FaGraduationCap className="size-5 text-brand" />
                                     <h2 className="font-semibold text-base text-brand-text">
                                         Daftar Siswa ({filteredStudents.length} Siswa)
                                     </h2>
                                 </div>
                                 <div className="relative w-full sm:w-64">
-                                    <Search className="absolute left-3 top-1/2 size-4 -translate-y-1/2 text-neutral-400" />
+                                    <FaMagnifyingGlass className="absolute left-3 top-1/2 size-4 -translate-y-1/2 text-neutral-400" />
                                     <Input
                                         value={searchQuery}
                                         onChange={(e) => setSearchQuery(e.target.value)}
@@ -305,7 +305,7 @@ export default function AbsenMuridPage({
                                                                 <span>{student.name}</span>
                                                                 {student.hasAttended && (
                                                                     <span className="inline-flex items-center gap-0.5 rounded-full bg-emerald-50 px-1.5 py-0.2 text-[10px] text-emerald-600">
-                                                                        <CheckCircle2 className="size-2.5" />
+                                                                        <FaCircleCheck className="size-2.5" />
                                                                         Tercatat
                                                                     </span>
                                                                 )}
@@ -390,12 +390,12 @@ export default function AbsenMuridPage({
                                 >
                                     {processing ? (
                                         <>
-                                            <Loader2 className="size-4 animate-spin" />
+                                            <FaSpinner className="size-4 animate-spin" />
                                             Menyimpan Presensi...
                                         </>
                                     ) : (
                                         <>
-                                            <CheckCircle2 className="size-4" />
+                                            <FaCircleCheck className="size-4" />
                                             Simpan Semua Presensi
                                         </>
                                     )}

@@ -1,16 +1,15 @@
 import { useEffect, useRef, useState } from 'react';
 import { Head, router, usePage } from '@inertiajs/react';
 import {
-    ChevronLeft,
-    ChevronRight,
-    Filter,
-    GraduationCap,
-    Plus,
-    Search,
-    UserRoundCheck,
-    Users,
-} from 'lucide-react';
-import { FaTrash } from 'react-icons/fa';
+    FaChevronLeft,
+    FaChevronRight,
+    FaFilter,
+    FaGraduationCap,
+    FaMagnifyingGlass,
+    FaPlus,
+    FaTrash,
+    FaUserCheck,
+} from 'react-icons/fa6';
 import { MdModeEdit } from 'react-icons/md';
 import FormAddParent from '@/components/data-orangtua/FormAddParent';
 import FormEditParent from '@/components/data-orangtua/FormEditParent';
@@ -136,14 +135,14 @@ export default function DataOrangTua({
                         onClick={() => setOpenAdd(true)}
                         className="h-10 bg-brand px-5 text-white hover:bg-brand-dark cursor-pointer"
                     >
-                        <Plus className="size-4" />
+                        <FaPlus className="size-4" />
                         Tambah Orang Tua
                     </Button>
                 </div>
 
                 <div className="mt-5 flex flex-col gap-3 sm:flex-row sm:items-center">
                     <div className="relative flex-1">
-                        <Search className="absolute top-1/2 left-3 size-4 -translate-y-1/2 text-brand-muted" />
+                        <FaMagnifyingGlass className="absolute top-1/2 left-3 size-4 -translate-y-1/2 text-brand-muted" />
                         <Input
                             type="search"
                             value={searchQuery}
@@ -156,7 +155,7 @@ export default function DataOrangTua({
                         variant="outline"
                         className="h-10 border-neutral-200 bg-white text-brand-text hover:bg-brand-soft"
                     >
-                        <Filter className="size-4 text-brand-muted" />
+                        <FaFilter className="size-4 text-brand-muted" />
                         Filter
                     </Button>
                 </div>
@@ -214,7 +213,7 @@ export default function DataOrangTua({
                                                                 key={student.id}
                                                                 className="inline-flex items-center gap-1 rounded-md bg-brand-soft/60 px-2.5 py-1 font-medium text-xs text-brand-dark"
                                                             >
-                                                                <GraduationCap className="size-3 text-brand" />
+                                                                <FaGraduationCap className="size-3 text-brand" />
                                                                 <span>{student.name}</span>
                                                                 {student.class && (
                                                                     <span className="text-[10px] text-brand-muted font-normal">
@@ -245,7 +244,7 @@ export default function DataOrangTua({
                                                             : 'bg-neutral-100 text-brand-muted',
                                                     )}
                                                 >
-                                                    <UserRoundCheck className="size-3" />
+                                                    <FaUserCheck className="size-3" />
                                                     {status}
                                                 </span>
                                             </td>
@@ -303,7 +302,7 @@ export default function DataOrangTua({
                                 disabled={pagination.current_page === 1}
                                 className="border-neutral-200 bg-white text-brand-text hover:bg-brand-soft"
                             >
-                                <ChevronLeft className="size-4" />
+                                <FaChevronLeft className="size-4" />
                             </Button>
                             {pages.map((pageNumber) => (
                                 <Button
@@ -329,7 +328,7 @@ export default function DataOrangTua({
                                 }
                                 className="border-neutral-200 bg-white text-brand-text hover:bg-brand-soft"
                             >
-                                <ChevronRight className="size-4" />
+                                <FaChevronRight className="size-4" />
                             </Button>
                         </div>
                     )}

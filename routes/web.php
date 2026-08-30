@@ -21,6 +21,7 @@ use App\Http\Controllers\LandingController;
 use App\Http\Controllers\MidtransWebhookController;
 use App\Http\Controllers\OrangTua\AbsenAnakController;
 use App\Http\Controllers\OrangTua\PengaturanAkunController;
+use App\Http\Controllers\OrangTua\SppPaymentController;
 use App\Http\Controllers\Siswa\AbsenSiswaController;
 use App\Http\Controllers\Siswa\PaymentController as SiswaPaymentController;
 use App\Http\Controllers\Siswa\PengaturanAkunController as SiswaPengaturanAkunController;
@@ -117,6 +118,10 @@ Route::middleware(['auth', 'verified', 'parent'])->prefix('orangtua')->group(fun
     Route::get('dashboard', App\Http\Controllers\OrangTua\DashboardController::class)->name('orangtua.dashboard');
 
     Route::get('absen-anak', AbsenAnakController::class)->name('orangtua.absen-anak');
+
+    Route::get('spp-payment', SppPaymentController::class)->name('orangtua.spp-payment');
+    Route::post('spp-payment/snap-token', [SppPaymentController::class, 'getSnapToken'])->name('orangtua.spp-payment.snap-token');
+    Route::post('spp-payment/check-status', [SppPaymentController::class, 'checkStatus'])->name('orangtua.spp-payment.check-status');
 
     Route::get('pengaturan', [PengaturanAkunController::class, 'edit'])->name('orangtua.pengaturan');
     Route::post('pengaturan', [PengaturanAkunController::class, 'update'])->name('orangtua.pengaturan.update');

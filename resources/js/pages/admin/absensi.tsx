@@ -1,6 +1,11 @@
 import { useEffect, useRef } from 'react';
 import { Head, router } from '@inertiajs/react';
-import { ChevronLeft, ChevronRight, ClipboardList, Filter, Search } from 'lucide-react';
+import {
+    FaChevronLeft,
+    FaChevronRight,
+    FaClipboardList,
+    FaMagnifyingGlass,
+} from 'react-icons/fa6';
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -151,7 +156,7 @@ export default function Absensi({
 
                 <div className="mt-5 flex flex-col gap-3 sm:flex-row sm:items-center">
                     <div className="relative flex-1">
-                        <Search className="absolute top-1/2 left-3 size-4 -translate-y-1/2 text-brand-muted" />
+                        <FaMagnifyingGlass className="absolute top-1/2 left-3 size-4 -translate-y-1/2 text-brand-muted" />
                         <Input
                             type="search"
                             value={searchQuery}
@@ -184,7 +189,7 @@ export default function Absensi({
                                     <td colSpan={tab === 'guru' ? 7 : 5}>
                                         <div className="flex flex-col items-center justify-center gap-3 py-12 text-center">
                                             <div className="flex size-12 items-center justify-center rounded-2xl bg-brand-soft">
-                                                <ClipboardList className="size-6 text-brand-dark" />
+                                                <FaClipboardList className="size-6 text-brand-dark" />
                                             </div>
                                             <p className="text-sm text-brand-muted">
                                                 Belum ada data rekap kehadiran
@@ -290,7 +295,7 @@ export default function Absensi({
                                 disabled={pagination.current_page === 1}
                                 className="border-neutral-200 bg-white text-brand-text hover:bg-brand-soft"
                             >
-                                <ChevronLeft className="size-4" />
+                                <FaChevronLeft className="size-4" />
                             </Button>
                             {pages.map((pageNumber) => (
                                 <Button
@@ -319,7 +324,7 @@ export default function Absensi({
                                 }
                                 className="border-neutral-200 bg-white text-brand-text hover:bg-brand-soft"
                             >
-                                <ChevronRight className="size-4" />
+                                <FaChevronRight className="size-4" />
                             </Button>
                         </div>
                     )}

@@ -1,15 +1,15 @@
 import { Head, router } from '@inertiajs/react';
 import {
-    AlertCircle,
-    Calendar,
-    ChevronLeft,
-    ChevronRight,
-    Download,
-    FileSpreadsheet,
-    GraduationCap,
-    Printer,
-    Search,
-} from 'lucide-react';
+    FaCalendarDays,
+    FaChevronLeft,
+    FaChevronRight,
+    FaCircleExclamation,
+    FaDownload,
+    FaFileExcel,
+    FaGraduationCap,
+    FaMagnifyingGlass,
+    FaPrint,
+} from 'react-icons/fa6';
 import { useMemo, useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -87,7 +87,7 @@ export default function RekapMuridPage({
                 <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between print:hidden">
                     <div>
                         <div className="flex items-center gap-2">
-                            <FileSpreadsheet className="size-6 text-brand" />
+                            <FaFileExcel className="size-6 text-brand" />
                             <h1 className="font-bold text-2xl text-brand-text sm:text-3xl">
                                 Rekap Kehadiran Murid
                             </h1>
@@ -108,11 +108,11 @@ export default function RekapMuridPage({
                                 onClick={() => navigateMonth(-1)}
                                 className="size-8 p-0 text-brand-muted hover:text-brand-text"
                             >
-                                <ChevronLeft className="size-4" />
+                                <FaChevronLeft className="size-4" />
                             </Button>
 
                             <div className="flex items-center justify-center gap-1.5">
-                                <Calendar className="size-4 text-brand" />
+                                <FaCalendarDays className="size-4 text-brand" />
                                 <input
                                     type="month"
                                     value={selectedMonth}
@@ -127,7 +127,7 @@ export default function RekapMuridPage({
                                 onClick={() => navigateMonth(1)}
                                 className="size-8 p-0 text-brand-muted hover:text-brand-text"
                             >
-                                <ChevronRight className="size-4" />
+                                <FaChevronRight className="size-4" />
                             </Button>
                         </div>
 
@@ -138,7 +138,7 @@ export default function RekapMuridPage({
                             disabled={!hasHomeroomClass}
                             className="rounded-sm border-emerald-600 bg-emerald-50 text-xs font-semibold text-emerald-800 hover:bg-emerald-100 hover:text-emerald-900 transition-colors shadow-2xs"
                         >
-                            <Download className="mr-1.5 size-3.5 text-emerald-700" />
+                            <FaDownload className="mr-1.5 size-3.5 text-emerald-700" />
                             Export Excel
                         </Button>
 
@@ -148,7 +148,7 @@ export default function RekapMuridPage({
                             onClick={handlePrint}
                             className="rounded-sm border-neutral-200 bg-white text-xs font-medium text-brand-text hover:bg-brand-soft"
                         >
-                            <Printer className="mr-1.5 size-3.5 text-brand" />
+                            <FaPrint className="mr-1.5 size-3.5 text-brand" />
                             Cetak Rekap
                         </Button>
                     </div>
@@ -165,7 +165,7 @@ export default function RekapMuridPage({
                 {!hasHomeroomClass ? (
                     <div className="flex flex-col items-center justify-center gap-3 rounded-2xl border border-dashed border-neutral-200 bg-white p-12 text-center shadow-xs">
                         <div className="flex size-14 items-center justify-center rounded-2xl bg-amber-50 text-amber-600">
-                            <AlertCircle className="size-8" />
+                            <FaCircleExclamation className="size-8" />
                         </div>
                         <h2 className="font-semibold text-lg text-brand-text">Anda Belum Ditugaskan Sebagai Wali Kelas</h2>
                         <p className="max-w-md text-xs text-brand-muted">
@@ -207,13 +207,13 @@ export default function RekapMuridPage({
                         <div className="rounded-2xl border border-neutral-100 bg-white p-6 shadow-xs print:border-0 print:p-0 print:shadow-none">
                             <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between print:hidden mb-4">
                                 <div className="flex items-center gap-2">
-                                    <GraduationCap className="size-5 text-brand" />
+                                    <FaGraduationCap className="size-5 text-brand" />
                                     <h2 className="font-semibold text-base text-brand-text">
                                         Matriks Kehadiran: {monthLabel}
                                     </h2>
                                 </div>
                                 <div className="relative w-full sm:w-64">
-                                    <Search className="absolute left-3 top-1/2 size-4 -translate-y-1/2 text-neutral-400" />
+                                    <FaMagnifyingGlass className="absolute left-3 top-1/2 size-4 -translate-y-1/2 text-neutral-400" />
                                     <Input
                                         value={searchQuery}
                                         onChange={(e) => setSearchQuery(e.target.value)}

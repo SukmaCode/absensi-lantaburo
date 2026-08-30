@@ -115,3 +115,32 @@ export interface PengaturanOrangTuaPageProps {
     user: OrangTuaUserData;
     status?: string | null;
 }
+
+export interface SppChildInfo {
+    id: number;
+    name: string;
+    nis: string;
+    className: string;
+}
+
+export interface SppMonthRecord {
+    month: string;
+    monthLabel: string;
+    status: 'pending' | 'success' | 'expired' | 'failed' | 'cancelled' | 'unpaid';
+    isPaid: boolean;
+    isPending: boolean;
+    orderId: string | null;
+    amount: number | null;
+    paidAt: string | null;
+    paymentType: string | null;
+}
+
+export interface SppPaymentPageProps {
+    hasChildren: boolean;
+    children: SppChildInfo[];
+    selectedStudent: SppChildInfo | null;
+    sppHistory: SppMonthRecord[];
+    hasSppSetting: boolean;
+    sppAmount: number | null;
+}
+

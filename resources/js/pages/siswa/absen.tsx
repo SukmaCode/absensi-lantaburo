@@ -1,17 +1,17 @@
 import { Head, Link, useForm } from '@inertiajs/react';
 import {
-    AlertCircle,
-    ArrowLeft,
-    Camera,
-    CameraOff,
-    CheckCircle2,
-    Clock,
-    Info,
-    Loader2,
-    RotateCcw,
-    Sparkles,
-    Video,
-} from 'lucide-react';
+    FaArrowLeft,
+    FaCamera,
+    FaCircleCheck,
+    FaCircleExclamation,
+    FaCircleInfo,
+    FaClock,
+    FaRotateLeft,
+    FaSpinner,
+    FaVideo,
+    FaVideoSlash,
+} from 'react-icons/fa6';
+import { BsStars } from 'react-icons/bs';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { toast } from 'sonner';
 import { Button } from '@/components/ui/button';
@@ -221,7 +221,7 @@ export default function AbsenSiswaPage({ todayAttendance, currentTime, currentDa
                         <div className="flex items-center gap-2">
                             <Button asChild variant="ghost" size="sm" className="-ml-2 h-8 px-2 text-brand-muted hover:text-brand-text">
                                 <Link href={dashboard()}>
-                                    <ArrowLeft className="mr-1 size-4" />
+                                    <FaArrowLeft className="mr-1 size-4" />
                                     Kembali ke Dashboard
                                 </Link>
                             </Button>
@@ -235,7 +235,7 @@ export default function AbsenSiswaPage({ todayAttendance, currentTime, currentDa
 
                 {/* Info banner */}
                 <div className="flex items-start gap-3 rounded-2xl border border-blue-100 bg-blue-50 p-4 text-sm text-blue-800">
-                    <Info className="mt-0.5 size-4.5 shrink-0 text-blue-500" />
+                    <FaCircleInfo className="mt-0.5 size-4.5 shrink-0 text-blue-500" />
                     <p>
                         <span className="font-semibold">Catatan: </span>
                         Absensi siswa cukup dengan mengirimkan foto selfie. Status kehadiran (Hadir, Terlambat, Izin, dll.) akan ditentukan oleh <span className="font-semibold">guru wali kelas</span> Anda.
@@ -248,7 +248,7 @@ export default function AbsenSiswaPage({ todayAttendance, currentTime, currentDa
                         <div className="flex flex-col gap-6 rounded-2xl border border-neutral-100 bg-white p-6 shadow-xs lg:col-span-2">
                             <div className="flex items-center gap-3 border-b border-neutral-100 pb-4">
                                 <div className="flex size-11 items-center justify-center rounded-sm bg-[#e7f6e0] text-brand">
-                                    <CheckCircle2 className="size-6" />
+                                    <FaCircleCheck className="size-6" />
                                 </div>
                                 <div>
                                     <h2 className="font-semibold text-lg text-brand-text">Foto Selfie Sudah Terkirim</h2>
@@ -260,7 +260,7 @@ export default function AbsenSiswaPage({ todayAttendance, currentTime, currentDa
                                 <div className="rounded-sm border border-neutral-100 bg-neutral-50/70 p-4">
                                     <span className="text-xs text-brand-muted">Waktu Kirim</span>
                                     <div className="mt-1 flex items-center gap-2">
-                                        <Clock className="size-4 text-brand" />
+                                        <FaClock className="size-4 text-brand" />
                                         <span className="font-bold text-xl text-brand-text">{todayAttendance.checkInTime} WIB</span>
                                     </div>
                                 </div>
@@ -273,7 +273,7 @@ export default function AbsenSiswaPage({ todayAttendance, currentTime, currentDa
                                             </span>
                                         ) : (
                                             <span className="inline-flex items-center gap-1.5 rounded-md bg-amber-50 px-2.5 py-1 font-semibold text-amber-700 text-xs">
-                                                <Sparkles className="size-3" />
+                                                <BsStars className="size-3" />
                                                 Menunggu Guru
                                             </span>
                                         )}
@@ -304,7 +304,7 @@ export default function AbsenSiswaPage({ todayAttendance, currentTime, currentDa
                                 </div>
                             ) : (
                                 <div className="flex h-64 w-full items-center justify-center rounded-2xl bg-neutral-100 text-brand-muted">
-                                    <Camera className="size-10 text-neutral-300" />
+                                    <FaCamera className="size-10 text-neutral-300" />
                                 </div>
                             )}
                             <p className="mt-3 text-xs text-brand-muted">Tersimpan sebagai bukti kehadiran</p>
@@ -317,7 +317,7 @@ export default function AbsenSiswaPage({ todayAttendance, currentTime, currentDa
                         <div className="flex flex-col gap-4 rounded-2xl border border-neutral-100 bg-white p-6 shadow-xs lg:col-span-7">
                             <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between border-b border-neutral-100 pb-3">
                                 <div className="flex items-center gap-2">
-                                    <Camera className="size-5 text-brand" />
+                                    <FaCamera className="size-5 text-brand" />
                                     <div>
                                         <h2 className="font-semibold text-base text-brand-text">Kamera Selfie</h2>
                                         <div className="flex items-center gap-1.5 text-xs text-brand-muted">
@@ -341,7 +341,7 @@ export default function AbsenSiswaPage({ todayAttendance, currentTime, currentDa
                                             disabled={cameraLoading}
                                         >
                                             <SelectTrigger className="h-8.5 w-full sm:w-[220px] text-black rounded-sm border-neutral-200 text-xs bg-neutral-50/70 hover:bg-neutral-100">
-                                                <Video className="mr-1.5 size-3.5 text-brand shrink-0" />
+                                                <FaVideo className="mr-1.5 size-3.5 text-brand shrink-0" />
                                                 <SelectValue placeholder="Pilih Kamera" />
                                             </SelectTrigger>
                                             <SelectContent>
@@ -380,13 +380,13 @@ export default function AbsenSiswaPage({ todayAttendance, currentTime, currentDa
                                             <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 bg-neutral-900/95 p-6 text-center text-white">
                                                 {cameraLoading ? (
                                                     <>
-                                                        <Loader2 className="size-10 text-brand animate-spin" />
+                                                        <FaSpinner className="size-10 text-brand animate-spin" />
                                                         <p className="text-sm font-medium text-neutral-200">Menyiapkan kamera...</p>
                                                     </>
                                                 ) : (
                                                     <>
                                                         <div className="flex size-14 items-center justify-center rounded-2xl bg-neutral-800 text-neutral-400 border border-neutral-700">
-                                                            <CameraOff className="size-7" />
+                                                            <FaVideoSlash className="size-7" />
                                                         </div>
                                                         <div className="max-w-xs">
                                                             <p className="font-semibold text-sm text-neutral-100">
@@ -402,7 +402,7 @@ export default function AbsenSiswaPage({ todayAttendance, currentTime, currentDa
                                                             onClick={() => startCamera()}
                                                             className="mt-1 rounded-sm bg-brand text-white hover:bg-brand-dark px-4 shadow-sm"
                                                         >
-                                                            <Camera className="mr-1.5 size-4" />
+                                                            <FaCamera className="mr-1.5 size-4" />
                                                             Nyalakan Kamera
                                                         </Button>
                                                     </>
@@ -427,7 +427,7 @@ export default function AbsenSiswaPage({ todayAttendance, currentTime, currentDa
                                         onClick={retakePhoto}
                                         className="rounded-sm border-neutral-200 gap-2 hover:bg-neutral-50"
                                     >
-                                        <RotateCcw className="size-4" />
+                                        <FaRotateLeft className="size-4" />
                                         Foto Ulang
                                     </Button>
                                 ) : (
@@ -439,7 +439,7 @@ export default function AbsenSiswaPage({ todayAttendance, currentTime, currentDa
                                                     onClick={capturePhoto}
                                                     className="gap-2 rounded-sm bg-brand px-6 text-white hover:bg-brand-dark shadow-sm"
                                                 >
-                                                    <Camera className="size-4" />
+                                                    <FaCamera className="size-4" />
                                                     Ambil Foto Sekarang
                                                 </Button>
                                                 <Button
@@ -448,7 +448,7 @@ export default function AbsenSiswaPage({ todayAttendance, currentTime, currentDa
                                                     onClick={stopCamera}
                                                     className="gap-2 rounded-sm border-neutral-200 text-neutral-700 hover:bg-neutral-100 hover:text-neutral-900"
                                                 >
-                                                    <CameraOff className="size-4 text-neutral-500" />
+                                                    <FaVideoSlash className="size-4 text-neutral-500" />
                                                     Matikan Kamera
                                                 </Button>
                                             </>
@@ -461,12 +461,12 @@ export default function AbsenSiswaPage({ todayAttendance, currentTime, currentDa
                                             >
                                                 {cameraLoading ? (
                                                     <>
-                                                        <Loader2 className="size-4 animate-spin" />
+                                                        <FaSpinner className="size-4 animate-spin" />
                                                         Menyiapkan Kamera...
                                                     </>
                                                 ) : (
                                                     <>
-                                                        <Camera className="size-4" />
+                                                        <FaCamera className="size-4" />
                                                         Nyalakan Kamera
                                                     </>
                                                 )}
@@ -484,11 +484,11 @@ export default function AbsenSiswaPage({ todayAttendance, currentTime, currentDa
                         <div className="flex flex-col gap-5 rounded-2xl border border-neutral-100 bg-white p-6 shadow-xs lg:col-span-5">
                             <div className="flex items-center justify-between border-b border-neutral-100 pb-3">
                                 <div className="flex items-center gap-2">
-                                    <CheckCircle2 className="size-5 text-brand" />
+                                    <FaCircleCheck className="size-5 text-brand" />
                                     <h2 className="font-semibold text-base text-brand-text">Konfirmasi Absensi</h2>
                                 </div>
                                 <span className="inline-flex items-center gap-1 rounded-md bg-brand-soft px-2 py-0.5 text-[11px] font-medium text-brand-dark">
-                                    <Sparkles className="size-3" />
+                                    <BsStars className="size-3" />
                                     Selfie Only
                                 </span>
                             </div>
@@ -503,7 +503,7 @@ export default function AbsenSiswaPage({ todayAttendance, currentTime, currentDa
                             <div className="space-y-2.5">
                                 <div className={cn('flex items-center gap-3 rounded-sm border p-3 text-sm transition-colors', capturedPhoto ? 'border-green-200 bg-green-50' : 'border-neutral-200 bg-neutral-50')}>
                                     <div className={cn('flex size-7 shrink-0 items-center justify-center rounded-full', capturedPhoto ? 'bg-brand text-white' : 'bg-neutral-200 text-neutral-500')}>
-                                        {capturedPhoto ? <CheckCircle2 className="size-4" /> : <Camera className="size-4" />}
+                                        {capturedPhoto ? <FaCircleCheck className="size-4" /> : <FaCamera className="size-4" />}
                                     </div>
                                     <div>
                                         <p className={cn('font-medium text-xs', capturedPhoto ? 'text-brand' : 'text-brand-muted')}>
@@ -518,7 +518,7 @@ export default function AbsenSiswaPage({ todayAttendance, currentTime, currentDa
 
                             {/* Info Notice */}
                             <div className="flex items-start gap-2 rounded-sm bg-blue-50/80 p-3 text-[11px] text-blue-700">
-                                <AlertCircle className="mt-0.5 size-3.5 shrink-0" />
+                                <FaCircleExclamation className="mt-0.5 size-3.5 shrink-0" />
                                 <p>Status kehadiran (Hadir, Terlambat, dll.) akan ditentukan oleh guru wali kelas Anda setelah foto diterima.</p>
                             </div>
 
@@ -530,12 +530,12 @@ export default function AbsenSiswaPage({ todayAttendance, currentTime, currentDa
                             >
                                 {processing ? (
                                     <>
-                                        <Loader2 className="size-4 animate-spin" />
+                                        <FaSpinner className="size-4 animate-spin" />
                                         Mengirim Foto...
                                     </>
                                 ) : (
                                     <>
-                                        <CheckCircle2 className="size-4" />
+                                        <FaCircleCheck className="size-4" />
                                         Kirim Selfie Sekarang
                                     </>
                                 )}

@@ -6,6 +6,7 @@ import {
     GraduationCap,
     LayoutGrid,
     Megaphone,
+    Receipt,
     School,
     Settings,
     Users,
@@ -57,6 +58,7 @@ import {
     absenAnak as orangtuaAbsenAnak,
     dashboard as orangtuaDashboard,
     pengaturan as orangtuaPengaturan,
+    sppPayment as orangtuaSppPayment,
 } from '@/routes/orangtua';
 import { dashboard as calonSiswaDashboard } from '@/routes/calon-siswa';
 import type { Auth, NavItem } from '@/types';
@@ -79,6 +81,11 @@ const orangTuaNavItems: NavItem[] = [
         title: 'Rekap Absen Anak',
         href: orangtuaAbsenAnak(),
         icon: FaCalendarAlt,
+    },
+    {
+        title: 'Pembayaran SPP',
+        href: orangtuaSppPayment(),
+        icon: Receipt,
     },
     {
         title: 'Pengaturan Akun',

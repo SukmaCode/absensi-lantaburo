@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 #[Fillable(['user_id', 'parent_id', 'nis', 'class_id', 'gender', 'birth_date', 'address', 'parent_name', 'parent_phone'])]
 class Student extends Model
@@ -33,5 +34,15 @@ class Student extends Model
     public function parentProfile(): BelongsTo
     {
         return $this->belongsTo(ParentProfile::class, 'parent_id');
+    }
+
+    public function sppPayments(): HasMany
+    {
+        return $this->hasMany(PaymentSpp::class);
+    }
+
+    public function sppSetting(): HasOne
+    {
+        return $this->hasOne(SppSetting::class);
     }
 }

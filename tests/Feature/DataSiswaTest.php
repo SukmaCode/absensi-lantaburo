@@ -218,3 +218,42 @@ test('updating a student with duplicate email or nis of another student fails va
         ])
         ->assertSessionHasErrors(['email', 'nis']);
 });
+
+test('admin can set spp amount when creating and updating a student', function () {
+    $admin = User::factory()->asAdmin()->create();
+
+    $this->actingAs($admin)
+        ->post(route('admin.data-siswa.store'), [
+            'name' => 'Siswa SPP Baru',
+            'email' => 'siswaspp@example.com',
+            'password' => 'password123',
+            'nis' => 'SPP-001',
+            'gender' => 'L',
+            'status' => 'active',
+            'spp_amount' => 200000,
+        ])
+        ->assertRedirect(route('admin.data-siswa'));
+
+    $student = Student::where('nis', 'SPP-001')->firstOrFail();
+
+    $this->assertDatabaseHas('spp_settings', [
+        'student_id' => $student->id,
+        'amount' => 200000,
+    ]);
+
+    $this->actingAs($admin)
+        ->put(route('admin.data-siswa.update', $student->id), [
+            'name' => 'Siswa SPP Baru',
+            'email' => 'siswaspp@example.com',
+            'nis' => 'SPP-001',
+            'gender' => 'L',
+            'status' => 'active',
+            'spp_amount' => 250000,
+        ])
+        ->assertRedirect(route('admin.data-siswa'));
+
+    $this->assertDatabaseHas('spp_settings', [
+        'student_id' => $student->id,
+        'amount' => 250000,
+    ]);
+});

@@ -43,6 +43,7 @@ class UpdateStudentRequest extends FormRequest
             'parent_name' => ['nullable', 'string', 'max:150'],
             'parent_phone' => ['nullable', 'string', 'max:20'],
             'status' => ['required', 'in:active,inactive'],
+            'spp_amount' => ['nullable', 'integer', 'min:0'],
         ];
     }
 

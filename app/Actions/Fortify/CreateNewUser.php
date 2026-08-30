@@ -4,7 +4,6 @@ namespace App\Actions\Fortify;
 
 use App\Concerns\PasswordValidationRules;
 use App\Concerns\ProfileValidationRules;
-use App\Models\Student;
 use App\Models\User;
 use App\Services\MidtransService;
 use Illuminate\Support\Facades\Validator;

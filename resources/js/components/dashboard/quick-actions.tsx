@@ -1,5 +1,5 @@
 import { Link } from '@inertiajs/react';
-import { ArrowRight, Megaphone, UserPlus } from 'lucide-react';
+import { FaArrowRight, FaBullhorn, FaUserPlus } from 'react-icons/fa6';
 import { Button } from '@/components/ui/button';
 import { absensi, dataSiswa, pengumuman } from '@/routes/admin';
 
@@ -17,10 +17,10 @@ export function QuickActions() {
                 >
                     <Link href={dataSiswa()} prefetch>
                         <span className="flex items-center gap-2">
-                            <UserPlus className="size-4" />
+                            <FaUserPlus className="size-4" />
                             Tambah Siswa
                         </span>
-                        <ArrowRight className="size-4" />
+                        <FaArrowRight className="size-4" />
                     </Link>
                 </Button>
                 <Button
@@ -30,10 +30,10 @@ export function QuickActions() {
                 >
                     <Link href={pengumuman()} prefetch>
                         <span className="flex items-center gap-2">
-                            <Megaphone className="size-4 text-brand-muted" />
+                            <FaBullhorn className="size-4 text-brand-muted" />
                             Buat Pengumuman
                         </span>
-                        <ArrowRight className="size-4 text-brand-muted" />
+                        <FaArrowRight className="size-4 text-brand-muted" />
                     </Link>
                 </Button>
                 <Button
@@ -43,7 +43,7 @@ export function QuickActions() {
                 >
                     <Link href={absensi()} prefetch>
                         <span className="flex items-center gap-2">
-                            <ArrowRight className="size-4 rotate-180 text-brand-muted" />
+                            <FaArrowRight className="size-4 rotate-180 text-brand-muted" />
                             Lihat Semua Absensi
                         </span>
                     </Link>

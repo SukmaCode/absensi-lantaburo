@@ -6,6 +6,7 @@ import { QuickActions } from '@/components/dashboard/quick-actions';
 import { RecentAttendance } from '@/components/dashboard/recent-attendance';
 import { WeeklyTrend } from '@/components/dashboard/weekly-trend';
 import { dashboard } from '@/routes/admin';
+import type { Auth } from '@/types/auth';
 import type { DashboardPageProps } from '@/types/dashboard';
 
 export default function Dashboard({
@@ -15,7 +16,7 @@ export default function Dashboard({
     announcements,
     weeklyTrend,
 }: DashboardPageProps) {
-    const { auth } = usePage().props;
+    const { auth } = usePage<{ auth: Auth }>().props;
     const firstName = auth.user?.name?.split(' ')[0] ?? 'Admin';
     const today = new Date().toLocaleDateString('id-ID', {
         weekday: 'long',

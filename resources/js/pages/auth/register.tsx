@@ -86,7 +86,7 @@ export default function Register({ passwordRules }: Props) {
                                         tabIndex={3}
                                         autoComplete="new-password"
                                         name="password"
-                                        placeholder="Buat kata sandi"
+                                        placeholder="********"
                                         passwordrules={passwordRules}
                                         className={inputClass}
                                     />
@@ -103,7 +103,7 @@ export default function Register({ passwordRules }: Props) {
                                         tabIndex={4}
                                         autoComplete="new-password"
                                         name="password_confirmation"
-                                        placeholder="Ulangi kata sandi"
+                                        placeholder="********"
                                         passwordrules={passwordRules}
                                         className={inputClass}
                                     />

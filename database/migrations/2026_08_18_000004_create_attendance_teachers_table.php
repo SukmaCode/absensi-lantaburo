@@ -19,6 +19,8 @@ return new class extends Migration
             $table->enum('status', ['hadir', 'terlambat', 'izin', 'sakit', 'alpha'])->default('hadir');
             $table->string('notes')->nullable();
             $table->string('photo_selfie')->require();
+            $table->decimal('latitude', 10, 7)->nullable();
+            $table->decimal('longitude', 10, 7)->nullable();
             $table->timestamps();
 
             $table->unique(['teacher_id', 'date']);

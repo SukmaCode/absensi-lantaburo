@@ -1,12 +1,12 @@
 import { useState } from 'react';
 import { Head, Link, router } from '@inertiajs/react';
 import {
-    Megaphone,
-    Plus,
-    Search,
-    AlertTriangle,
-} from 'lucide-react';
-import { FaUsers } from "react-icons/fa";
+    FaBullhorn,
+    FaMagnifyingGlass,
+    FaPlus,
+    FaTriangleExclamation,
+    FaUsers,
+} from 'react-icons/fa6';
 import { GiTeacher } from "react-icons/gi";
 import { PiStudentFill } from "react-icons/pi";
 import { MdModeEdit, MdDelete } from "react-icons/md";
@@ -115,7 +115,7 @@ export default function Pengumuman({
                         onClick={() => setOpenAdd(true)}
                         className="h-10 bg-brand px-5 text-white hover:bg-brand-dark"
                     >
-                        <Plus className="size-4" />
+                        <FaPlus className="size-4" />
                         Tambah Pengumuman
                     </Button>
                 </div>
@@ -123,7 +123,7 @@ export default function Pengumuman({
                 {/* Search */}
                 <div className="mt-5 flex flex-col gap-3 sm:flex-row sm:items-center">
                     <div className="relative flex-1">
-                        <Search className="absolute top-1/2 left-3 size-4 -translate-y-1/2 text-brand-muted" />
+                        <FaMagnifyingGlass className="absolute top-1/2 left-3 size-4 -translate-y-1/2 text-brand-muted" />
                         <Input
                             type="search"
                             placeholder="Cari judul atau isi pengumuman..."
@@ -139,7 +139,7 @@ export default function Pengumuman({
                     {filteredAnnouncements.length === 0 ? (
                         <div className="flex flex-col items-center justify-center gap-3 py-16 text-center">
                             <div className="flex size-14 items-center justify-center rounded-2xl bg-brand-soft">
-                                <Megaphone className="size-7 text-brand-dark" />
+                                <FaBullhorn className="size-7 text-brand-dark" />
                             </div>
                             <div>
                                 <p className="font-medium text-sm text-brand-text">
@@ -186,9 +186,11 @@ export default function Pengumuman({
                                                 <p className="truncate font-medium text-brand-text">
                                                     {announcement.title}
                                                 </p>
-                                                <p className="mt-0.5 line-clamp-1 text-xs text-brand-muted">
-                                                    {announcement.content}
-                                                </p>
+                                                {announcement.content && (
+                                                    <p className="mt-0.5 line-clamp-1 text-xs text-brand-muted">
+                                                        {announcement.content}
+                                                    </p>
+                                                )}
                                             </td>
                                             <td className="py-3">
                                                 <span
@@ -320,7 +322,7 @@ export default function Pengumuman({
                     <DialogHeader>
                         <div className="flex items-center gap-3">
                             <div className="flex size-10 shrink-0 items-center justify-center rounded-full bg-red-100">
-                                <AlertTriangle className="size-5 text-red-500" />
+                                <FaTriangleExclamation className="size-5 text-red-500" />
                             </div>
                             <DialogTitle className="text-brand-text">Hapus Pengumuman?</DialogTitle>
                         </div>
