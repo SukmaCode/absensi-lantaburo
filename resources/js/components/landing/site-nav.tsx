@@ -87,7 +87,7 @@ export default function SiteNav({ loggedIn }: SiteNavProps) {
             <div className="mx-auto flex h-16 w-full max-w-6xl items-center justify-between gap-4 px-5 sm:px-8">
                 <a href="#beranda" className="flex items-center gap-2.5">
                     {logoPreview ? (
-                        <img src={logoPreview} alt="Logo" className="size-10" />
+                        <img src={logoPreview} alt="Logo" width={40} height={40} className="bg-cover bg-center" />
                     ) : (
                         <School2Icon className="size-10 text-brand-dark" />
                     )}

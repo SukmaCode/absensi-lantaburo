@@ -24,16 +24,16 @@ export default function AuthSplitLayout({
                     href={landingpage()}
                     className="relative z-10 flex items-center gap-3"
                 >
-                    <span className="flex size-12 items-center justify-center rounded-xl bg-white p-1.5">
+                    <span className="flex items-center justify-center">
                         {logo ?
                         <img
-                            src={logo}
-                            alt="Daarul Quran Lantaburo"
-                            className="size-full object-contain"
+                            src={`/storage/${logo}`}
+                            alt={name}
+                            className="w-10 h-10 object-contain"
                         />:
                         <img
                             src={SchoolLogo}
-                            alt="Daarul Quran Lantaburo"
+                            alt={name}
                             className="size-full object-contain"
                         />
                         }

@@ -17,7 +17,7 @@ export default function AppLogo() {
         <>
             <div className="flex aspect-square size-8 items-center justify-center text-sidebar-primary-foreground">
                 {logoPreview ? (
-                    <img src={logoPreview} alt={name} className="size-8 fill-current text-white dark:text-black" />
+                    <img src={logoPreview} alt={name} width={40} height={40} className="bg-cover bg-center" />
                 ) : (
                     <FaSchool className="size-8 fill-current text-white" />
                 )}

@@ -35,8 +35,8 @@ export default function SiteFooter({ school }: SiteFooterProps) {
                                     <path d="M12 7L8 9V10H16V9L12 7Z" fill="#E0F4FF" />
                                 </svg>
                             </span> */}
-                            <img src={Logo} alt="Logo" width={40} height={40} />
-                            <span className="font-bold text-white">Daarul Quran Lantaburo</span>
+                            <img src={school?.logo ? `/storage/${school.logo}` : Logo} alt="Logo" width={40} height={40} />
+                            <span className="font-bold text-white">{school?.name}</span>
                         </div>
                         <p className="mt-5 max-w-sm text-sm leading-relaxed text-white/60">
                             {school?.description_body ??
