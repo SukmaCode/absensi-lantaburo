@@ -34,7 +34,7 @@ export default function AuthSplitLayout({
                         <img
                             src={SchoolLogo}
                             alt={name}
-                            className="size-full object-contain"
+                            className="w-10 h-10 object-contain"
                         />
                         }
                     </span>
