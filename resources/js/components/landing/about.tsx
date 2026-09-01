@@ -1,4 +1,4 @@
-import aboutImage from '../../../images/thumbnail2.jpeg';
+import aboutImage from '../../../images/thumbnail.jpeg';
 import type { SchoolProfile } from '@/types/landing';
 
 const stats = [
@@ -20,13 +20,13 @@ export default function About({ school }: AboutProps) {
                 <div className="grid items-center gap-14 lg:grid-cols-[1.1fr_1fr] lg:gap-20">
                     <div>
                         <p className="mb-4 text-xs font-semibold tracking-[0.2em] text-brand-soft uppercase">
-                            Tentang Lantaburo
+                            Tentang {school?.name}
                         </p>
                         <h2 className="font-bold text-white text-3xl leading-tight sm:text-4xl">
                             Tempat belajar yang melihat setiap anak sebagai pribadi yang utuh
                         </h2>
                         <p className="mt-6 max-w-xl text-lg leading-relaxed text-brand-soft">
-                            Homeschooling Lantaburo adalah lembaga pendidikan alternatif
+                            {school?.name} adalah lembaga pendidikan alternatif
                             yang menghadirkan lingkungan belajar yang suportif, inklusif,
                             dan menarik. Kami merancang pengalaman belajar bersama setiap
                             keluarga, bukan sekadar memindahkan kurikulum ke rumah.

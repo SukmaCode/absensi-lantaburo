@@ -1,6 +1,6 @@
-import activitiesOne from '../../../images/thumbnail.webp';
-import activitiesLarge from '../../../images/thumbnail3.webp';
-import activitiesTwo from '../../../images/thumbnail2.webp';
+import activitiesOne from '../../../images/activity-1.webp';
+import activitiesTwo from '../../../images/activity-2.webp';
+import activitiesThree from '../../../images/activity-3.webp';
 import type { SchoolProfile } from '@/types/landing';
 
 interface ActivitiesProps {
@@ -12,7 +12,7 @@ export default function Activities({ school }: ActivitiesProps) {
         {
             src: school?.activities_image_1
                 ? `/storage/${school.activities_image_1}`
-                : activitiesLarge,
+                : activitiesThree,
             caption: 'Belajar lewat pengalaman nyata',
             alt: 'Siswa Lantaburo mengikuti kegiatan belajar langsung',
             span: 'lg:col-span-2 lg:row-span-2',

@@ -1,6 +1,11 @@
 import { BookOpen, HeartHandshake, Palette } from 'lucide-react';
+import type { SchoolProfile } from '@/types/landing';
 
 import type { LucideIcon } from 'lucide-react';
+
+interface ProgramsProps {
+    school: SchoolProfile | null;
+}
 
 interface Program {
     title: string;
@@ -9,31 +14,33 @@ interface Program {
     level: string;
 }
 
-const programs: Program[] = [
-    {
-        title: 'Homeschooling Reguler',
-        description:
-            'Program utama Lantaburo untuk jenjang SD hingga SMA. Kurikulum terpadu yang dikembangkan bersama keluarga, dengan pendampingan harian, portofolio perkembangan, dan asesmen yang bermakna.',
-        icon: BookOpen,
-        level: 'SD – SMA',
-    },
-    {
-        title: 'Keterampilan & Seni',
-        description:
-            'Eksplorasi minat lewat seni, musik, olahraga, dan keterampilan praktis yang melatih kreativitas serta kemandirian.',
-        icon: Palette,
-        level: 'Semua jenjang',
-    },
-    {
-        title: 'Pendampingan Inklusif',
-        description:
-            'Dukungan khusus bagi anak dengan kebutuhan belajar beragam, disesuaikan dengan kemampuan dan potensi masing-masing.',
-        icon: HeartHandshake,
-        level: 'Semua jenjang',
-    },
-];
+export default function Programs({ school }: ProgramsProps) {
+    const schoolName = school?.name ?? 'Homeschooling';
 
-export default function Programs() {
+    const programs: Program[] = [
+        {
+            title: 'Homeschooling Reguler',
+            description:
+                `Program utama ${schoolName} untuk jenjang SD hingga SMA. Kurikulum terpadu yang dikembangkan bersama keluarga, dengan pendampingan harian, portofolio perkembangan, dan asesmen yang bermakna.`,
+            icon: BookOpen,
+            level: 'SD – SMA',
+        },
+        {
+            title: 'Keterampilan & Seni',
+            description:
+                'Eksplorasi minat lewat seni, musik, olahraga, dan keterampilan praktis yang melatih kreativitas serta kemandirian.',
+            icon: Palette,
+            level: 'Semua jenjang',
+        },
+        {
+            title: 'Pendampingan Inklusif',
+            description:
+                'Dukungan khusus bagi anak dengan kebutuhan belajar beragam, disesuaikan dengan kemampuan dan potensi masing-masing.',
+            icon: HeartHandshake,
+            level: 'Semua jenjang',
+        },
+    ];
+
     const [featured, ...supporting] = programs;
 
     return (

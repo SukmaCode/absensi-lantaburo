@@ -36,13 +36,13 @@ export default function Hero({ school }: HeroProps) {
                     <div className="mt-9 flex flex-wrap items-center gap-4">
                         <a
                             href="#tentang"
-                            className="rounded-md bg-brand-dark px-7 py-3.5 font-semibold text-sm text-white transition-colors hover:bg-brand-dark"
+                            className="rounded-sm bg-brand-dark px-7 py-3.5 font-semibold text-sm text-white transition-colors hover:bg-brand"
                         >
-                            Kenali Lantaburo
+                            Kenali {school?.name}
                         </a>
                         <a
                             href="#kontak"
-                            className="rounded-md border border-brand/30 px-7 py-3.5 font-semibold text-sm text-brand transition-colors hover:border-brand hover:bg-brand-soft"
+                            className="rounded-sm border border-brand/30 px-7 py-3.5 font-semibold text-sm text-brand transition-colors hover:border-brand hover:bg-brand-soft"
                         >
                             Hubungi Kami
                         </a>

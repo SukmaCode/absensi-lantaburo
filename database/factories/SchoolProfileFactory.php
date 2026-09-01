@@ -27,7 +27,7 @@ class SchoolProfileFactory extends Factory
             'activities_image_3' => null,
             'description_heading' => 'Pendidikan yang personal, mendukung, dan bermakna bagi anak.',
             'description_body' => 'Lantaburo membantu setiap anak tumbuh sesuai potensinya lewat pendekatan belajar yang hangat, inklusif, dan menantang. Kami berjalan bersama orang tua dalam setiap langkah tumbuh kembang putra-putri Anda.',
-            'address' => 'Jl. Ketapang Raya, Gg. Ampel 1, Tangerang',
+            'address' => 'Jl. Nuradji No.14, RT.002/RW.002, Tangerang Kota',
             'phone' => '08123456789',
             'email' => 'lantaburo@sch.id',
         ];

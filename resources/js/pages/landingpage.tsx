@@ -28,7 +28,7 @@ export default function LandingPage({ school, events }: Props) {
                     <SmoothScroll />
                     <Hero school={school} />
                     <About school={school}/>
-                    <Programs />
+                    <Programs school={school} />
                     <Approach />
                     <Activities school={school} />
                     <Agenda events={events} />
