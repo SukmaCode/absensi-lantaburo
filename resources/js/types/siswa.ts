@@ -75,6 +75,7 @@ export interface TodayAttendanceForAbsen {
 }
 
 export interface AbsenSiswaPageProps {
+    hasClass: boolean;
     todayAttendance: TodayAttendanceForAbsen;
     currentTime: string;
     currentDate: string;

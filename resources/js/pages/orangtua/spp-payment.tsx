@@ -284,24 +284,24 @@ export default function SppPaymentPage({
                         <div className="grid grid-cols-3 gap-3">
                             <div className="rounded-md border border-[#c5eec2] bg-[#e7f6e0] p-4 shadow-xs">
                                 <div className="flex items-center gap-2">
-                                    <FaCircleCheck className="size-4 text-brand" />
                                     <span className="text-xs font-medium text-brand">Lunas</span>
+                                    <FaCircleCheck className="size-4 text-brand" />
                                 </div>
                                 <p className="mt-2 font-bold text-3xl text-brand">{paidCount}</p>
                                 <p className="mt-0.5 text-[11px] text-brand-muted">dari {localHistory.length} bulan</p>
                             </div>
                             <div className="rounded-md border border-rose-200 bg-rose-50 p-4 shadow-xs">
                                 <div className="flex items-center gap-2">
-                                    <IoMdRemoveCircle className="size-4 text-rose-600" />
                                     <span className="text-xs font-medium text-rose-600">Belum Lunas</span>
+                                    <IoMdRemoveCircle className="size-4 text-rose-600" />
                                 </div>
                                 <p className="mt-2 font-bold text-3xl text-rose-600">{unpaidCount}</p>
                                 <p className="mt-0.5 text-[11px] text-brand-muted">bulan tertunggak</p>
                             </div>
                             <div className="rounded-md border border-amber-200 bg-amber-50 p-4 shadow-xs">
                                 <div className="flex items-center gap-2">
-                                    <MdAccessTimeFilled className="size-4 text-amber-600" />
                                     <span className="text-xs font-medium text-amber-600">Menunggu</span>
+                                    <MdAccessTimeFilled className="size-4 text-amber-600" />
                                 </div>
                                 <p className="mt-2 font-bold text-3xl text-amber-600">{pendingCount}</p>
                                 <p className="mt-0.5 text-[11px] text-brand-muted">sedang diproses</p>

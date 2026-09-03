@@ -9,6 +9,7 @@ use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+use Illuminate\Validation\ValidationException;
 
 class AbsenSiswaService
 {
@@ -19,9 +20,12 @@ class AbsenSiswaService
      */
     public function getAttendancePageData(Student $student): array
     {
+        $student->loadMissing('schoolClass');
+        $hasClass = ! empty($student->class_id) && $student->schoolClass !== null;
         $todayRecord = $this->repository->todayStudentAttendance($student->id);
 
         return [
+            'hasClass' => $hasClass,
             'todayAttendance' => $todayRecord ? [
                 'hasUploaded' => true,
                 'checkInTime' => $this->formatTime($todayRecord->check_in_time),
@@ -43,7 +47,22 @@ class AbsenSiswaService
      */
     public function storeAttendance(Student $student, array $data): AttendanceStudent
     {
+        $student->loadMissing('schoolClass');
+        if (! $student->class_id || ! $student->schoolClass) {
+            throw ValidationException::withMessages([
+                'photo_selfie' => 'Anda belum mempunyai kelas. Silakan hubungi admin sekolah.',
+            ]);
+        }
+
         $photoPath = $this->handleSelfiePhoto($data['photo_selfie']);
+
+        $now = Carbon::now();
+        $currentTime = $now->format('H:i:s');
+        if ($currentTime < '08:00:00' || $currentTime > '09:00:00') {
+            throw ValidationException::withMessages([
+                'attendance_time' => 'Presensi murid hanya dapat dilakukan pada jam 08:00 - 09:00 pagi.',
+            ]);
+        }
 
         return $this->repository->saveStudentSelfie($student, [
             'photo_selfie' => $photoPath,

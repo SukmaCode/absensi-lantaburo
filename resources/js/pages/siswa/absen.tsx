@@ -34,7 +34,7 @@ const statusStyles: Record<string, string> = {
     alpha: 'bg-neutral-100 text-neutral-600',
 };
 
-export default function AbsenSiswaPage({ todayAttendance, currentTime, currentDate }: AbsenSiswaPageProps) {
+export default function AbsenSiswaPage({ hasClass, todayAttendance, currentTime, currentDate }: AbsenSiswaPageProps) {
     const videoRef = useRef<HTMLVideoElement | null>(null);
     const streamRef = useRef<MediaStream | null>(null);
 
@@ -182,11 +182,11 @@ export default function AbsenSiswaPage({ todayAttendance, currentTime, currentDa
     };
 
     useEffect(() => {
-        if (!todayAttendance.hasUploaded) {
+        if (hasClass && !todayAttendance.hasUploaded) {
             startCamera();
         }
         return () => { stopCamera(); };
-    }, [todayAttendance.hasUploaded]);
+    }, [hasClass, todayAttendance.hasUploaded]);
 
     // Ensure video stream remains attached when cameraActive changes
     useEffect(() => {
@@ -234,16 +234,35 @@ export default function AbsenSiswaPage({ todayAttendance, currentTime, currentDa
                 </div>
 
                 {/* Info banner */}
-                <div className="flex items-start gap-3 rounded-2xl border border-blue-100 bg-blue-50 p-4 text-sm text-blue-800">
-                    <FaCircleInfo className="mt-0.5 size-4.5 shrink-0 text-blue-500" />
-                    <p>
-                        <span className="font-semibold">Catatan: </span>
-                        Absensi siswa cukup dengan mengirimkan foto selfie. Status kehadiran (Hadir, Terlambat, Izin, dll.) akan ditentukan oleh <span className="font-semibold">guru wali kelas</span> Anda.
-                    </p>
-                </div>
+                {hasClass && (
+                    <div className="flex items-start gap-3 rounded-2xl border border-blue-100 bg-blue-50 p-4 text-sm text-blue-800">
+                        <FaCircleInfo className="mt-0.5 size-4.5 shrink-0 text-blue-500" />
+                        <p>
+                            <span className="font-semibold">Catatan: </span>
+                            Absensi siswa cukup dengan mengirimkan foto selfie. Status kehadiran (Hadir, Terlambat, Izin, dll.) akan ditentukan oleh <span className="font-semibold">guru wali kelas</span> Anda.
+                        </p>
+                    </div>
+                )}
 
-                {/* State 1: Already uploaded today */}
-                {todayAttendance.hasUploaded ? (
+                {/* State: Not in any class */}
+                {!hasClass ? (
+                    <div className="flex flex-col items-center justify-center gap-4 rounded-2xl border border-dashed border-neutral-200 bg-white p-10 sm:p-14 text-center shadow-xs">
+                        <div className="flex size-16 items-center justify-center rounded-2xl bg-amber-50 text-amber-600">
+                            <FaCircleExclamation className="size-8" />
+                        </div>
+                        <div className="max-w-md space-y-1.5">
+                            <h2 className="font-semibold text-lg text-brand-text sm:text-xl">Belum Mempunyai Kelas</h2>
+                            <p className="text-xs text-brand-muted leading-relaxed sm:text-sm">
+                                Anda belum terdaftar dalam kelas manapun. Silakan hubungi pihak sekolah atau administrator untuk memasukkan Anda ke dalam kelas sebelum melakukan absensi.
+                            </p>
+                        </div>
+                        <div className="pt-2">
+                            <Button asChild className="rounded-sm bg-brand text-white hover:bg-brand-dark px-6 shadow-xs">
+                                <Link href={dashboard()}>Kembali ke Dashboard</Link>
+                            </Button>
+                        </div>
+                    </div>
+                ) : todayAttendance.hasUploaded ? (
                     <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
                         <div className="flex flex-col gap-6 rounded-2xl border border-neutral-100 bg-white p-6 shadow-xs lg:col-span-2">
                             <div className="flex items-center gap-3 border-b border-neutral-100 pb-4">

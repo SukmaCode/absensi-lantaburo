@@ -4,6 +4,7 @@ use App\Models\AttendanceStudent;
 use App\Models\SchoolClass;
 use App\Models\Student;
 use App\Models\Teacher;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 use Inertia\Testing\AssertableInertia as Assert;
@@ -73,12 +74,36 @@ test('siswa can visit absen page', function () {
     $response->assertOk();
     $response->assertInertia(fn (Assert $page) => $page
         ->component('siswa/absen')
+        ->has('hasClass')
         ->has('todayAttendance')
         ->has('currentTime')
         ->has('currentDate'));
 });
 
+test('siswa without class sees hasClass false on absen page', function () {
+    $student = Student::factory()->create(['class_id' => null]);
+
+    $response = $this->actingAs($student->user)->get(route('siswa.absen'));
+
+    $response->assertOk();
+    $response->assertInertia(fn (Assert $page) => $page
+        ->component('siswa/absen')
+        ->where('hasClass', false));
+});
+
+test('siswa with class sees hasClass true on absen page', function () {
+    $student = Student::factory()->create();
+
+    $response = $this->actingAs($student->user)->get(route('siswa.absen'));
+
+    $response->assertOk();
+    $response->assertInertia(fn (Assert $page) => $page
+        ->component('siswa/absen')
+        ->where('hasClass', true));
+});
+
 test('siswa can submit selfie attendance', function () {
+    Carbon::setTestNow('2026-09-03 08:30:00');
     Storage::fake('public');
 
     $student = Student::factory()->create();
@@ -100,6 +125,19 @@ test('siswa can submit selfie attendance', function () {
             ->whereDate('date', today())
             ->exists()
     );
+});
+
+test('siswa without class cannot submit attendance', function () {
+    Carbon::setTestNow('2026-09-03 08:30:00');
+    $student = Student::factory()->create(['class_id' => null]);
+
+    $base64Photo = 'data:image/jpeg;base64,'.base64_encode('fake-image-content');
+
+    $response = $this->actingAs($student->user)->post(route('siswa.absen.store'), [
+        'photo_selfie' => $base64Photo,
+    ]);
+
+    $response->assertSessionHasErrors(['photo_selfie']);
 });
 
 test('siswa cannot submit attendance without selfie', function () {
