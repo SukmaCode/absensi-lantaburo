@@ -224,4 +224,4 @@ absensi-lantaburo/
 
 ## 📄 Lisensi
 
-Proyek ini berada di bawah lisensi [MIT License](LICENSE).
+Proyek ini dibuat oleh **Sukma Code** https://github.com/SukmaCode
